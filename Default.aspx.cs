@@ -31,7 +31,7 @@ namespace RadioWebConfig
         public static List<string> unFilteredLinesInDoc = new List<string>();
         public static List<string> linesInDoc = new List<string>();
 
-        public static int listDevider;
+        public static int listDivider;
 
   
 
@@ -149,23 +149,23 @@ namespace RadioWebConfig
                 string ld = filteredLinesInDoc[index].Substring(6, 2);
                 string ld2 = filteredLinesInDoc[index].Substring(6, 1);
 
-                bool successfullyParsed = int.TryParse(ld, out listDevider);
+                bool successfullyParsed = int.TryParse(ld, out listDivider);
 
                 if (!successfullyParsed)
                 {
-                    int.TryParse(ld2, out listDevider);
+                    int.TryParse(ld2, out listDivider);
                 }
-                return listDevider;
+                return listDivider;
             }
             catch (ArgumentOutOfRangeException aex)
             {
                 _logger.Error(aex.ToString());
-                return listDevider;
+                return listDivider;
             }
             catch (IndexOutOfRangeException iex)
             {
                 _logger.Error(iex.ToString());
-                return listDevider;
+                return listDivider;
             }
         }
         public static int CheckButtonIndex(int index)
@@ -175,23 +175,23 @@ namespace RadioWebConfig
                 string ld = filteredLinesInDoc[index].Substring(3, 2);
                 string ld2 = filteredLinesInDoc[index].Substring(3, 1);
 
-                bool successfullyParsed = int.TryParse(ld, out listDevider);
+                bool successfullyParsed = int.TryParse(ld, out listDivider);
 
                 if (!successfullyParsed)
                 {
-                    int.TryParse(ld2, out listDevider);
+                    int.TryParse(ld2, out listDivider);
                 }
-                return listDevider;
+                return listDivider;
             }
             catch (ArgumentOutOfRangeException aex)
             {
                 _logger.Error(aex.ToString());
-                return listDevider;
+                return listDivider;
             }
             catch (IndexOutOfRangeException iex)
             {
                 _logger.Error(iex.ToString());
-                return listDevider;
+                return listDivider;
             }
         }
 
@@ -221,7 +221,7 @@ namespace RadioWebConfig
 
                     CheckQuickButtonIndex(x);
 
-                    if (listDevider == j)
+                    if (listDivider == j)
                     {
 
                         if (filteredLinesInDoc[x].Contains("Text,"))
@@ -232,7 +232,7 @@ namespace RadioWebConfig
                             //ListofLists.statusList[0].
                             qi.qbName = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
                         }
-                        else if (filteredLinesInDoc[x].Contains(string.Format("Status" + listDevider + ",")))
+                        else if (filteredLinesInDoc[x].Contains(string.Format("Status" + listDivider + ",")))
                         {
                             int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
                             int toChar = filteredLinesInDoc[x].LastIndexOf("|");
@@ -294,7 +294,7 @@ namespace RadioWebConfig
                 {
                     CheckButtonIndex(x);
 
-                    if (listDevider == j)
+                    if (listDivider == j)
                     {
 
                         if (filteredLinesInDoc[x].Contains("PortNamn,"))
@@ -363,7 +363,7 @@ namespace RadioWebConfig
 
                     CheckButtonIndex(x);
 
-                    if (listDevider == j)
+                    if (listDivider == j)
                     {
 
                         if (filteredLinesInDoc[x].Contains("StatusText,"))
@@ -440,7 +440,7 @@ namespace RadioWebConfig
                 {
                     CheckButtonIndex(x);
 
-                    if (listDevider == j)
+                    if (listDivider == j)
                     {
 
                         if (filteredLinesInDoc[x].Contains("KortNamn,"))
@@ -504,7 +504,7 @@ namespace RadioWebConfig
                 {
                     CheckButtonIndex(x);
 
-                    if (listDevider == j)
+                    if (listDivider == j)
                     {
 
                         if (filteredLinesInDoc[x].Contains("UrlNamn,"))
@@ -568,7 +568,7 @@ namespace RadioWebConfig
                 {
                     CheckButtonIndex(x);
 
-                    if (listDevider == j)
+                    if (listDivider == j)
                     {
 
                         if (filteredLinesInDoc[x].Contains("TgNamn,"))

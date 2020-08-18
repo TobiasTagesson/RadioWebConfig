@@ -1,0 +1,17 @@
+Authorization för programmet, admin och kund roller ska in.
+Admin ska ha tillgång till en ny flik, "Övrigt". Där ska dom kunna se Licensnummer, stationcode, orgnr mm. Se dokument på mitt bord eller kolla med hans.
+En flik åt admins för att lägga till, ta bort användare.
+Skapa användare för tillgång till applikationen, användarnamnet ska vara stationkoden (för att hitta rätt mapp som filerna ligger i)
+Bättre databas säkerhet.
+Efter man loggar ut så går det fortfarande att trycka på "Återvända" knappen i browsern. Rensa historik
+Lägga till "path" åt användarnas android applikation, just nu är pathen lokal för min dator. Den ligger som global variabel i "Default.aspx.cs"
+
+"Förhandsgranska" knappen gör ingenting just nu, man skulle kunna visa dokumentet i sin helhet och visa hur det kommer se ut(enbart för admin kanske?)
+Testa programmet i olika webbläsare, har nästan bara kört programmet med chrome än så länge.(Är ett par fel när man kör i iexplorer)
+
+Jag har gjort 10 st "boxfält" för länkar och snabbknappar, i applikationen finns bara 8. Ändra till 8 om det behövs.
+Har inte hunnit testa spara funktionen speciellt mycket, vet inte hur noga ordningen är i config dokumentet. Isåfall kan det behöva tweekas lite.
+Göra Url klickbara i fliken länkar.
+Bättre säkerhet så att man inte bara kan skriva i url "https://localhost:44363/default.aspx" för att komma förbi login sidan. 
+
+

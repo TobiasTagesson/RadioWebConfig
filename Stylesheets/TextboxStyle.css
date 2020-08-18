@@ -1,0 +1,67 @@
+﻿body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #063146;
+    background-size: cover;
+    margin: 0px 0px 0px 0px;
+    height: 100%;
+    width: 100%;
+    padding-right: 573px;
+   
+}
+
+
+.InfoStructure p {
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 5px;
+    color: cadetblue;
+}
+input[type="text"] {
+    /*transition: all .5s ease;*/
+    position: center;
+    border: 2px solid red;
+    border-radius: 15px;
+    text-align: start;
+    font-size: 20px;
+    color: #063146;
+    padding: 4px 8px 4px 8px;
+    margin: 0px;
+    width: 270px;
+    z-index: 11111;
+}
+
+.InfoStructure {
+    transition: all .5s ease;
+    animation-direction: alternate-reverse;
+    border: 2px solid red;
+    border-radius: 35px;
+    padding: 10px;
+    margin: 15px;
+    margin-top: 50px;
+    text-align: left;
+    background-color: #042331;
+    z-index: 11111;
+    
+}
+
+h1{
+    position: center;
+    color: cadetblue;
+    text-align: center;
+}
+textarea:focus, input:focus {
+    outline: none;
+    
+}
+
+#check:checked ~ .InfoStructure {
+    margin: 80px;
+    /*transition: all .5s ease;*/
+    /*transform: translateX(300px);*/
+
+}
+
+
+
+

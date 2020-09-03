@@ -136,6 +136,8 @@
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\imageresize.jfif" />
     <Content Include="images\wvpgkgzqhsjksvqm2tyg.jpg" />
+    <Content Include="js\AddUser.js" />
+    <Content Include="js\Admin.js" />
     <Content Include="js\index.js" />
     <Content Include="js\LogOut.js" />
     <Content Include="js\OpenFile.js" />
@@ -222,6 +224,7 @@
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
+    <Compile Include="LoggedInUser.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -66,6 +66,10 @@ function loadTruckList() {
                                 var shortTB = document.getElementsByClassName("shortTB");
                                 var urlTB = document.getElementsByClassName("urlTB");
                                 var quickTB = document.getElementsByClassName("quickTB");
+                                var nameTB = document.getElementsByClassName("nameTB");
+                                var licenseTB = document.getElementsByClassName("licenseTB")
+                                var orgNrTB = document.getElementsByClassName("orgNrTB");
+                               // var userOrgNrTB = document.getElementByClassName("orgNrTB");
 
                                 //var i = 0;
 
@@ -164,9 +168,21 @@ function loadTruckList() {
 
                                         break;
                                     }
+
                                 }
+                                k = 0;
+                                for (var x in lists.d[0]) {
+
+
+                                    nameTB[k].value = lists.d[0].Namn;
+                                    licenseTB[k].value = lists.d[0].LicenseNumber;
+                                    orgNrTB[k].value = lists.d[0].OrgNr;
+                                  //  userOrgNrTB[k].value = lists.d[0].OrgNr;
+
+                                }
+
                             }
-                        });
+                            });
                     });
                 }
             }

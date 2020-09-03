@@ -16,5 +16,9 @@ document.getElementById("talkgroupInfo").addEventListener("click", function () {
     document.getElementById("portButton").hidden = true;
     document.getElementById("shortNumberButton").hidden = true;
     document.getElementById("quickButton").hidden = true;
+    document.getElementById("adminButton").hidden = true;
+    document.getElementById("addUserButton").hidden = true;
+
+
     document.getElementById("talkgroupButton").hidden = false;
 });

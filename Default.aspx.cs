@@ -32,9 +32,14 @@ namespace RadioWebConfig
         public static List<string> linesInDoc = new List<string>();
 
         public static int listDivider;
-
-  
-
+        public string IsAdmin { get; set; } = "1";
+        //public static bool IsAdmin()
+        //{
+        //    //if (user.Role == 1)
+        //    //    return true;
+        //    return true;
+        //}
+        
         protected string GetStationCode()
         {
             try
@@ -60,27 +65,51 @@ namespace RadioWebConfig
                 
             }
 
-
             return stationCode;
         }
 
 
         protected void Page_Load(object sender, EventArgs e)
         {  
-            if (Request.Cookies["myCookie"] == null)
+            if (Request.Cookies["myCookie"] == null || Session["myUser"] == null)
             {
                 Response.Redirect("Login.aspx");
+            }
+            var user = (LoggedInUser)Session["myUser"];
+
+            // -- Skapa en meny som bara syns för admin -- //
+
+            if (user.Role != 1)
+            {
+                MenuItemCollection menuItems = mTopMenu.Items;
+                MenuItem adminItem = new MenuItem();
+
+                foreach (MenuItem menuItem in menuItems)
+                {
+                    if (menuItem.Text == "AdminMenu")
+                        adminItem = menuItem;
+                }
+                menuItems.Remove(adminItem);
+            }
+            
+            IsAdmin = user.Role.ToString();
+            AdminHidden.Value = user.Role.ToString();
+             adminProp.Value = user.Role.ToString();
+
+            if (user.Role == 1)
+            {
+                RenderAdminTextBoxes(1);
             }
 
             RenderSomeTextBoxes(30);
             RenderTgTextBoxes(60);
             RenderRestOfTextBoxes(10);
-
             GetStationCode();
             GetTruckList();
             
             
         }
+        
         protected void RenderSomeTextBoxes(int count)
         {
             int[] c = new int[count];
@@ -113,13 +142,25 @@ namespace RadioWebConfig
             
         }
 
+        // Skapa textboxar för admin
+        protected void RenderAdminTextBoxes(int count)
+        {
+            int[] c = new int[count];
+            adminDataList.DataSource = c;
+            adminDataList.DataBind();
+            addCustomerDataList.DataSource = c;
+            addCustomerDataList.DataBind();
+
+
+        }
+
+
         [WebMethod]
         [ScriptMethod]
         public static List<string> GetTruckList()
         {
             try
             {
-
 
                 fullPath = path + "\\" + stationCode;
 
@@ -142,12 +183,12 @@ namespace RadioWebConfig
 
         }
 
-        public static int CheckQuickButtonIndex(int index)
+        public static int CheckQuickButtonIndex(int index, string[] lines)
         {
             try
             {
-                string ld = filteredLinesInDoc[index].Substring(6, 2);
-                string ld2 = filteredLinesInDoc[index].Substring(6, 1);
+                string ld = lines[index].Substring(6, 2);
+                string ld2 = lines[index].Substring(6, 1);
 
                 bool successfullyParsed = int.TryParse(ld, out listDivider);
 
@@ -168,12 +209,13 @@ namespace RadioWebConfig
                 return listDivider;
             }
         }
-        public static int CheckButtonIndex(int index)
+       
+        public static int CheckButtonIndex(int index, string[] lines)
         {
             try
             {
-                string ld = filteredLinesInDoc[index].Substring(3, 2);
-                string ld2 = filteredLinesInDoc[index].Substring(3, 1);
+                string ld = lines[index].Substring(3, 2);
+                string ld2 = lines[index].Substring(3, 1);
 
                 bool successfullyParsed = int.TryParse(ld, out listDivider);
 
@@ -202,57 +244,41 @@ namespace RadioWebConfig
                 int j = 1;
 
 
-                filteredLinesInDoc.Clear();
 
+                var lines = linesInDoc.Where(x => x.StartsWith("Status")).ToArray();
 
-                foreach (string buttonLine in linesInDoc)
-                {
-                    if (buttonLine.StartsWith("Status"))
-                    {
-                        filteredLinesInDoc.Add(buttonLine);
-                    }
-                }
-
-                /*listObject.quickList = new List<QuickButtonInfo>()*/;
                 QuickButtonInfo qi = new QuickButtonInfo();
 
-                for (int x = 0; x < filteredLinesInDoc.Count; x++)
+                for (int x = 0; x < lines.Count(); x++)
                 {
 
-                    CheckQuickButtonIndex(x);
+                    CheckQuickButtonIndex(x, lines);
 
                     if (listDivider == j)
                     {
 
-                        if (filteredLinesInDoc[x].Contains("Text,"))
+                        if (lines[x].Contains("Text,"))
                         {
                             qi = new QuickButtonInfo();
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
-                            //ListofLists.statusList[0].
-                            qi.qbName = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+
+                            qi.qbName = ReadValue(lines[x]);
                         }
-                        else if (filteredLinesInDoc[x].Contains(string.Format("Status" + listDivider + ",")))
+                        else if (lines[x].Contains(string.Format("Status" + listDivider + ",")))
                         {
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
-                            qi.qbStatus = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+                            qi.qbStatus = ReadValue(lines[x]);
+
                         }
-                        else if (filteredLinesInDoc[x].Contains("Dest1,"))
+                        else if (lines[x].Contains("Dest1,"))
                         {
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
-                            qi.qbDest1 = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+                            qi.qbDest1 = ReadValue(lines[x]);
+
                         }
-                        else if (filteredLinesInDoc[x].Contains("Dest2,"))
+                        else if (lines[x].Contains("Dest2,"))
                         {
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
-                            qi.qbDest2 = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+                            qi.qbDest2 = ReadValue(lines[x]);
 
                             listObject.quickList.Add(qi);
                             
-
                             j++;
                         }
                     }
@@ -272,56 +298,36 @@ namespace RadioWebConfig
             {
                 int j = 1;
 
+                var lines = linesInDoc.Where(x => x.Contains("Port") && x.StartsWith("Btn")).ToArray();
 
-                filteredLinesInDoc.Clear();
-
-
-                foreach (string buttonLine in linesInDoc)
-                {
-                    if (buttonLine.Contains("Port"))
-                    {
-                        if (buttonLine.Contains("Btn"))
-                        {
-                            filteredLinesInDoc.Add(buttonLine);
-                        }
-                    }
-                }
-
-                //listObject.portList = new List<PortInfo>();
                 PortInfo pi = new PortInfo();
 
-                for (int x = 0; x < filteredLinesInDoc.Count; x++)
+                for (int x = 0; x < lines.Count(); x++)
                 {
-                    CheckButtonIndex(x);
+                    CheckButtonIndex(x, lines);
 
                     if (listDivider == j)
                     {
 
-                        if (filteredLinesInDoc[x].Contains("PortNamn,"))
+                        if (lines[x].Contains("PortNamn,"))
                         {
                             pi = new PortInfo();
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
-                            pi.portName = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+
+                            pi.portName = ReadValue(lines[x]);
                         }
-                        else if (filteredLinesInDoc[x].Contains("PortStatus,"))
+                        else if (lines[x].Contains("PortStatus,"))
                         {
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
-                            pi.portStatus = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+                            pi.portStatus = ReadValue(lines[x]);
                         }
-                        else if (filteredLinesInDoc[x].Contains("PortDest,"))
+                        else if (lines[x].Contains("PortDest,"))
                         {
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
-                            pi.portDest = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+                            pi.portDest = ReadValue(lines[x]);
 
                             listObject.portList.Add(pi);
                             j++;
                         }
                     }
                 }
-                //lists.Add(listObject);
             }
             catch (ArgumentOutOfRangeException aex)
             {
@@ -340,67 +346,42 @@ namespace RadioWebConfig
             {
                 int j = 1;
 
-
-                filteredLinesInDoc.Clear();
-                
-
-                foreach (string buttonLine in linesInDoc)
-                {
-                    if (buttonLine.Contains("Status"))
-                    {
-                        if (buttonLine.Contains("Btn"))
-                        {
-                            filteredLinesInDoc.Add(buttonLine);
-                        }
-                    }
-                }
-
-                //listObject.statusList = new List<StatusInfo>();
+                var lines = linesInDoc.Where(x => x.Contains("Status") && x.StartsWith("Btn")).ToArray();
 
                 StatusInfo si = new StatusInfo();
-                for (int x = 0; x < filteredLinesInDoc.Count; x++)
+                for (int x = 0; x < lines.Count(); x++)
                 {
 
-                    CheckButtonIndex(x);
+                    CheckButtonIndex(x, lines);
 
                     if (listDivider == j)
                     {
 
-                        if (filteredLinesInDoc[x].Contains("StatusText,"))
+                        if (lines[x].Contains("StatusText,"))
                         {
                             si = new StatusInfo();
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
-                            si.stName = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+
+                            si.stName = ReadValue(lines[x]);
                         }
-                        else if (filteredLinesInDoc[x].Contains("Status,"))
+                        else if (lines[x].Contains("Status,"))
                         {
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
-                            si.stStatus = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+                            si.stStatus = ReadValue(lines[x]);
                         }
-                        else if (filteredLinesInDoc[x].Contains("StatusDest1,"))
+                        else if (lines[x].Contains("StatusDest1,"))
                         {
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
-                            si.stDest1 = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+                            si.stDest1 = ReadValue(lines[x]);
                         }
-                        else if (filteredLinesInDoc[x].Contains("StatusDest2,"))
+                        else if (lines[x].Contains("StatusDest2,"))
                         {
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
-                            si.stDest2 = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+                            si.stDest2 = ReadValue(lines[x]);
 
                             listObject.statusList.Add(si);
-
-                            
 
                             j++;
                         }
                     }
                     
                 }
-                //lists.Add(listObject);
             }
             catch (ArgumentOutOfRangeException aex)
             {
@@ -413,49 +394,33 @@ namespace RadioWebConfig
             
         }
 
+    
         public static void ExtractKortNRInfo()
         {
             try
             {
                 int j = 1;
 
-                filteredLinesInDoc.Clear();
-                    
+                var lines = linesInDoc.Where(x => x.Contains("Kort") && x.StartsWith("Btn")).ToArray();
 
-
-                foreach (string buttonLine in linesInDoc)
-                {
-                    if (buttonLine.Contains("Kort"))
-                    {
-                        if (buttonLine.Contains("Btn"))
-                        {
-                            filteredLinesInDoc.Add(buttonLine);
-                        }
-                    }
-                }
-                //listObject.shortList = new List<ShortNrInfo>();
                 ShortNrInfo sni = new ShortNrInfo();
 
-                for (int x = 0; x < filteredLinesInDoc.Count; x++)
+                for (int x = 0; x < lines.Count(); x++)
                 {
-                    CheckButtonIndex(x);
+                    CheckButtonIndex(x, lines);
 
                     if (listDivider == j)
                     {
 
-                        if (filteredLinesInDoc[x].Contains("KortNamn,"))
+                        if (lines[x].Contains("KortNamn,"))
                         {
                             sni = new ShortNrInfo();
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
 
-                            sni.shortName = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+                            sni.shortName = ReadValue(lines[x]);
                         }
-                        else if (filteredLinesInDoc[x].Contains("KortNr,"))
+                        else if (lines[x].Contains("KortNr,"))
                         {
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
-                            sni.shortNr = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+                            sni.shortNr = ReadValue(lines[x]);
 
                             listObject.shortList.Add(sni);
                             j++;
@@ -463,7 +428,6 @@ namespace RadioWebConfig
                         }
                     }
                 }
-                //lists.Add(listObject);
             }
             catch (ArgumentOutOfRangeException aex)
             {
@@ -482,44 +446,27 @@ namespace RadioWebConfig
                 int j = 1;
 
                
-                filteredLinesInDoc.Clear();
-                   
 
+                var lines = linesInDoc.Where(x => x.Contains("Url") && x.StartsWith("Btn")).ToArray();
 
-                foreach (string buttonLine in linesInDoc)
-                {
-                    if (buttonLine.Contains("Url"))
-                    {
-                        if (buttonLine.Contains("Btn"))
-                        {
-                            filteredLinesInDoc.Add(buttonLine);
-                        }
-                    }
-                }
-
-                //listObject.linkList = new List<LinkInfo>();
                 LinkInfo li = new LinkInfo();
 
-                for (int x = 0; x < filteredLinesInDoc.Count; x++)
+                for (int x = 0; x < lines.Count(); x++)
                 {
-                    CheckButtonIndex(x);
+                    CheckButtonIndex(x, lines);
 
                     if (listDivider == j)
                     {
 
-                        if (filteredLinesInDoc[x].Contains("UrlNamn,"))
+                        if (lines[x].Contains("UrlNamn,"))
                         {
-
                             li = new LinkInfo();
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
-                            li.linkName = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+
+                            li.linkName = ReadValue(lines[x]);
                         }
-                        else if (filteredLinesInDoc[x].Contains("UrlData,"))
+                        else if (lines[x].Contains("UrlData,"))
                         {
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
-                            li.linkUrl = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+                            li.linkUrl = ReadValue(lines[x]);
 
                             listObject.linkList.Add(li);
                             j++;
@@ -527,7 +474,6 @@ namespace RadioWebConfig
                         }
                     }
                 }
-                //lists.Add(listObject);
             }
             catch (ArgumentOutOfRangeException aex)
             {
@@ -546,44 +492,27 @@ namespace RadioWebConfig
             {
                 int j = 1;
 
-                
-                filteredLinesInDoc.Clear();
-                    
+                var lines = linesInDoc.Where(x => x.Contains("Tg") && x.StartsWith("Btn")).ToArray();
 
-                foreach (string buttonLine in linesInDoc)
-                {
-                    if (buttonLine.Contains("Tg"))
-                    {
-                        if (buttonLine.Contains("Btn"))
-                        {
-                            filteredLinesInDoc.Add(buttonLine);
-                        }
-                    }
-                }
-
-                //listObject.tgList = new List<TgInfo>();
                 TgInfo ti = new TgInfo();
 
-                for (int x = 0; x < filteredLinesInDoc.Count; x++)
+                for (int x = 0; x < lines.Count(); x++)
                 {
-                    CheckButtonIndex(x);
+                    CheckButtonIndex(x, lines);
 
                     if (listDivider == j)
                     {
 
-                        if (filteredLinesInDoc[x].Contains("TgNamn,"))
+                        if (lines[x].Contains("TgNamn,"))
                         {
                             ti = new TgInfo();
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
 
-                            ti.tgName = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+                            ti.tgName = ReadValue(lines[x]);
+                            
                         }
-                        else if (filteredLinesInDoc[x].Contains("TgGissi,"))
+                        else if (lines[x].Contains("TgGissi,"))
                         {
-                            int fromChar = filteredLinesInDoc[x].IndexOf(",") + ",".Length;
-                            int toChar = filteredLinesInDoc[x].LastIndexOf("|");
-                            ti.tgGissi = filteredLinesInDoc[x].Substring(fromChar, toChar - fromChar);
+                            ti.tgGissi = ReadValue(lines[x]);
 
                             listObject.tgList.Add(ti);
                             j++;
@@ -591,7 +520,6 @@ namespace RadioWebConfig
                         }
                     }
                 }
-                //lists.Add(listObject);
             }
             catch (ArgumentOutOfRangeException aex)
             {
@@ -603,6 +531,48 @@ namespace RadioWebConfig
             }
             
         }
+
+        public static void ExtractName()
+        {
+            try
+            {
+                var name = unFilteredLinesInDoc.FirstOrDefault(x => x.StartsWith("Namn"));
+                var licenseNr = unFilteredLinesInDoc.FirstOrDefault(x => x.StartsWith("LicensNumber"));
+                var orgNr = unFilteredLinesInDoc.FirstOrDefault(x => x.StartsWith("ORGNR"));
+
+                if (name != null)
+                {
+                    listObject.Namn = ReadValue(name);
+                }
+                if(licenseNr != null)
+                {
+                    listObject.LicenseNumber = ReadValue(licenseNr);
+                }
+                if(orgNr != null)
+                {
+                    listObject.OrgNr = ReadValue(orgNr);
+                }
+                
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.ToString());
+            }
+
+
+        }
+
+        
+        //Method that gets the data from the list
+        private static string ReadValue(string lineWithData)
+        {
+            int fromChar = lineWithData.IndexOf(",") + ",".Length;
+            int toChar = lineWithData.LastIndexOf("|");
+            return lineWithData.Substring(fromChar, toChar - fromChar);
+        }
+
 
         [WebMethod]
         [ScriptMethod]
@@ -639,7 +609,6 @@ namespace RadioWebConfig
                                 unFilteredLinesInDoc.Add(line);
 
                             }
-                            //unFilteredLinesInDoc.Add(line);
                         }
                     }
                 }
@@ -652,26 +621,12 @@ namespace RadioWebConfig
                 listObject.quickList.Clear();
                 lists.Clear();
 
-                //string docFilter = "Status";
-                //ExtractStatusInfo(docFilter);
-                //docFilter = "Tg";
-                //ExtractTgInfo(docFilter);
-                //docFilter = "Port";
-                //ExtractPortInfo(docFilter);
-                //docFilter = "Kort";
-                //ExtractKortNRInfo(docFilter);
-                //docFilter = "Url";
-                //ExtractUrlInfo(docFilter);
-                //docFilter = "Status";
-
                 ExtractStatusInfo();
                 ExtractTgInfo();
                 ExtractPortInfo();
                 ExtractKortNRInfo();
                 ExtractUrlInfo();
-
-
-
+                ExtractName();
                 ExtractQuickButtonInfo();
 
                 return lists;

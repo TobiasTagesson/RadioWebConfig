@@ -16,5 +16,9 @@ document.getElementById("quickButtonInfo").addEventListener("click", function ()
     document.getElementById("talkgroupButton").hidden = true;
     document.getElementById("portButton").hidden = true;
     document.getElementById("urlButton").hidden = true;
+    document.getElementById("adminButton").hidden = true;
+    document.getElementById("addUserButton").hidden = true;
+
     document.getElementById("quickButton").hidden = false;
+
 });

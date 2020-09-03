@@ -50,7 +50,6 @@ namespace RadioWebConfig
                 pass = pwInput.Value;
 
                 
-
                 var commandtext = "SELECT * FROM dbo.Users WHERE username = @user AND password = @pw";
 
                 SqlCommand sc = new SqlCommand(commandtext, con);
@@ -58,25 +57,35 @@ namespace RadioWebConfig
                 sc.Parameters.AddWithValue("@user", userInput.Value);
                 sc.Parameters.AddWithValue("@pw", pwInput.Value);
 
-
                 con.Open();
 
+                LoggedInUser user = new LoggedInUser();
 
-                var users = sc.ExecuteScalar();
-                if (users != null)
+                SqlDataReader reader = sc.ExecuteReader();
+
+                while(reader.Read())
+                {
+                    user.UserName = reader.GetString(1);
+                    user.Role = reader.GetInt32(3);
+                }
+
+                //var users = sc.ExecuteScalar();
+ 
+                if(user != null)
+                //if (users != null)
                 {
                     //create a cookie
                     HttpCookie myCookie = new HttpCookie("myCookie");
 
                     //Add key-values in the cookie
                     myCookie.Values.Add("userid", uid.ToString());
-
+                    Session.Add("myUser", user);
                     //set cookie expiry date-time. Made it to last for next 12 hours.
                     myCookie.Expires = DateTime.Now.AddHours(12);
+                    Session.Timeout = 720;
 
                     //Most important, write the cookie to client.
                     Response.Cookies.Add(myCookie);
-
                     Response.Redirect("Default.aspx");
                     
                 }

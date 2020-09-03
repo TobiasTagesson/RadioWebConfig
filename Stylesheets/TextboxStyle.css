@@ -10,7 +10,7 @@
 }
 
 
-.InfoStructure p {
+.InfoStructure p, .InfoStructure2 p {
     text-align: left;
     padding-left: 10px;
     padding-right: 10px;
@@ -31,7 +31,7 @@ input[type="text"] {
     z-index: 11111;
 }
 
-.InfoStructure {
+.InfoStructure, .InfoStructure2 {
     transition: all .5s ease;
     animation-direction: alternate-reverse;
     border: 2px solid red;
@@ -55,7 +55,7 @@ textarea:focus, input:focus {
     
 }
 
-#check:checked ~ .InfoStructure {
+#check:checked ~ .InfoStructure, .InfoStructure2 {
     margin: 80px;
     /*transition: all .5s ease;*/
     /*transform: translateX(300px);*/

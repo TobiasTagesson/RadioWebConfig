@@ -3,7 +3,7 @@
 namespace RadioWebConfig
 {
   
-        public class ConfigValues // Byta namn till ConfigValues och lägga i egen fil
+        public class ConfigValues 
         {
            public List<StatusInfo> statusList = new List<StatusInfo>();
            public List<TgInfo> tgList = new List<TgInfo>();
@@ -11,7 +11,11 @@ namespace RadioWebConfig
            public List<ShortNrInfo> shortList = new List<ShortNrInfo>();
            public List<LinkInfo> linkList = new List<LinkInfo>();
            public List<QuickButtonInfo> quickList = new List<QuickButtonInfo>();
-        }
+          // public List<AdminInfo> adminList = new List<AdminInfo>();
+           public string Namn { get; set; }
+           public string LicenseNumber { get; set; }
+           public string OrgNr { get; set; }
+    }
     public class StatusInfo
     {
         public string stName { get; set; }
@@ -47,5 +51,10 @@ namespace RadioWebConfig
         public string qbDest1 { get; set; }
         public string qbDest2 { get; set; }
     }
+
+    //public class AdminInfo
+    //{
+    //    public string AdminName { get; set; }
+    //}
 
 }

@@ -1,4 +1,4 @@
-﻿function Status(name, status, dest1, dest2) {
+﻿ function Status(name, status, dest1, dest2) {
     this.stName = name;
     this.stStatus = status;
     this.stDest1 = dest1;
@@ -34,13 +34,14 @@ function QuickButton(name, status, dest1, dest2) {
 }
 
 document.getElementById("downloadFile").addEventListener("click", function () {
-
+//function downloadFile()  {
     var statusElements = document.getElementsByClassName("statusTB");
     var tgElements = document.getElementsByClassName("tgTB");
     var portElements = document.getElementsByClassName("portTB");
     var shortElements = document.getElementsByClassName("shortTB");
     var urlElements = document.getElementsByClassName("urlTB");
     var quickElements = document.getElementsByClassName("quickTB");
+    var adminElements = documemt.getElementByClassName("nameTB");
 
     var statusArray = [];
     var tgArray = [];
@@ -142,6 +143,10 @@ document.getElementById("downloadFile").addEventListener("click", function () {
             quickArray.push(quickObject);
         }
     }
+    for (var i = 0; i < adminElements.length; i++) {
+
+    }
+
     //"{statusArr:" + JSON.stringify(statusArray) + ", tgArr:" + JSON.stringify(tgArray) + ", portArr:" + JSON.stringify(portArray) + ", shortArr:" + JSON.stringify(shortArray) + ", linkArr:" + JSON.stringify(linkArray) + ", quickArr:" + JSON.stringify(quickArray) + "}",
     $.ajax({
         type: "POST",
@@ -156,7 +161,9 @@ document.getElementById("downloadFile").addEventListener("click", function () {
             alert("We returned: " + result);
         }
     });
-});
+}
+)
+;
 
 
 

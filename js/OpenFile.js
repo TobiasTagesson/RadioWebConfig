@@ -24,7 +24,7 @@ function loadTruckList() {
                 for (var i = 0; i < tl.length; i++) {
                     var li = document.createElement("li");
                     var a = document.createElement("a");
-                    li.setAttribute('id', 'tl' + i);
+                    li.setAttribute('id', 'tl' + i); 
                     //li.setAttribute('runat', 'server');
                     a.setAttribute('href', '#');
                     ul.appendChild(li);
@@ -66,10 +66,12 @@ function loadTruckList() {
                                 var shortTB = document.getElementsByClassName("shortTB");
                                 var urlTB = document.getElementsByClassName("urlTB");
                                 var quickTB = document.getElementsByClassName("quickTB");
-                                var nameTB = document.getElementsByClassName("nameTB");
-                                var licenseTB = document.getElementsByClassName("licenseTB")
-                                var orgNrTB = document.getElementsByClassName("orgNrTB");
-                               // var userOrgNrTB = document.getElementByClassName("orgNrTB");
+                                var adminTB = document.getElementsByClassName("adminTB");
+                                var urlHL = document.getElementsByClassName("urlHL")
+                                //var licenseTB = document.getElementsByClassName("licenseTB")
+                                //var orgNrTB = document.getElementsByClassName("orgNrTB");
+                                //var userOrgNrTB = document.getElementsByClassName("orgNrTB");
+                                //var adminIssiTB = document.getElementsByClassName("IssiTB");
 
                                 //var i = 0;
 
@@ -139,15 +141,19 @@ function loadTruckList() {
                                     }
                                 }
                                 k = 0;
+                                l = 0;
                                 for (var x in lists.d[0].linkList) {
 
 
                                     for (var k = k; k < urlTB.length; k++) {
 
+                                        urlHL[l].value = lists.d[0].linkList[x].linkUrl;
+                                        l++;
                                         urlTB[k].value = lists.d[0].linkList[x].linkName;
                                         k++;
                                         urlTB[k].value = lists.d[0].linkList[x].linkUrl;
                                         k++;
+                                       
 
                                         break;
                                     }
@@ -170,16 +176,36 @@ function loadTruckList() {
                                     }
 
                                 }
+                                //k = 0;
+                                //for (var x in lists.d[0].adminList) {
+                                //    for (var k = k; k < adminTB.length; k++) {
+                                //        adminTB[k].value = lists.d[0].adminList[x].adNamn;
+                                //        k++;
+                                //        adminTB[k].value = lists.d[0].adminList[x].adLicenseNumber;
+                                //        k++;
+                                //        adminTB[k].value = lists.d[0].adminList[x].adOrgNr;
+                                //        k++;
+                                //        adminTB[k].value = lists.d[0].adminList[x].adIssi;
+                                //        k++;
+
+                                //        break;
+
+                                //    }
+                                //}
+
                                 k = 0;
-                                for (var x in lists.d[0]) {
+              
 
+                                adminTB[k].value = lists.d[0].adminInfo.adNamn;
+                                k++;
+                                adminTB[k].value = lists.d[0].adminInfo.adLicenseNumber;
+                                k++;
+                                adminTB[k].value = lists.d[0].adminInfo.adOrgNr;
+                                k++;
+                                adminTB[k].value = lists.d[0].adminInfo.adIssi;
+                                k++;
 
-                                    nameTB[k].value = lists.d[0].Namn;
-                                    licenseTB[k].value = lists.d[0].LicenseNumber;
-                                    orgNrTB[k].value = lists.d[0].OrgNr;
-                                  //  userOrgNrTB[k].value = lists.d[0].OrgNr;
-
-                                }
+                           
 
                             }
                             });
@@ -194,38 +220,4 @@ function loadTruckList() {
 };
 
 
-//var j = 0;
-//var k = 0;
-
-//var statusTB = document.getElementsByClassName("statusTB");
-
-//var statusArr = [].slice.call(statusTB);
-//statusArr.sort();
-
-//for (var x in statusArr) {
-
-//    var tabId = statusTB[x].id.split("_").pop();
-
-//    if (tabId == j) {
-
-//        if (k == 0) {
-//            statusTB[x].innerHTML = lists.d[0].statusList[x].stName;
-//            k++;
-//        }
-//        else if (k == 1) {
-//            statusTB[x].innerHTML = lists.d[0].statusList[x].stStatus;
-//            k++;
-//        }
-//        else if (k == 2) {
-//            statusTB[x].innerText = lists.d[0].statusList[x].stDest1;
-//            k++;
-//        }
-//        else if (k == 3) {
-//            statusTB[x].innerText = lists.d[0].statusList[x].stDest2;
-//            k = 0;
-//            j++;
-//        }
-
-//    }
-//}
 

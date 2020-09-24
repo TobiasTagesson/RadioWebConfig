@@ -4,9 +4,15 @@ window.addEventListener('load', function () {
     var elements = document.getElementsByClassName('AdminHeader')
     var adminknappar = ["Kundinfo", "Lägg till användare", "Övrigt"];
 
-    //for (var i = 0; i < elements.length; i++) {
-    //    elements[i].innerHTML = "Adminknapp " + (i + 1);
-    //}
+    var b = $('[ID*="AdminHidden"]');
+
+    if (b.val() != "1") {
+        $(document).ready(function () {
+            $('#userInfo, #adminInfo, #previewFile').hide();
+        })
+
+    }
+
      for (var i = 0; i < elements.length; i++) {
          elements[i].innerHTML = adminknappar[i];
      }

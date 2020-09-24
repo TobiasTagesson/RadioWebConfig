@@ -13,5 +13,3 @@ Jag har gjort 10 st "boxfält" för länkar och snabbknappar, i applikationen fi
 Har inte hunnit testa spara funktionen speciellt mycket, vet inte hur noga ordningen är i config dokumentet. Isåfall kan det behöva tweekas lite.
 Göra Url klickbara i fliken länkar.
 Bättre säkerhet så att man inte bara kan skriva i url "https://localhost:44363/default.aspx" för att komma förbi login sidan.
-
-			

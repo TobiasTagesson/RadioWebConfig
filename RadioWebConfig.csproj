@@ -116,6 +116,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -137,6 +138,7 @@
     <Content Include="images\imageresize.jfif" />
     <Content Include="images\wvpgkgzqhsjksvqm2tyg.jpg" />
     <Content Include="js\AddUser.js" />
+    <Content Include="js\AddUserPage.js" />
     <Content Include="js\Admin.js" />
     <Content Include="js\index.js" />
     <Content Include="js\LogOut.js" />
@@ -146,6 +148,7 @@
     <Content Include="js\QuickButtons.js" />
     <Content Include="LogIn.aspx" />
     <Content Include="RadioWebConfig saker kvar att göra.txt" />
+    <Content Include="Stylesheets\AdminStyle.css" />
     <Content Include="Stylesheets\loginStyle.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -189,6 +192,13 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin.aspx.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin.aspx.designer.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="ConfigValues.cs" />

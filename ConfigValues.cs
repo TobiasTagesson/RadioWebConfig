@@ -11,10 +11,9 @@ namespace RadioWebConfig
            public List<ShortNrInfo> shortList = new List<ShortNrInfo>();
            public List<LinkInfo> linkList = new List<LinkInfo>();
            public List<QuickButtonInfo> quickList = new List<QuickButtonInfo>();
-          // public List<AdminInfo> adminList = new List<AdminInfo>();
-           public string Namn { get; set; }
-           public string LicenseNumber { get; set; }
-           public string OrgNr { get; set; }
+        // public List<AdminInfo> adminList = new List<AdminInfo>();
+          public AdminInfo adminInfo { get; set; }
+
     }
     public class StatusInfo
     {
@@ -52,9 +51,12 @@ namespace RadioWebConfig
         public string qbDest2 { get; set; }
     }
 
-    //public class AdminInfo
-    //{
-    //    public string AdminName { get; set; }
-    //}
+    public class AdminInfo
+    {
+        public string adNamn { get; set; }
+        public string adLicenseNumber { get; set; }
+        public string adOrgNr { get; set; }
+        public string adIssi { get; set; }
+    }
 
 }

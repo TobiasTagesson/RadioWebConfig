@@ -63,22 +63,17 @@ namespace RadioWebConfig
 
                 SqlDataReader reader = sc.ExecuteReader();
 
-                while(reader.Read())
+                if (reader.Read())
                 {
                     user.UserName = reader.GetString(1);
                     user.Role = reader.GetInt32(3);
-                }
-
-                //var users = sc.ExecuteScalar();
- 
-                if(user != null)
-                //if (users != null)
-                {
+                
                     //create a cookie
                     HttpCookie myCookie = new HttpCookie("myCookie");
 
                     //Add key-values in the cookie
                     myCookie.Values.Add("userid", uid.ToString());
+                    // add session
                     Session.Add("myUser", user);
                     //set cookie expiry date-time. Made it to last for next 12 hours.
                     myCookie.Expires = DateTime.Now.AddHours(12);
@@ -98,6 +93,8 @@ namespace RadioWebConfig
                 
             }
             
-        }    
+        }
+
+        
     } 
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="RadioWebConfig" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="RadioWebConfig._Default" %>
+﻿    <%@ Page Title="RadioWebConfig" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="RadioWebConfig._Default" %>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <!DOCTYPE html>
 
@@ -35,7 +35,6 @@
                     <ul id="dropDown">
                     </ul>
                 </li>
-                <li class="preview" id="previewFile"><a href="#"><i class="fas fa-search-plus"></i>Förhandsgranska</a></li>
                 <li class="logout" id="loggingOut"><a href="#" id="LO"><i class="fas fa-undo"></i>Logga ut</a></li>     
             </ul>
             </div>
@@ -56,16 +55,17 @@
                 <li class="Url" id="urlInfo"><a href="#"><i class="fas fa-link"></i>Länkar</a></li>
                 <li class="quickBtn" id="quickButtonInfo"><a href="#"><i class="fas fa-running"></i>Snabbknappar</a></li>
                 <li class="adminBtn" id="adminInfo"><a href="#"><i class="fas fa-crown"></i>Övrigt</a></li>
-                <li class="addUserBtn" id="userInfo"><a href="#"><i class="fas fa-pen"></i>Lägg till användare</a></li>
+                <li class="addUserBtn" id="userInfo"><a href="/Admin.aspx"><i class="fas fa-pen"></i>Lägg till användare</a></li>
+                <li class="preview" id="previewFile"><a href="#"><i class="fas fa-search-plus"></i>Förhandsgranska</a></li>
 
                 
 
               <asp:Menu ID="mTopMenu" runat="server" OnMenuItemClick="NavigationMenu_MenuItemClick">
                     <Items>
-                        <asp:MenuItem Text="AdminMenu">
-                        <asp:MenuItem Text="Logga ut" Value="loggingOut();"/>
+                        <asp:MenuItem Text="AdminMenu" NavigateUrl="~/Admin.aspx">
+                        <%--<asp:MenuItem Text="Logga ut" Value="loggingOut();"/>
                         <asp:MenuItem Text="Adminsida" NavigateUrl="~/Admin.aspx"/>
-                        <asp:MenuItem Text="<span style='cursor:pointer;' id='userInfo' class 'AddUserHeader'>Lägg till USER<span>" Selectable="False" Value="ChangeUser"/>
+                        <asp:MenuItem Text="<span style='cursor:pointer;' id='userInfo' class 'AddUserHeader'>Lägg till USER<span>" Selectable="False" Value="ChangeUser"/>--%>
 
                         </asp:MenuItem>
                     </Items>
@@ -73,7 +73,7 @@
  
             </ul>
         </div>
-        / <input type="hidden" runat="server" id="adminProp" value="" />
+         <%--<input type="hidden" runat="server" id="adminProp" value="" />--%>
 
      <div class="TextboxField">
         <div id="statusButton" hidden="hidden">
@@ -146,9 +146,18 @@
                         
                        <p class="row" id="urlName">Namn<asp:TextBox class="urlTB" id="TextBox1" runat="server">-</asp:TextBox></p> 
                        <p class="row" id="url">URL<asp:TextBox class="urlTB" id="TextBox2" runat="server">-</asp:TextBox></p>
-
+<%--                       <p class="row" id="urlHLL">Gå till sida<asp:TextBox class="urlHL" id="TextBox5" runat="server">-</asp:TextBox></p>--%>
+                       <%--<p class="row" id="urlHLL">Klicka: <a href="urlHL" class="urlHL" runat="server">här</a></p>--%>
+<%--                       <p class="row" id="urlHLL"><asp:LinkButton class="urlTB" Text="Klicka för besöka URL" Font-Size="14pt" OnClick="LinkBtnClick" runat="server"></asp:LinkButton></p>--%>
+<%--                       <p class="row" id="urlHLL"><asp:Hyperlink class="urlHL" Text="Klicka här för besöka URL" Font-Size="14pt" runat="server" NavigateUrl="http://www.google.se" ToolTip="Gå till URL"></asp:Hyperlink></p>--%>
+<%--                            <button class="linkBtn" id="urlHL">Klicka för URL</button>--%>
+<%--                       <p class="row" id="btnclk">Klicka<input id="btn" type="button" class="urlBtn" onclick="redirect()"/></p>--%>
+                           <p class="row" id="urlLink">Gå till sida</p> 
+                            <input type="button" id="linkBtn" class="urlHL" onclick="redirect(this.value)" />
+                            <%--<input type="text" id="txt" class="urlHL" hidden="hidden"/>--%>
                         </div>
                     </ItemTemplate>
+
                 </asp:DataList>
         </div>
         <div id="quickButton" hidden="hidden">
@@ -182,9 +191,11 @@
                             Adminknapp
                         </h1>
 
-                       <p class="row" id="adminName">Namn<asp:TextBox class="nameTB" id="TextBox1" runat="server">-</asp:TextBox></p> 
-                       <p class="row" id="adminLicense">Licensnummer<asp:TextBox class="licenseTB" id="TextBox2" runat="server">-</asp:TextBox></p>
-                       <p class="row" id="adminOrgNr">OrgNr<asp:TextBox class="orgNrTB" id="TextBox3" runat="server">-</asp:TextBox></p>
+                       <p class="row" id="adminName">Namn<asp:TextBox class="adminTB" id="TextBox1" runat="server">-</asp:TextBox></p> 
+                       <p class="row" id="adminLicense">Licensnummer<asp:TextBox class="adminTB" id="TextBox2" runat="server">-</asp:TextBox></p>
+                       <p class="row" id="adminOrgNr">OrgNr<asp:TextBox class="adminTB" id="TextBox3" runat="server">-</asp:TextBox></p>
+                       <p class="row" id="admin ISSI">ISSI(Stationskod?)<asp:TextBox class="adminTB" id="TextBox4" runat="server">-</asp:TextBox></p>
+
                        
                         </div>
                     </ItemTemplate>
@@ -193,17 +204,17 @@
         </div>
 
          <div id="addUserButton" hidden="hidden">
-                <asp:DataList ID="addCustomerDataList" runat="server" RepeatColumns="5">
+                <asp:DataList ID="addCustomerDataList" runat="server">
                     <ItemTemplate> 
                         <div class="InfoStructure2">
                         <h1 class="AddUserHeader">
                             LäggTillAnvändare
                         </h1>
-
-                       <p class="row" id="userName">Namn<asp:TextBox class="nameTB" id="TextBox1" runat="server">-</asp:TextBox></p> 
+                      <%-- <p class="row" id="userName">Namn<asp:TextBox class="nameTB" id="TextBox1" runat="server">-</asp:TextBox></p> 
                        <p class="row" id="password">Lösenord<asp:TextBox class="userPasswordTB" id="TextBox2" runat="server">-</asp:TextBox></p> 
                        <p class="row" id="userLicense">Licensnummer<asp:TextBox class="userLicenseTB" id="TextBox3" runat="server">-</asp:TextBox></p>
                        <p class="row" id="userOrgNr">OrgNr<asp:TextBox class="userOrgNrTB" id="TextBox4" runat="server">-</asp:TextBox></p>
+                       <p class="row" id="userISSI">ISSI(Stationskod?)<asp:TextBox class="userISSI" id="TextBox5" runat="server">-</asp:TextBox></p>--%>
                        
                         </div>
                     </ItemTemplate>

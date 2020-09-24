@@ -11,97 +11,79 @@ namespace RadioWebConfig
 {
 
 
-    public partial class _Default
+    public partial class Admin
     {
 
         /// <summary>
-        /// mTopMenu control.
+        /// home control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Menu mTopMenu;
+        protected global::System.Web.UI.WebControls.HyperLink home;
 
         /// <summary>
-        /// statusDataList control.
+        /// userInput control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataList statusDataList;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText userInput;
 
         /// <summary>
-        /// tgDataList control.
+        /// btn1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataList tgDataList;
+        protected global::System.Web.UI.WebControls.Button btn1;
 
         /// <summary>
-        /// portDataList control.
+        /// errorMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataList portDataList;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor errorMessage;
 
         /// <summary>
-        /// shortNrDataList control.
+        /// userNameExists control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataList shortNrDataList;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor userNameExists;
 
         /// <summary>
-        /// urlDataList control.
+        /// deleteUserInput control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataList urlDataList;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText deleteUserInput;
 
         /// <summary>
-        /// quickButtonDataList control.
+        /// btn2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataList quickButtonDataList;
+        protected global::System.Web.UI.WebControls.Button btn2;
 
         /// <summary>
-        /// AdminHidden control.
+        /// errorMessage2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField AdminHidden;
-
-        /// <summary>
-        /// adminDataList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DataList adminDataList;
-
-        /// <summary>
-        /// addCustomerDataList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DataList addCustomerDataList;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor errorMessage2;
     }
 }

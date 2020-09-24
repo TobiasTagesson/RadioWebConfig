@@ -1,16 +1,5 @@
 ﻿window.addEventListener('load', function () {
     var elements2 = document.getElementsByClassName("AddUserHeader")
-
-    //var ad = document.getElementById('AdminHidden').value;
-
-    var b = $('[ID*="AdminHidden"]');
-
-    if (b.val() != "1") {
-            $(document).ready(function () {
-                $('#userInfo, #adminInfo').hide();
-            })
-
-        }
       
         for (var i = 0; i < elements2.length; i++) {
             elements2[i].innerHTML = "Lägg till användare";

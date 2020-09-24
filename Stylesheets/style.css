@@ -396,4 +396,16 @@ label #cancel2 {
     /*.topbar .menu ul li ul li:hover > a{
     color: red;
 }*/
+#linkBtn {
+    color: red;
+    background-color: #042331;
+    border: none;
+    font-size: 18px;
+    position: relative;
+    left: 15px;  
+}
+#linkBtn:hover{
+    color: #fe2d2d;
+    text-decoration-line: underline;
+}
 

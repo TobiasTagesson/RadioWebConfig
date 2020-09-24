@@ -32,13 +32,7 @@ namespace RadioWebConfig
         public static List<string> linesInDoc = new List<string>();
 
         public static int listDivider;
-        public string IsAdmin { get; set; } = "1";
-        //public static bool IsAdmin()
-        //{
-        //    //if (user.Role == 1)
-        //    //    return true;
-        //    return true;
-        //}
+     
         
         protected string GetStationCode()
         {
@@ -71,6 +65,12 @@ namespace RadioWebConfig
 
         protected void Page_Load(object sender, EventArgs e)
         {  
+            if(Session["myUser"] == null)
+            {
+                Response.Redirect("~/Login.aspx");
+                return;
+            }
+
             if (Request.Cookies["myCookie"] == null || Session["myUser"] == null)
             {
                 Response.Redirect("Login.aspx");
@@ -79,7 +79,7 @@ namespace RadioWebConfig
 
             // -- Skapa en meny som bara syns för admin -- //
 
-            if (user.Role != 1)
+            if (user.Role != 1) 
             {
                 MenuItemCollection menuItems = mTopMenu.Items;
                 MenuItem adminItem = new MenuItem();
@@ -92,9 +92,7 @@ namespace RadioWebConfig
                 menuItems.Remove(adminItem);
             }
             
-            IsAdmin = user.Role.ToString();
             AdminHidden.Value = user.Role.ToString();
-             adminProp.Value = user.Role.ToString();
 
             if (user.Role == 1)
             {
@@ -107,11 +105,19 @@ namespace RadioWebConfig
             GetStationCode();
             GetTruckList();
             
-            
         }
-        
+
+        [WebMethod]
+        public static void ClearSession()
+        {
+            System.Web.HttpContext.Current.Session.Remove("myUser");
+            return;
+        }
+
+
         protected void RenderSomeTextBoxes(int count)
         {
+
             int[] c = new int[count];
 
             statusDataList.DataSource = c;
@@ -148,9 +154,8 @@ namespace RadioWebConfig
             int[] c = new int[count];
             adminDataList.DataSource = c;
             adminDataList.DataBind();
-            addCustomerDataList.DataSource = c;
-            addCustomerDataList.DataBind();
-
+           // addCustomerDataList.DataSource = c;
+           // addCustomerDataList.DataBind();
 
         }
 
@@ -539,18 +544,31 @@ namespace RadioWebConfig
                 var name = unFilteredLinesInDoc.FirstOrDefault(x => x.StartsWith("Namn"));
                 var licenseNr = unFilteredLinesInDoc.FirstOrDefault(x => x.StartsWith("LicensNumber"));
                 var orgNr = unFilteredLinesInDoc.FirstOrDefault(x => x.StartsWith("ORGNR"));
+                var issi = unFilteredLinesInDoc.FirstOrDefault(x => x.StartsWith("ISSI"));
+
+                AdminInfo ai = new AdminInfo();
 
                 if (name != null)
                 {
-                    listObject.Namn = ReadValue(name);
+                    //listObject.Namn = ReadValue(name);
+                    ai.adNamn = ReadValue(name);
                 }
                 if(licenseNr != null)
                 {
-                    listObject.LicenseNumber = ReadValue(licenseNr);
+                    //listObject.LicenseNumber = ReadValue(licenseNr);
+                    ai.adLicenseNumber = ReadValue(licenseNr);
                 }
                 if(orgNr != null)
                 {
-                    listObject.OrgNr = ReadValue(orgNr);
+                    //listObject.OrgNr = ReadValue(orgNr);
+                    ai.adOrgNr = ReadValue(orgNr);
+                }
+                if(issi != null)
+                {
+                   // listObject.Issi = ReadValue(issi);
+                    ai.adIssi = ReadValue(issi);
+                   // listObject.adminList.Add(ai);
+                    listObject.adminInfo = ai;
                 }
                 
 
@@ -640,7 +658,7 @@ namespace RadioWebConfig
 
         [WebMethod]
         [ScriptMethod]
-        public static void DownloadFile_Click(string statusArr, string tgArr, string portArr, string shortArr, string linkArr, string quickArr)
+        public static void DownloadFile_Click(string statusArr, string tgArr, string portArr, string shortArr, string linkArr, string quickArr, string adminArr)
         {
             try
             {
@@ -656,133 +674,171 @@ namespace RadioWebConfig
                 List<ShortNrInfo> shortList = json.Deserialize<List<ShortNrInfo>>(shortArr);
                 List<LinkInfo> linkList = json.Deserialize<List<LinkInfo>>(linkArr);
                 List<QuickButtonInfo> quickList = json.Deserialize<List<QuickButtonInfo>>(quickArr);
+                List<AdminInfo> adminInfo = json.Deserialize<List<AdminInfo>>(adminArr);
 
                 using (StreamWriter sw = new StreamWriter(fullPathWithFileName))
                 {
                     int j = 0;
 
+                    for (int i = 0; i < unFilteredLinesInDoc.Count; i++)
+                    {
+                        if (unFilteredLinesInDoc[i].StartsWith("Namn"))
+                        {
+                            // sw.WriteLine(string.Format("Namn," + adminInfo[0].adNamn + "|"));
+                            unFilteredLinesInDoc[i] = "Namn," + adminInfo[0].adNamn + "|";
+                        }
+                        else if (unFilteredLinesInDoc[i].StartsWith("LicensNumber"))
+                        {
+                           // sw.WriteLine(string.Format("LicensNumber," + adminInfo[0].adLicenseNumber + "|"));
+                            unFilteredLinesInDoc[i] = "LicensNumber," + adminInfo[0].adLicenseNumber + "|";
+                        }
+                        else if (unFilteredLinesInDoc[i].StartsWith("ORGNR"))
+                        {
+                           // sw.WriteLine(string.Format("ORGNR," + adminInfo[0].adOrgNr + "|"));
+                            unFilteredLinesInDoc[i] = "ORGNR," + adminInfo[0].adOrgNr + "|";
+                        }
+                        else if (unFilteredLinesInDoc[i].StartsWith("ISSI"))
+                        {
+                           // sw.WriteLine(string.Format("ISSI," + adminInfo[0].adIssi + "|"));
+                            unFilteredLinesInDoc[i] = "ISSI," + adminInfo[0].adIssi + "|";
+                        }
+
+                    }
+
+                    //  if (unFilteredLinesInDoc.Count != 0)
+                    // {
+
                     for (j = 0; j < unFilteredLinesInDoc.Count; j++)
-                    {
-                        sw.WriteLine(unFilteredLinesInDoc[j]);
-                        if (unFilteredLinesInDoc[j].Contains("TabletIMEI,") || unFilteredLinesInDoc[j].Contains("MSISDN,") ||
-                            unFilteredLinesInDoc[j].Contains("BtnRadio1Mac,") || unFilteredLinesInDoc[j].Contains("BtnRadio2Mac,"))
                         {
-                            sw.WriteLine("");
-                        }
-
-                        else if (unFilteredLinesInDoc[j].Contains("BtnRadio3Mac,"))
-                        {
-                            sw.WriteLine("");
-                            j++;
-                            break;
-                        }
-                    }
-
-                    for (int i = 0; i < tgList.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            sw.WriteLine("//Talgrupper");
-                        }
-                        sw.WriteLine(string.Format("Btn" + (i + 1) + "TgNamn," + tgList[i].tgName + "|"));
-                        sw.WriteLine(string.Format("Btn" + (i + 1) + "TgGissi," + tgList[i].tgGissi + "|"));
-                        sw.WriteLine("");
-                    }
-                    for (int i = 0; i < quickList.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            sw.WriteLine("//Status");
-                        }
-                        sw.WriteLine(string.Format("Status" + (i + 1) + "Text," + quickList[i].qbName + "|"));
-                        sw.WriteLine(string.Format("Status" + (i + 1) + "," + quickList[i].qbStatus + "|"));
-                        sw.WriteLine(string.Format("Status" + (i + 1) + "Dest1," + quickList[i].qbDest1 + "|"));
-                        sw.WriteLine(string.Format("Status" + (i + 1) + "Dest2," + quickList[i].qbDest2 + "|"));
-                        sw.WriteLine("");
-                    }
-                    for (int i = 0; i < statusList.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            sw.WriteLine("//Status");
-                        }
-                        sw.WriteLine(string.Format("Btn" + (i + 1) + "StatusText," + statusList[i].stName + "|"));
-                        sw.WriteLine(string.Format("Btn" + (i + 1) + "Status," + statusList[i].stStatus + "|"));
-                        sw.WriteLine(string.Format("Btn" + (i + 1) + "StatusDest1," + statusList[i].stDest1 + "|"));
-                        sw.WriteLine(string.Format("Btn" + (i + 1) + "StatusDest2," + statusList[i].stDest2 + "|"));
-                        if (i == statusList.Count - 1)
-                        {
-                            for (int k = 0; k < unFilteredLinesInDoc.Count; k++)
+                            sw.WriteLine(unFilteredLinesInDoc[j]);
+                            if (unFilteredLinesInDoc[j].Contains("TabletIMEI,") || unFilteredLinesInDoc[j].Contains("MSISDN,") ||
+                                unFilteredLinesInDoc[j].Contains("BtnRadio1Mac,") || unFilteredLinesInDoc[j].Contains("BtnRadio2Mac,"))
                             {
-                                if (unFilteredLinesInDoc[k].Contains("---"))
-                                {
-                                    sw.WriteLine(unFilteredLinesInDoc[k]);
-                                    break;
-                                }
+                                sw.WriteLine("");
+                            }
+
+                            else if (unFilteredLinesInDoc[j].Contains("BtnRadio3Mac,"))
+                            {
+                                sw.WriteLine("");
+                                j++;
+                                break;
                             }
                         }
-                        sw.WriteLine("");
 
-                    }
-                    for (int i = 0; i < portList.Count; i++)
-                    {
-                        if (i == 0)
+                    
+
+
+                        for (int i = 0; i < tgList.Count; i++)
                         {
-                            sw.WriteLine("//Portar");
-
-                            for (int k = 0; k < unFilteredLinesInDoc.Count; k++)
+                            if (i == 0)
                             {
-                                if (unFilteredLinesInDoc[k].StartsWith("Portar,"))
-                                {
-                                    sw.WriteLine(unFilteredLinesInDoc[k]);
-                                    break;
-                                }
+                                sw.WriteLine("//Talgrupper");
                             }
-                        }
-                        sw.WriteLine(string.Format("Btn" + (i + 1) + "PortNamn," + portList[i].portName + "|"));
-                        sw.WriteLine(string.Format("Btn" + (i + 1) + "PortStatus," + portList[i].portStatus + "|"));
-                        sw.WriteLine(string.Format("Btn" + (i + 1) + "PortDest," + portList[i].portDest + "|"));
-                        sw.WriteLine("");
-                    }
-                    for (int i = 0; i < shortList.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            sw.WriteLine("//KortNummer");
-                        }
-                        sw.WriteLine(string.Format("Btn" + (i + 1) + "KortNamn," + shortList[i].shortName + "|"));
-                        sw.WriteLine(string.Format("Btn" + (i + 1) + "KortNr," + shortList[i].shortNr + "|"));
-                        sw.WriteLine("");
-                    }
-                    for (int i = 0; i < linkList.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            sw.WriteLine("//Länkar");
-                        }
-                        sw.WriteLine(string.Format("Btn" + (i + 1) + "UrlNamn," + linkList[i].linkName + "|"));
-                        sw.WriteLine(string.Format("Btn" + (i + 1) + "UrlData," + linkList[i].linkUrl + "|"));
-                        sw.WriteLine("");
-                    }
-
-                    for (int i = j; i < unFilteredLinesInDoc.Count; i++)
-                    {
-                        if (!unFilteredLinesInDoc[i].StartsWith("Portar,") && !unFilteredLinesInDoc[i].Contains("---"))
-                            sw.WriteLine(unFilteredLinesInDoc[i]);
-
-                        if (unFilteredLinesInDoc[i].Contains("ExtAlarmText,") || unFilteredLinesInDoc[i].Contains("ExtRadio4Mode,") || unFilteredLinesInDoc[i].Contains("MyRole,")
-                           || unFilteredLinesInDoc[i].Contains("TgInsats1,") || unFilteredLinesInDoc[i].Contains("GateWayPort,") || unFilteredLinesInDoc[i].Contains("Slav2Port,")
-                           || unFilteredLinesInDoc[i].Contains("IpModePath,") || unFilteredLinesInDoc[i].Contains("Button6Text,") || unFilteredLinesInDoc[i].Contains("Button21Text,"))
-                        {
+                            sw.WriteLine(string.Format("Btn" + (i + 1) + "TgNamn," + tgList[i].tgName + "|"));
+                            sw.WriteLine(string.Format("Btn" + (i + 1) + "TgGissi," + tgList[i].tgGissi + "|"));
                             sw.WriteLine("");
                         }
+                        for (int i = 0; i < quickList.Count; i++)
+                        {
+                            if (i == 0)
+                            {
+                                sw.WriteLine("//Status");
+                            }
+                            sw.WriteLine(string.Format("Status" + (i + 1) + "Text," + quickList[i].qbName + "|"));
+                            sw.WriteLine(string.Format("Status" + (i + 1) + "," + quickList[i].qbStatus + "|"));
+                            sw.WriteLine(string.Format("Status" + (i + 1) + "Dest1," + quickList[i].qbDest1 + "|"));
+                            sw.WriteLine(string.Format("Status" + (i + 1) + "Dest2," + quickList[i].qbDest2 + "|"));
+                            sw.WriteLine("");
+                        }
+                        for (int i = 0; i < statusList.Count; i++)
+                        {
+                            if (i == 0)
+                            {
+                                sw.WriteLine("//Status");
+                            }
+                            sw.WriteLine(string.Format("Btn" + (i + 1) + "StatusText," + statusList[i].stName + "|"));
+                            sw.WriteLine(string.Format("Btn" + (i + 1) + "Status," + statusList[i].stStatus + "|"));
+                            sw.WriteLine(string.Format("Btn" + (i + 1) + "StatusDest1," + statusList[i].stDest1 + "|"));
+                            sw.WriteLine(string.Format("Btn" + (i + 1) + "StatusDest2," + statusList[i].stDest2 + "|"));
+                            if (i == statusList.Count - 1)
+                            {
+                                for (int k = 0; k < unFilteredLinesInDoc.Count; k++)
+                                {
+                                    if (unFilteredLinesInDoc[k].Contains("---"))
+                                    {
+                                        sw.WriteLine(unFilteredLinesInDoc[k]);
+                                        break;
+                                    }
+                                }
+                            }
+                            sw.WriteLine("");
+
+                        }
+                        for (int i = 0; i < portList.Count; i++)
+                        {
+                            if (i == 0)
+                            {
+                                sw.WriteLine("//Portar");
+
+                                for (int k = 0; k < unFilteredLinesInDoc.Count; k++)
+                                {
+                                    if (unFilteredLinesInDoc[k].StartsWith("Portar,"))
+                                    {
+                                        sw.WriteLine(unFilteredLinesInDoc[k]);
+                                        break;
+                                    }
+                                }
+                            }
+                            sw.WriteLine(string.Format("Btn" + (i + 1) + "PortNamn," + portList[i].portName + "|"));
+                            sw.WriteLine(string.Format("Btn" + (i + 1) + "PortStatus," + portList[i].portStatus + "|"));
+                            sw.WriteLine(string.Format("Btn" + (i + 1) + "PortDest," + portList[i].portDest + "|"));
+                            sw.WriteLine("");
+                        }
+                        for (int i = 0; i < shortList.Count; i++)
+                        {
+                            if (i == 0)
+                            {
+                                sw.WriteLine("//KortNummer");
+                            }
+                            sw.WriteLine(string.Format("Btn" + (i + 1) + "KortNamn," + shortList[i].shortName + "|"));
+                            sw.WriteLine(string.Format("Btn" + (i + 1) + "KortNr," + shortList[i].shortNr + "|"));
+                            sw.WriteLine("");
+                        }
+                        for (int i = 0; i < linkList.Count; i++)
+                        {
+                            if (i == 0)
+                            {
+                                sw.WriteLine("//Länkar");
+                            }
+                            sw.WriteLine(string.Format("Btn" + (i + 1) + "UrlNamn," + linkList[i].linkName + "|"));
+                            sw.WriteLine(string.Format("Btn" + (i + 1) + "UrlData," + linkList[i].linkUrl + "|"));
+                            sw.WriteLine("");
+                        }
+
+                        for (int i = j; i < unFilteredLinesInDoc.Count; i++)
+                        {
+                            if (!unFilteredLinesInDoc[i].StartsWith("Portar,") && !unFilteredLinesInDoc[i].Contains("---"))
+                                sw.WriteLine(unFilteredLinesInDoc[i]);
+
+                            if (unFilteredLinesInDoc[i].Contains("ExtAlarmText,") || unFilteredLinesInDoc[i].Contains("ExtRadio4Mode,") || unFilteredLinesInDoc[i].Contains("MyRole,")
+                               || unFilteredLinesInDoc[i].Contains("TgInsats1,") || unFilteredLinesInDoc[i].Contains("GateWayPort,") || unFilteredLinesInDoc[i].Contains("Slav2Port,")
+                               || unFilteredLinesInDoc[i].Contains("IpModePath,") || unFilteredLinesInDoc[i].Contains("Button6Text,") || unFilteredLinesInDoc[i].Contains("Button21Text,"))
+                            {
+                                sw.WriteLine("");
+                            }
+                        }
                     }
-                }
+               // }
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.ToString());
             }
+        }
+
+        protected void LinkBtnClick(object sender, EventArgs e)
+        {
+            //Response.Write("window.open('www.google.se','_blank');");
         }
     }
 }

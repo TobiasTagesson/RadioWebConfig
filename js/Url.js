@@ -8,6 +8,14 @@
     }
 });
 
+
+function redirect(urlHL) {
+
+    window.open(urlHL);
+};
+//document.getElementById('btn').addEventListener('click', redirect);
+
+
 document.getElementById("urlInfo").addEventListener("click", function () {
 
     document.getElementById("statusButton").hidden = true;

@@ -17,7 +17,7 @@
 
     </script>
 
-    <body>
+    <%--<body>--%>
         <div class="topbar">
             <header>Celab</header>
               <input type="checkbox" id="check2">
@@ -60,16 +60,16 @@
 
                 
 
-              <asp:Menu ID="mTopMenu" runat="server" OnMenuItemClick="NavigationMenu_MenuItemClick">
+              <%--<asp:Menu ID="mTopMenu" runat="server" OnMenuItemClick="NavigationMenu_MenuItemClick">
                     <Items>
                         <asp:MenuItem Text="AdminMenu" NavigateUrl="~/Admin.aspx">
-                        <%--<asp:MenuItem Text="Logga ut" Value="loggingOut();"/>
+                        <asp:MenuItem Text="Logga ut" Value="loggingOut();"/>
                         <asp:MenuItem Text="Adminsida" NavigateUrl="~/Admin.aspx"/>
-                        <asp:MenuItem Text="<span style='cursor:pointer;' id='userInfo' class 'AddUserHeader'>Lägg till USER<span>" Selectable="False" Value="ChangeUser"/>--%>
+                        <asp:MenuItem Text="<span style='cursor:pointer;' id='userInfo' class 'AddUserHeader'>Lägg till USER<span>" Selectable="False" Value="ChangeUser"/>
 
                         </asp:MenuItem>
                     </Items>
-                </asp:Menu>
+                </asp:Menu>--%>
  
             </ul>
         </div>
@@ -146,12 +146,6 @@
                         
                        <p class="row" id="urlName">Namn<asp:TextBox class="urlTB" id="TextBox1" runat="server">-</asp:TextBox></p> 
                        <p class="row" id="url">URL<asp:TextBox class="urlTB" id="TextBox2" runat="server">-</asp:TextBox></p>
-<%--                       <p class="row" id="urlHLL">Gå till sida<asp:TextBox class="urlHL" id="TextBox5" runat="server">-</asp:TextBox></p>--%>
-                       <%--<p class="row" id="urlHLL">Klicka: <a href="urlHL" class="urlHL" runat="server">här</a></p>--%>
-<%--                       <p class="row" id="urlHLL"><asp:LinkButton class="urlTB" Text="Klicka för besöka URL" Font-Size="14pt" OnClick="LinkBtnClick" runat="server"></asp:LinkButton></p>--%>
-<%--                       <p class="row" id="urlHLL"><asp:Hyperlink class="urlHL" Text="Klicka här för besöka URL" Font-Size="14pt" runat="server" NavigateUrl="http://www.google.se" ToolTip="Gå till URL"></asp:Hyperlink></p>--%>
-<%--                            <button class="linkBtn" id="urlHL">Klicka för URL</button>--%>
-<%--                       <p class="row" id="btnclk">Klicka<input id="btn" type="button" class="urlBtn" onclick="redirect()"/></p>--%>
                            <p class="row" id="urlLink">Gå till sida</p> 
                             <input type="button" id="linkBtn" class="urlHL" onclick="redirect(this.value)" />
                             <%--<input type="text" id="txt" class="urlHL" hidden="hidden"/>--%>
@@ -180,13 +174,12 @@
 
 <%--         adminmeny där den inloggade admin-användarens data visas--%>
          
-         <asp:HiddenField ID="AdminHidden" runat="server" />
 
 
           <div id="adminButton" hidden="hidden">
-                <asp:DataList ID="adminDataList" runat="server" RepeatColumns="5">
+                <asp:DataList ID="adminDataList" runat="server" RepeatColumns="1">
                     <ItemTemplate> 
-                        <div class="InfoStructure2">
+                        <div class="InfoStructure">
                         <h1 class="AdminHeader">
                             Adminknapp
                         </h1>
@@ -202,11 +195,12 @@
                 </asp:DataList>
               
         </div>
+         <asp:HiddenField ID="AdminHidden" runat="server" />
 
          <div id="addUserButton" hidden="hidden">
                 <asp:DataList ID="addCustomerDataList" runat="server">
                     <ItemTemplate> 
-                        <div class="InfoStructure2">
+                        <div class="InfoStructure">
                         <h1 class="AddUserHeader">
                             LäggTillAnvändare
                         </h1>
@@ -236,5 +230,5 @@
         <script type="text/javascript" src='js/AddUser.js'></script>
 
 
-    </body>
+    <%--</body>--%>
 </asp:Content>

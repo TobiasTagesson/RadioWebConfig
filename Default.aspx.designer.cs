@@ -15,15 +15,6 @@ namespace RadioWebConfig
     {
 
         /// <summary>
-        /// mTopMenu control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Menu mTopMenu;
-
-        /// <summary>
         /// statusDataList control.
         /// </summary>
         /// <remarks>
@@ -78,15 +69,6 @@ namespace RadioWebConfig
         protected global::System.Web.UI.WebControls.DataList quickButtonDataList;
 
         /// <summary>
-        /// AdminHidden control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField AdminHidden;
-
-        /// <summary>
         /// adminDataList control.
         /// </summary>
         /// <remarks>
@@ -94,6 +76,15 @@ namespace RadioWebConfig
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DataList adminDataList;
+
+        /// <summary>
+        /// AdminHidden control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField AdminHidden;
 
         /// <summary>
         /// addCustomerDataList control.

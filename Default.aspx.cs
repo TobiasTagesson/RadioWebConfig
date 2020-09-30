@@ -79,18 +79,18 @@ namespace RadioWebConfig
 
             // -- Skapa en meny som bara syns för admin -- //
 
-            if (user.Role != 1) 
-            {
-                MenuItemCollection menuItems = mTopMenu.Items;
-                MenuItem adminItem = new MenuItem();
+            //if (user.Role != 1) 
+            //{
+            //    MenuItemCollection menuItems = mTopMenu.Items;
+            //    MenuItem adminItem = new MenuItem();
 
-                foreach (MenuItem menuItem in menuItems)
-                {
-                    if (menuItem.Text == "AdminMenu")
-                        adminItem = menuItem;
-                }
-                menuItems.Remove(adminItem);
-            }
+            //    foreach (MenuItem menuItem in menuItems)
+            //    {
+            //        if (menuItem.Text == "AdminMenu")
+            //            adminItem = menuItem;
+            //    }
+            //    menuItems.Remove(adminItem);
+            //}
             
             AdminHidden.Value = user.Role.ToString();
 

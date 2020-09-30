@@ -42,13 +42,13 @@ namespace RadioWebConfig
         protected global::System.Web.UI.WebControls.Button btn1;
 
         /// <summary>
-        /// errorMessage control.
+        /// errorMessage1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor errorMessage;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor errorMessage1;
 
         /// <summary>
         /// userNameExists control.
@@ -58,6 +58,33 @@ namespace RadioWebConfig
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor userNameExists;
+
+        /// <summary>
+        /// forbiddenChars control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor forbiddenChars;
+
+        /// <summary>
+        /// userAdded control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor userAdded;
+
+        /// <summary>
+        /// inputEmptyField control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor inputEmptyField;
 
         /// <summary>
         /// deleteUserInput control.

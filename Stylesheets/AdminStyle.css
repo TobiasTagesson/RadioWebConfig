@@ -1,34 +1,18 @@
 ﻿@import "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
 
-/*body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Roboto', sans-serif;
-    background: #042331;
-    background-size: cover;
-}*/
 
-/*body {
-    font-family: 'Roboto', sans-serif;
-}*/
 
-.homelink {
+#MainContent_home {
     color: white;
     font-size: 35px;
     text-decoration: none;
+    margin-left: 30px;
 }
-/*.topbar {
-    position: fixed;
-    height: 80px;
-    width: 100%;
-    background: #042331;
-    margin: -50px -90px;
-    left: 90px;
-    z-index: 111;
-}*/
-/*.toptext {
-    color: white;
-}*/
+#MainContent_home :hover {
+    text-decoration: none;
+    color: green;
+}
+
 
 .adduser-box  {
     width: 280px;
@@ -101,10 +85,36 @@
     cursor: pointer;
     margin: 12px 0;
 }
+    .addBtn:disabled {
+        color: lightgray;
+        border: 2px solid #6d5454;
+    }
 
-#errorMessage, #errorMessage2 {
+/*#errorMessage1 {
     color: red;
     transition: linear 1s step-start;
+}
+
+#errorMessage2 {
+    color: red;
+    transition: linear 1s step-start;
+}*/
+
+/*.errormsg {
+    color: red;
+    transition: linear 1s step-start;
+}
+    .errormsg :hover {
+        color: red;
+        transition: linear 1s step-start;
+    }*/
+#MainContent_userNameExists, #MainContent_errorMessage2, #MainContent_forbiddenChars {
+    color: red;
+    text-decoration: none;
+}
+#MainContent_userAdded {
+    color: green;
+    text-decoration: none;
 }
 
 @-webkit-keyframes autofill {
@@ -147,24 +157,8 @@
         padding: 0;
         list-style: none;
         display: flex;
-
-
     }
-        .tab-trigger ul li {
 
-        }
-            /*.tab-trigger ul li label {
-                position: relative;
-                display: block;
-                padding: 8px 15px;
-                cursor: pointer;
-                min-width: 100px;
-                background: #00ffff;
-                border-radius: 8px 8px 0 0;
-                text-align: center;
-                font-weight: 700;
-
-            }*/
             .tab-trigger ul li {
                 position: relative;
                 display: block;
@@ -178,13 +172,7 @@
                 width: 200px;
             }
                
-            /*.tab-trigger ul li a:nth-child(1)  {
-                background: #f0f0f0;
-                
-            }
-            .tab-trigger ul li a:nth-child(2)  {
-                background: #4cff00;
-            }*/
+     
 
 .tabMenu li a {
     color: lightgray;

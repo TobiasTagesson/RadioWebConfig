@@ -7,7 +7,7 @@
     <title>Admin</title>
               <%--<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>--%>
 
-
+    <%--<link rel="stylesheet" href="Stylesheets/AdminStyle.css" />--%>
 
 <%--</head>--%>
 
@@ -58,10 +58,15 @@
                     <input type="radio" id="superUserRadio" name="selectuser" value="2" />
                     <label for="superUser">SuperUser</label>
                 </div>
-            <asp:Button ID="btn1" class="addBtn" runat="server" onclick="AddUser_Click" Text="Lägg till"></asp:Button>
-<%--                    <input type="button" class="addBtn" id="btn1" value="Submit" onserverclick="AddUser_Click" disabled="disabled" />--%>
-             <a runat="server" visible="false" id="errorMessage">Misslyckades att lägga till användare, försök igen</a>
-                <a runat="server" visible="false" id="userNameExists">Användarnamnet finns redan. Försök igen</a>
+            <asp:Button ID="btn1" class="addBtn" runat="server" onclick="AddUser_Click" Text="Lägg till" disabled="disabled"></asp:Button>
+                    <%--<input type="button" class="addBtn" id="btn1" value="Submit" onserverclick="AddUser_Click" disabled="disabled" />--%>
+             <a class="errormsg" runat="server" visible="false" id="errorMessage1">Misslyckades att lägga till användare, försök igen</a>
+                <a class="errormsg" runat="server" visible="false" id="userNameExists">Användarnamnet finns redan. Försök igen<br /></a>
+                <a class="errormsg" runat="server" visible="false" id="forbiddenChars">Ej tillåtet att använda " eller ' </a>
+                <a class="errormsg" runat="server" visible="false" id="userAdded">Användare tillagd</a>
+                <a class="errormsg" runat="server" visible="false" id="inputEmptyField">Fältet får inte vara tomt</a>
+
+
         </div>
 
 
@@ -69,29 +74,18 @@
             <h1>Ta bort användare</h1>
             <div class="textboxAdd">
                 <i class="fa fa-user" aria-hidden="true"></i>
-                <input type="text" id="deleteUserInput" runat="server" placeholder="Ange användarnamn" name="" value=""/>
+                <input type="text" id="deleteUserInput" class="deleteUserClass" runat="server" placeholder="Ange användarnamn" name="" value=""/>
             </div>
           
-      <%--      <div class="textbox">
-                <i class="fa fa-lock" aria-hidden="true"></i>
-                <input type="password" id="Password1" runat="server" placeholder="Lösenord" name="" value=""/>
-               
-            </div>
-                <div class="textbox">
-                <i class="fa fa-lock" aria-hidden="true"></i>
-                <input type="password" id="Password2" runat="server" placeholder="Bekräfta lösenord" name="" value=""/>
-               
-            </div>--%>
-<%--            <asp:Button ID="btn2" class="addBtn"  runat="server" onclick="DeleteUser_Click" Text="Radera" OnClientClick="visa();"></asp:Button>--%>
                 <asp:Button ID="btn2" class="addBtn" runat="server" OnClick="DeleteUser_Click" Text="Radera" OnClientClick="ConfirmDelete()" />
-             <a runat="server" visible="false" id="errorMessage2">Hittar ingen användare med det namnet </a>
+             <a class="errormsg" runat="server" visible="false" id="errorMessage2">Hittar ingen användare med det namnet </a>
         </div>
              </div>
              <%--</div>--%>
                      
 
     <%--</form>--%>
-<%--     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>--%>
+
       <script src='js/AddUserPage.js'></script>
 
 <%--</body>--%>

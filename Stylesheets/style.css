@@ -338,34 +338,34 @@ section {
         padding: 10px;
         margin: 50px 10px 10px 10px;
         text-align: left;
-        width: 340px; /* ändrar cardets bredd 280 i original*/
-        /*transition: all .5s ease;*/
+        width: 340px;  
+        transition: all .5s ease;
         transform: translateX(250px);
-        /*position: initial;*/
+        position: initial;
     }
 
         #check:checked ~ .TextboxField .InfoStructure [type="text"] {
-            width: 290px; /* textfältens bredd 230 i original*/
+            width: 290px; 
             transition: all .3s ease-out;
         }
 
-    #check:checked ~ .TextboxField .InfoStructure2 {
+/*    #check:checked ~ .TextboxField .InfoStructure2 {
         z-index: 1111;
         border: 2px solid red;
         border-radius: 25px;
         padding: 10px;
         margin: 50px 10px 10px 10px;
         text-align: left;
-        width: 340px; /*ändrar cardets bredd 280 i original*/
+        width: 340px; 
         transition: all .5s ease;
         transform: translateX(250px);
         position: initial;
-    }
+    }*/
 
-        #check:checked ~ .TextboxField .InfoStructure2 [type="text"] {
-            width: 290px; /*textfältens bredd 230 i original*/
+/*        #check:checked ~ .TextboxField .InfoStructure2 [type="text"] {
+            width: 290px;
             transition: all .3s ease-out;
-        }
+        }*/
 
 .topbar .menu ul li ul {
     visibility: hidden;

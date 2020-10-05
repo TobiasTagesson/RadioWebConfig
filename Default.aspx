@@ -55,7 +55,7 @@
                 <li class="Url" id="urlInfo"><a href="#"><i class="fas fa-link"></i>Länkar</a></li>
                 <li class="quickBtn" id="quickButtonInfo"><a href="#"><i class="fas fa-running"></i>Snabbknappar</a></li>
                 <li class="adminBtn" id="adminInfo"><a href="#"><i class="fas fa-crown"></i>Övrigt</a></li>
-                <li class="addUserBtn" id="userInfo"><a href="/Admin.aspx"><i class="fas fa-pen"></i>Lägg till användare</a></li>
+                <li class="addUserBtn" id="userInfo"><a href="/Admin2.aspx"><i class="fas fa-pen"></i>Lägg till användare</a></li>
                 <li class="preview" id="previewFile"><a href="#"><i class="fas fa-search-plus"></i>Förhandsgranska</a></li>
 
                 
@@ -146,7 +146,7 @@
                         
                        <p class="row" id="urlName">Namn<asp:TextBox class="urlTB" id="TextBox1" runat="server">-</asp:TextBox></p> 
                        <p class="row" id="url">URL<asp:TextBox class="urlTB" id="TextBox2" runat="server">-</asp:TextBox></p>
-                           <p class="row" id="urlLink">Gå till sida</p> 
+                           <p class="row" id="urlLink">Besök URL:</p> 
                             <input type="button" id="linkBtn" class="urlHL" onclick="redirect(this.value)" />
                             <%--<input type="text" id="txt" class="urlHL" hidden="hidden"/>--%>
                         </div>

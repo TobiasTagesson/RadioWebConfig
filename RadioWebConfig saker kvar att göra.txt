@@ -14,4 +14,10 @@ Har inte hunnit testa spara funktionen speciellt mycket, vet inte hur noga ordni
 Göra Url klickbara i fliken länkar.
 Bättre säkerhet så att man inte bara kan skriva i url "https://localhost:44363/default.aspx" för att komma förbi login sidan.
 
-Ska man kunna skapa ett dokument från scratch? I så fall, en föreberedd mall? (då är det typ redan klart), men att skapa helt från början kräver en ny funktion.
+Ska man kunna skapa ett dokument från scratch? I så fall, en föreberedd txt-mall? (då är det typ redan klart), men att skapa helt från början kräver en ny funktion.
+
+
+Frågor till Hans:
+- Vad ska finnas under "Övrigt"?
+- Hur ska filen läsas in?
+- Ska man kunna skapa en txt-fil från scratch?

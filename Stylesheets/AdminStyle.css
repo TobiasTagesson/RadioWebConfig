@@ -5,23 +5,20 @@
 #MainContent_home {
     color: white;
     font-size: 35px;
-    text-decoration: none;
-    margin-left: 30px;
 }
 #MainContent_home :hover {
-    text-decoration: none;
-    color: green;
+    text-decoration: underline;
 }
-
 
 .adduser-box  {
     width: 280px;
-    position: absolute;
+    position: relative;
     top: 30%;
     left: 30%;
     transform: translate(-50% -50%);
     color: white;
-
+    /*left: 10%;*/
+    float: left;
 }
 .adduser-box h1 {
     float: left;
@@ -31,23 +28,48 @@
     padding: 13px 0;
     color: white;
 }
+/*.content {
+    float: left;
+}*/
+.container {
+    width: 500px;
+}
+
 .deleteuser-box {
     width: 280px;
-    position: absolute;
+    position: relative;
     top: 30%;
     left: 30%;
     transform: translate(-50% -50%);
     color: white;
+    float: left;
 }
 
     .deleteuser-box h1 {
-        float: left;
+        /*float: left;*/
         font-size: 30px;
         border-bottom: 6px solid #ff0000;
         margin-bottom: 50px;
         padding: 13px 0;
         color: white;
     }
+
+    @media only screen and (max-width : 1200px){
+        .container { width: 100%; }
+        .adduser-box { width: 50%; }
+        .deleteuser-box { width: 50%; }
+    }
+@media only screen and (max-width : 600px) {
+
+    .adduser-box {
+        width: 100%;
+
+    }
+
+    .deleteuser-box {
+        width: 100%;
+    }
+}
 
 .textboxAdd {
     width: 100%;
@@ -90,24 +112,7 @@
         border: 2px solid #6d5454;
     }
 
-/*#errorMessage1 {
-    color: red;
-    transition: linear 1s step-start;
-}
 
-#errorMessage2 {
-    color: red;
-    transition: linear 1s step-start;
-}*/
-
-/*.errormsg {
-    color: red;
-    transition: linear 1s step-start;
-}
-    .errormsg :hover {
-        color: red;
-        transition: linear 1s step-start;
-    }*/
 #MainContent_userNameExists, #MainContent_errorMessage2, #MainContent_forbiddenChars {
     color: red;
     text-decoration: none;
@@ -186,7 +191,6 @@
         background: #ff0000;
 
     }
-
 
 
 #userInput:-webkit-autofill {

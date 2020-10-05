@@ -1,24 +1,12 @@
-﻿<%-- <%@ Page Language="C#" Title="Admin" MasterPageFile="~/Site.Master"  AutoEventWireup="true" CodeBehind="Admin.aspx.cs" Inherits="RadioWebConfig.Admin"%>
+﻿<%@ Page Language="C#" Title="Admin2" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Admin2.aspx.cs" Inherits="RadioWebConfig.Admin2" %>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 <!DOCTYPE html>
-
+            <link rel="stylesheet" href="Stylesheets/AdminStyle.css" />
 
     <div class="toptext">
         <asp:HyperLink ID="home" runat="server" NavigateUrl="~/Default.aspx" CssClass="homelink">Celab</asp:HyperLink>
     </div>
-
-
-
-         <div id="tabs" style="width: 400px">
-             <div class="tab-trigger">
-             <ul class="tabMenu">
-                 <li><label><a class="wide" href="#tab1">Lägg till användare</a></label></li>
-                 <li><label><a class="wide" id="focused" href="#tab2">Ta bort användare</a></label></li>
-             </ul> 
-             </div>
-
-
-
+    <div class="container">
             <div class="adduser-box" id="tab1">
             <h1>Lägg till användare</h1>
             <div class="textboxAdd">
@@ -34,7 +22,6 @@
                 <i class="fa fa-lock" aria-hidden="true"></i>
                 <input type="password" id="cPassword" placeholder="Bekräfta lösenord" value=""/>
                     <a id="pwmessage"></a>
-
 
             </div>
                 <div>
@@ -55,7 +42,6 @@
 
         </div>
 
-
             <div class="deleteuser-box" id="tab2">
             <h1>Ta bort användare</h1>
             <div class="textboxAdd">
@@ -66,10 +52,10 @@
                 <asp:Button ID="btn2" class="addBtn" runat="server" OnClick="DeleteUser_Click" Text="Radera" OnClientClick="ConfirmDelete()" />
              <a class="errormsg" runat="server" visible="false" id="errorMessage2">Hittar ingen användare med det namnet </a>
         </div>
-             </div>
-                     
+
+                </div>     
 
 
       <script src='js/AddUserPage.js'></script>
 
-</asp:Content>--%>
+</asp:Content>

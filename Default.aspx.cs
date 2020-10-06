@@ -19,7 +19,9 @@ namespace RadioWebConfig
         // public static string path { get; } = @"C:\Users\Marcus.Lundgren\Desktop\ConfigCreator";
         public static string path { get; } = @"C:\Users\tobia\Desktop\ConfigCreator";
 
-        public static string fileName = "Config.txt";
+        //public static string fileName = "Config.txt";
+        public static string fileName = "";
+
         public static string fullPath = "";
         public static string fullPathWithFileName = "";
         public static string stationCode { get; set; } = "";
@@ -834,11 +836,6 @@ namespace RadioWebConfig
             {
                 _logger.Error(ex.ToString());
             }
-        }
-
-        protected void LinkBtnClick(object sender, EventArgs e)
-        {
-            //Response.Write("window.open('www.google.se','_blank');");
         }
     }
 }

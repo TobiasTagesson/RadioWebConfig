@@ -51,10 +51,24 @@ namespace RadioWebConfig
         protected void AddUser_Click(object sender, EventArgs e)
         {
             // passwordinput från client
-            var pw = Request.Form["pwInputName"].ToString();
+            var pw = string.Empty;
 
-
-                userInput.Value = userInput.Value.Trim();
+            // Kolla otillåtna tecken
+            try
+            {
+                inputEmptyField.Visible = false;
+                userNameExists.Visible = false;
+                userNameExists.Visible = false;
+                pw = Request.Form["pwInputName"].ToString();
+            }
+            catch
+            {
+                forbiddenChars.Visible = true;
+                inputEmptyField.Visible = false;
+                userNameExists.Visible = false;
+                return;
+            }
+            userInput.Value = userInput.Value.Trim();
             
             if (userInput.Value.Contains("\"") || userInput.Value.Contains("\'") || pw.Contains("\"") || pw.Contains("\'"))
             {
@@ -93,12 +107,15 @@ namespace RadioWebConfig
                     {
                         userNameExists.Visible = true;
                         userAdded.Visible = false;
+                        inputEmptyField.Visible = false;
+                        forbiddenChars.Visible = false;
 
                     }
                     else
                     {
                         userNameExists.Visible = false;
                         forbiddenChars.Visible = false;
+                        inputEmptyField.Visible = false;
 
                         using (SqlCommand cmd = new SqlCommand("INSERT INTO [Users] values (@username, @password, @role)", conn))
                         {
@@ -164,7 +181,7 @@ namespace RadioWebConfig
                     else
                     {
                         this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Användaren raderades ej!')", true);
-                        /* TODO Efter att man klickat ok på "vill du ta bort användare" på en användare som inte finns i databasen så laddas sidan
+                        /* TODO (vid tabs) Efter att man klickat ok på "vill du ta bort användare" på en användare som inte finns i databasen så laddas sidan
                          * om och man kommer till "fel" tab och ser således inte meddelandet:
                          * "Hittar ingen användare med det namnet" Hur stannar man kvar på samma tab efter popup? Skita i tabbar? */
                     }

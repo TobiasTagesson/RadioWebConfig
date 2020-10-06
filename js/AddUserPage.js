@@ -10,7 +10,7 @@ $(document).ready(function () {
     $('#cPassword').on('keyup',
         function validation() {
             if ($('#pwInput').val() == $('#cPassword').val()) {
-                $('#pwmessage').html('Match!').css('color', 'green');
+                $('#pwmessage').html('Match!').css('color', 'lightgreen');
                 $('.addBtn').attr('disabled', false).css('color', 'white');
             }
             else {

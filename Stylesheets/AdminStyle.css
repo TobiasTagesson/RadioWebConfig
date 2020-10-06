@@ -5,19 +5,26 @@
 #MainContent_home {
     color: white;
     font-size: 35px;
+    position: fixed;
+    left: 30px;
+    top: 15px;
 }
 #MainContent_home :hover {
     text-decoration: underline;
 }
 
-.adduser-box  {
+.container {
+    width: 1000px;
+    display: flex;
+}
+.adduser-box {
     width: 280px;
     position: relative;
     top: 30%;
     left: 30%;
     transform: translate(-50% -50%);
     color: white;
-    /*left: 10%;*/
+    left: 10%;
     float: left;
 }
 .adduser-box h1 {
@@ -31,9 +38,7 @@
 /*.content {
     float: left;
 }*/
-.container {
-    width: 500px;
-}
+
 
 .deleteuser-box {
     width: 280px;
@@ -46,7 +51,7 @@
 }
 
     .deleteuser-box h1 {
-        /*float: left;*/
+        float: left;
         font-size: 30px;
         border-bottom: 6px solid #ff0000;
         margin-bottom: 50px;
@@ -55,7 +60,7 @@
     }
 
     @media only screen and (max-width : 1200px){
-        .container { width: 100%; }
+        .container { width: 100%; flex-direction: column; }
         .adduser-box { width: 50%; }
         .deleteuser-box { width: 50%; }
     }
@@ -97,7 +102,7 @@
         margin: 0 10px;
     }
 
-.addBtn {
+.addBtn, .delBtn {
     width: 100%;
     background: none;
     border: 2px solid #ff0000;
@@ -113,13 +118,15 @@
     }
 
 
-#MainContent_userNameExists, #MainContent_errorMessage2, #MainContent_forbiddenChars {
+#MainContent_userNameExists, #MainContent_errorMessage2, #MainContent_forbiddenChars, #MainContent_inputEmptyField {
     color: red;
     text-decoration: none;
+    font-size: 20px;
 }
 #MainContent_userAdded {
-    color: green;
+    color: lightgreen;
     text-decoration: none;
+    font-size: 20px;
 }
 
 @-webkit-keyframes autofill {

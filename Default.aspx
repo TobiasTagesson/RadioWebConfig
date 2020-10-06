@@ -186,8 +186,8 @@
 
                        <p class="row" id="adminName">Namn<asp:TextBox class="adminTB" id="TextBox1" runat="server">-</asp:TextBox></p> 
                        <p class="row" id="adminLicense">Licensnummer<asp:TextBox class="adminTB" id="TextBox2" runat="server">-</asp:TextBox></p>
-                       <p class="row" id="adminOrgNr">OrgNr<asp:TextBox class="adminTB" id="TextBox3" runat="server">-</asp:TextBox></p>
-                       <p class="row" id="admin ISSI">ISSI(Stationskod?)<asp:TextBox class="adminTB" id="TextBox4" runat="server">-</asp:TextBox></p>
+                       <p class="row" id="adminOrgNr">OrgNr/Stationskod<asp:TextBox class="adminTB" id="TextBox3" runat="server">-</asp:TextBox></p>
+                       <p class="row" id="admin ISSI">ISSI<asp:TextBox class="adminTB" id="TextBox4" runat="server">-</asp:TextBox></p>
 
                        
                         </div>

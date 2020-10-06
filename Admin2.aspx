@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" Title="Admin2" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Admin2.aspx.cs" Inherits="RadioWebConfig.Admin2" %>
+﻿<%@ Page Language="C#" Title="Admin" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Admin2.aspx.cs" Inherits="RadioWebConfig.Admin2" %>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 <!DOCTYPE html>
             <link rel="stylesheet" href="Stylesheets/AdminStyle.css" />
@@ -35,7 +35,7 @@
             <asp:Button ID="btn1" class="addBtn" runat="server" onclick="AddUser_Click" Text="Lägg till" disabled="disabled"></asp:Button>
              <a class="errormsg" runat="server" visible="false" id="errorMessage1">Misslyckades att lägga till användare, försök igen</a>
                 <a class="errormsg" runat="server" visible="false" id="userNameExists">Användarnamnet finns redan. Försök igen<br /></a>
-                <a class="errormsg" runat="server" visible="false" id="forbiddenChars">Ej tillåtet att använda " eller ' </a>
+                <a class="errormsg" runat="server" visible="false" id="forbiddenChars">Otillåtna tecken i lösenordet</a>
                 <a class="errormsg" runat="server" visible="false" id="userAdded">Användare tillagd</a>
                 <a class="errormsg" runat="server" visible="false" id="inputEmptyField">Fältet får inte vara tomt</a>
 
@@ -49,7 +49,7 @@
                 <input type="text" id="deleteUserInput" class="deleteUserClass" runat="server" placeholder="Ange användarnamn" name="" value=""/>
             </div>
           
-                <asp:Button ID="btn2" class="addBtn" runat="server" OnClick="DeleteUser_Click" Text="Radera" OnClientClick="ConfirmDelete()" />
+                <asp:Button ID="btn2" class="delBtn" runat="server" OnClick="DeleteUser_Click" Text="Radera" OnClientClick="ConfirmDelete()" />
              <a class="errormsg" runat="server" visible="false" id="errorMessage2">Hittar ingen användare med det namnet </a>
         </div>
 

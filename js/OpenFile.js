@@ -44,8 +44,6 @@ function loadTruckList() {
                                 alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
                             },
                             success: function (lists) {
-                                alert("" + lists);
-
                                 //"MainContent_statusDataList_TextBox2_0"
                                 //var lastFive = id.substr(id.length - 5); 
                                 //var lastChar = id.substr(id.length - 1);
@@ -55,9 +53,7 @@ function loadTruckList() {
 
                                 //if (ti == textID) {
 
-
                                 document.getElementById("check").checked = true;
-
 
                                 var statusTB = document.getElementsByClassName("statusTB");
                                 var tgTB = document.getElementsByClassName("tgTB");
@@ -91,7 +87,6 @@ function loadTruckList() {
 
 
                                 k = 0;
-                       
 
                                 for (var x in lists.d[0].tgList) {
                                     if (k >= tgTB.length - 1)

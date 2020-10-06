@@ -14,10 +14,26 @@ Har inte hunnit testa spara funktionen speciellt mycket, vet inte hur noga ordni
 Göra Url klickbara i fliken länkar.
 Bättre säkerhet så att man inte bara kan skriva i url "https://localhost:44363/default.aspx" för att komma förbi login sidan.
 
+
+
 Ska man kunna skapa ett dokument från scratch? I så fall, en föreberedd txt-mall? (då är det typ redan klart), men att skapa helt från början kräver en ny funktion.
 
-
-Frågor till Hans:
+Frågor:
 - Vad ska finnas under "Övrigt"?
 - Hur ska filen läsas in?
 - Ska man kunna skapa en txt-fil från scratch?
+- Nu kan inte användare i någon annan kategori än Admin öppna något txt-dokument
+- Vad ska det finnas för roller och vad ska de heta?
+
+
+Svar:
+- Gör en "Spara som" funktion
+- Vissa fält måste vara Mandatory -> måste fyllas i innan det går att spara
+- Vissa fält behöver validering på antal tecken, typ av tecken osv
+- Lägg till textboxar i övrigt på det som behövs
+- Egen sida för att admin ska kunna öppna filer och se mapp-struktur
+- Sparasom utifrån en redan öppnad fil - annan brandbil från samma station
+- Sparasom utifrån tomt dokument, men med förifyllda prefix (btn1 tex)
+- 2 roller räcker. Admin(celab) och kund(brandstation)
+Bonus:
+- Kund ska bara kunna öppna sina egna mappar

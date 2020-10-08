@@ -1,6 +1,6 @@
 ﻿var tl;
-loadTruckList();
 
+loadTruckList();
 function loadTruckList() {
 
     $.ajax({
@@ -44,15 +44,7 @@ function loadTruckList() {
                                 alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
                             },
                             success: function (lists) {
-                                //"MainContent_statusDataList_TextBox2_0"
-                                //var lastFive = id.substr(id.length - 5); 
-                                //var lastChar = id.substr(id.length - 1);
-                                //var tabId = id.split("_").pop();
-
-                                //var ti = statusTB[i].id.substr(35, 3);
-
-                                //if (ti == textID) {
-
+                          
                                 document.getElementById("check").checked = true;
 
                                 var statusTB = document.getElementsByClassName("statusTB");

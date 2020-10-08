@@ -135,6 +135,10 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\imageresize.jfif" />
     <Content Include="images\wvpgkgzqhsjksvqm2tyg.jpg" />
@@ -142,6 +146,7 @@
     <Content Include="js\AddUserPage.js" />
     <Content Include="js\Admin.js" />
     <Content Include="js\index.js" />
+    <Content Include="js\LoadFile.js" />
     <Content Include="js\LogOut.js" />
     <Content Include="js\OpenFile.js" />
     <Content Include="js\SaveFile.js" />
@@ -149,6 +154,8 @@
     <Content Include="js\QuickButtons.js" />
     <Content Include="LogIn.aspx" />
     <Content Include="RadioWebConfig saker kvar att göra.txt" />
+    <Content Include="ShowTrucks.aspx" />
+    <Content Include="Stations.aspx" />
     <Content Include="Stylesheets\AdminStyle.css" />
     <Content Include="Stylesheets\loginStyle.css" />
     <Content Include="Scripts\bootstrap.js" />
@@ -227,6 +234,18 @@
       <DependentUpon>LogIn.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ShowTrucks.aspx.cs">
+      <DependentUpon>ShowTrucks.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ShowTrucks.aspx.designer.cs">
+      <DependentUpon>ShowTrucks.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -242,6 +261,13 @@
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="LoggedInUser.cs" />
+    <Compile Include="Stations.aspx.cs">
+      <DependentUpon>Stations.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Stations.aspx.designer.cs">
+      <DependentUpon>Stations.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

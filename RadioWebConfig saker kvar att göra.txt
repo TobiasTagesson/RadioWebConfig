@@ -35,5 +35,6 @@ Svar:
 - Sparasom utifrån en redan öppnad fil - annan brandbil från samma station
 - Sparasom utifrån tomt dokument, men med förifyllda prefix (btn1 tex)
 - 2 roller räcker. Admin(celab) och kund(brandstation)
+- Om det finns flera licenser så är det den senaste som är aktuell
 Bonus:
 - Kund ska bara kunna öppna sina egna mappar

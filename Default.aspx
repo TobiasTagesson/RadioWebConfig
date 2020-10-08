@@ -31,10 +31,10 @@
            
                 
                 <li class="download" id="downloadFile"><a href="#"><i class="fas fa-download"></i>Spara</a></li>
-                <li class="open" id="openFile"><a href="#" id="openF"><i class="fas fa-folder-open"></i>Öppna</a>
+              <%--  <li class="open" id="openFile"><a href="#" id="openF" ><i class="fas fa-folder-open"></i>Öppna</a>
                     <ul id="dropDown">
                     </ul>
-                </li>
+                </li>--%>
                 <li class="logout" id="loggingOut"><a href="#" id="LO"><i class="fas fa-undo"></i>Logga ut</a></li>     
             </ul>
             </div>
@@ -56,7 +56,8 @@
                 <li class="quickBtn" id="quickButtonInfo"><a href="#"><i class="fas fa-running"></i>Snabbknappar</a></li>
                 <li class="adminBtn" id="adminInfo"><a href="#"><i class="fas fa-crown"></i>Övrigt</a></li>
                 <li class="addUserBtn" id="userInfo"><a href="/Admin2.aspx"><i class="fas fa-pen"></i>Lägg till användare</a></li>
-                <li class="preview" id="previewFile"><a href="#"><i class="fas fa-search-plus"></i>Förhandsgranska</a></li>
+                <%--<li class="preview" id="previewFile"><a href="#"><i class="fas fa-search-plus"></i>Förhandsgranska</a></li>--%>
+                <li class="preview" id="previewFile"><a href="/Stations.aspx"><i class="fas fa-charging-station"></i>Stationer</a></li>
 
                 
 
@@ -74,6 +75,7 @@
             </ul>
         </div>
          <%--<input type="hidden" runat="server" id="adminProp" value="" />--%>
+    
 
      <div class="TextboxField">
         <div id="statusButton" hidden="hidden">
@@ -228,6 +230,8 @@
         <script type='text/javascript' src='js/LogOut.js'></script>
         <script type="text/javascript" src='js/Admin.js'></script>
         <script type="text/javascript" src='js/AddUser.js'></script>
+        <script type="text/javascript" src='js/LoadFile.js'></script>
+
 
 
     <%--</body>--%>

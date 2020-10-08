@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RadioWebConfig.Properties;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -34,8 +35,17 @@ namespace RadioWebConfig
         public static List<string> linesInDoc = new List<string>();
 
         public static int listDivider;
-     
-        
+
+
+        // Test för att öppna filer från truck-sidan
+        public static string pathNy { get; } = Settings.Default.ConfigsPath;
+        string station = "";
+        string truck = "";
+        public static string truckPath = "";
+
+
+
+
         protected string GetStationCode()
         {
             try
@@ -106,8 +116,21 @@ namespace RadioWebConfig
             RenderRestOfTextBoxes(10);
             GetStationCode();
             GetTruckList();
-            
+            OpenTruck();
         }
+
+        protected void OpenTruck()
+        {
+            //string path = Settings.Default.ConfigsPath;
+            station = Request.QueryString["Station"];
+            truck = Request.QueryString["Truck"];
+            truckPath = pathNy + "\\" + station + "\\" + truck;
+            string truckTxt = truck + ".txt";
+            OpenFile_Click(truckTxt);
+
+        }
+
+
 
         [WebMethod]
         public static void ClearSession()
@@ -544,7 +567,7 @@ namespace RadioWebConfig
             try
             {
                 var name = unFilteredLinesInDoc.FirstOrDefault(x => x.StartsWith("Namn"));
-                var licenseNr = unFilteredLinesInDoc.FirstOrDefault(x => x.StartsWith("LicensNumber"));
+                var licenseNr = unFilteredLinesInDoc.LastOrDefault(x => x.StartsWith("LicensNumber"));
                 var orgNr = unFilteredLinesInDoc.FirstOrDefault(x => x.StartsWith("ORGNR"));
                 var issi = unFilteredLinesInDoc.FirstOrDefault(x => x.StartsWith("ISSI"));
 
@@ -605,8 +628,9 @@ namespace RadioWebConfig
                 unFilteredLinesInDoc.Clear();
                 fileName = fileToOpen;
 
-                using (StreamReader reader = new StreamReader(fullPath + "\\" + fileToOpen))
-                {
+               // using (StreamReader reader = new StreamReader(fullPath + "\\" + fileToOpen))
+               using (StreamReader reader = new StreamReader(truckPath + "\\" + fileToOpen))
+                 {
 
 
                     string line;

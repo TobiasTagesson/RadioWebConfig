@@ -82,7 +82,7 @@ namespace RadioWebConfig
                     //Most important, write the cookie to client.
                     Response.Cookies.Add(myCookie);
                     Response.Redirect("Default.aspx");
-                    
+                   // Response.Redirect("Stations.aspx");
                 }
                 else
                 {

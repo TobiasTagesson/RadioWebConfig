@@ -9,7 +9,7 @@
         contentType: "application/json; charset=utf-8",
         dataType: 'json',
         success: function (newValue) {
-            
+            if (newValue != null || newValue != "")
             alert("Station tillagd");
         }
     });

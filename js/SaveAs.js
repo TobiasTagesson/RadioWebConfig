@@ -6,9 +6,10 @@ function saveFunction() {
         saveFile();
     else if (saveBool == "True")
         saveDocumentAs();
-   
 
 };
+
+// TODO gör en regex-funktion a la Daniel
 
 var file = window.location.href;
 var truckNo = String(file).split("&Truck=");

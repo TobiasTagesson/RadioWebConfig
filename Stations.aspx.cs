@@ -28,6 +28,11 @@ namespace RadioWebConfig
         public static string stationNr;
         public static string newStationFolder;
         public static string newTruckFolder;
+        public static string defaultFileName = "mall.txt";
+        public static string sourceFile = "";
+        public static string destFile = "";
+        public static string sourceFolder = "";
+
         //public static string stationNr;
         //public static string newStationFolder;
 
@@ -69,11 +74,11 @@ namespace RadioWebConfig
         private void GetDirectories()
         {
             string path = Settings.Default.ConfigsPath;
-            //lbl.Dispose();
             //DataTable dt = new DataTable();
             // dt.Columns.Add("Folder", typeof(string));
             try
             {
+                // Rensa listningen så de nya skrivs ut under de gamla vid ny page_load
                 lbl.Text = "";
                 string[] dirs = Directory.GetDirectories(path);
                 foreach (string dir in dirs)
@@ -101,38 +106,35 @@ namespace RadioWebConfig
         [ScriptMethod]
         public static string AddNewStation(string val)
         {
-            // TODO Den här metoden är kaos. Funkar ibland och ibland inte. Ingen krasch men ingen mapp skapas om jag inte breakpointar mig igenom den
+            // Lägg till invalid chars
+            // TODO Den här metoden är kaos. Funkar ibland och ibland inte. Ingen krasch men ingen mapp skapas om jag inte breakpointar mig igenom den. Verkar funka vid Thread.Sleep-addering
             HttpContext.Current.Session["value"] = val;
             stationNr = val;
-            //newTruckFolder = "NewTruck";
-            newStationFolder = path + "\\" + stationNr/* + "\\" + newTruckFolder*/;
+            newStationFolder = path + "\\" + stationNr;
             Thread.Sleep(500); // Lägga till tid så metoden fungerar..? Verkar funka nu
             Directory.CreateDirectory(newStationFolder);
-           // CopyTruckfolder(newStationFolder);
 
-            return HttpContext.Current.Session["value"].ToString();
+            //return HttpContext.Current.Session["value"].ToString();
+            return stationNr;
         }
         public static void CopyTruckfolder(string stationFolder)
         {
             // TODO namn behöver tweakas beroende på path man läser ifrån
-            string defaultFileName = "mall.txt";
-            string sourceFolder = Settings.Default.ConfigsPath + "\\" + "mall";
+            sourceFolder = Settings.Default.ConfigsPath + "\\" + "mall";
             Directory.CreateDirectory(stationFolder);
-            string sourceFile = Path.Combine(sourceFolder, defaultFileName);
-            string destFile = Path.Combine(stationFolder, defaultFileName);
+            sourceFile = Path.Combine(sourceFolder, defaultFileName);
+            destFile = Path.Combine(stationFolder, defaultFileName);
             File.Copy(sourceFile, destFile, true);
-            //return sourceFile;
         }
         public static void CopyTruckfolder(string stationFolder, string truckFolder)
         {
             // TODO namn behöver tweakas beroende på path man läser ifrån
-            string defaultFileName = "mall.txt";
-            string sourceFolder = Settings.Default.ConfigsPath + "\\" + "mall";
+            sourceFolder = Settings.Default.ConfigsPath + "\\" + "mall";
             string dest = stationFolder + "\\" + truckFolder;
             Directory.CreateDirectory(dest);
-            string sourceFile = Path.Combine(sourceFolder, defaultFileName);
+            sourceFile = Path.Combine(sourceFolder, defaultFileName);
             var defaultFileNameNew = truckFolder + ".txt";
-            string destFile = Path.Combine(dest, defaultFileNameNew);
+            destFile = Path.Combine(dest, defaultFileNameNew);
             File.Copy(sourceFile, destFile, true);
             //return sourceFile;
         }

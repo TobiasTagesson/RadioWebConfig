@@ -26,11 +26,9 @@
             </div>
                 <div>
                     <input type="radio" id="userRadio" name="selectuser" value="0" checked="checked" />
-                    <label for="user">User</label>
+                    <label for="user">Kund</label>
                     <input type="radio" id="adminRadio" name="selectuser" value="1" />
                     <label for="admin">Admin</label>
-                    <input type="radio" id="superUserRadio" name="selectuser" value="2" />
-                    <label for="superUser">SuperUser</label>
                 </div>
             <asp:Button ID="btn1" class="addBtn" runat="server" onclick="AddUser_Click" Text="Lägg till" disabled="disabled"></asp:Button>
              <a class="errormsg" runat="server" visible="false" id="errorMessage1">Misslyckades att lägga till användare, försök igen</a>

@@ -11,7 +11,7 @@ namespace RadioWebConfig
 {
 
 
-    public partial class ShowTrucks
+    public partial class AddVehicle
     {
 
         /// <summary>
@@ -24,30 +24,21 @@ namespace RadioWebConfig
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// home control.
+        /// truckNoTB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink home;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText truckNoTB;
 
         /// <summary>
-        /// lbl control.
+        /// submittruck control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl;
-
-        /// <summary>
-        /// rpt control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rpt;
+        protected global::System.Web.UI.WebControls.Button submittruck;
     }
 }

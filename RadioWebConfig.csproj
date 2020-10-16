@@ -116,6 +116,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AddVehicle.aspx" />
     <Content Include="Admin.aspx" />
     <Content Include="Admin2.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -142,6 +143,7 @@
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\imageresize.jfif" />
     <Content Include="images\wvpgkgzqhsjksvqm2tyg.jpg" />
+    <Content Include="js\AddStation.js" />
     <Content Include="js\AddUser.js" />
     <Content Include="js\AddUserPage.js" />
     <Content Include="js\Admin.js" />
@@ -149,6 +151,7 @@
     <Content Include="js\LoadFile.js" />
     <Content Include="js\LogOut.js" />
     <Content Include="js\OpenFile.js" />
+    <Content Include="js\SaveAs.js" />
     <Content Include="js\SaveFile.js" />
     <Content Include="js\Port.js" />
     <Content Include="js\QuickButtons.js" />
@@ -189,6 +192,7 @@
     <Content Include="js\ShortNumber.js" />
     <Content Include="Site.Master" />
     <Content Include="js\Status.js" />
+    <Content Include="Stylesheets\StationTruckStyle.css" />
     <Content Include="Stylesheets\style.css" />
     <Content Include="js\Talkgroups.js" />
     <Content Include="Stylesheets\TextboxStyle.css" />
@@ -200,6 +204,13 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddVehicle.aspx.cs">
+      <DependentUpon>AddVehicle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddVehicle.aspx.designer.cs">
+      <DependentUpon>AddVehicle.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin.aspx.cs">
       <DependentUpon>Admin.aspx</DependentUpon>
     </Compile>

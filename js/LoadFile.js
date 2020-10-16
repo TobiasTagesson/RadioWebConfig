@@ -2,7 +2,11 @@
 // Ta fram fordonsnummer
 var file = window.location.href;
 var truckNo = String(file).split("&Truck=");
-var truckNo2 = truckNo[1];
+var truckSplit = truckNo[1];
+var saveSplit = String(truckSplit).split("&SaveAs=");
+var truckNo2 = saveSplit[0];
+
+
 document.addEventListener('DOMContentLoaded', function (truckNo2) {
     $.ajax({
         type: "POST",
@@ -125,6 +129,7 @@ document.addEventListener('DOMContentLoaded', function (truckNo2) {
 
             adminTB[3].value = lists.d[0].adminInfo.adIssi;
 
+            adminTB[4].value = lists.d[0].adminInfo.adMsisdn;
         }
     });
 });

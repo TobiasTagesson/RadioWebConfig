@@ -30,13 +30,18 @@
             <ul>
            
                 
-                <li class="download" id="downloadFile"><a href="#"><i class="fas fa-download"></i>Spara</a></li>
-              <%--  <li class="open" id="openFile"><a href="#" id="openF" ><i class="fas fa-folder-open"></i>Öppna</a>
+                <%--<li class="download" id="downloadFile"><a href="#"><i class="fas fa-download"></i>Spara</a></li>--%>
+                <li class="download" id="downloadFile" onclick="saveFunction()"><a href="#"><i class="fas fa-download"></i>Spara</a></li>
+
+                
+                <%--<li class="download" id="saveAs" onclick="saveDocumentAs()"><a href="#"><i class="fas fa-download"></i>Spara Som</a></li>--%>
+            <%--    <li class="open" id="openFile"><a href="#" id="openF" ><i class="fas fa-folder-open"></i>Öppna</a>
                     <ul id="dropDown">
                     </ul>
                 </li>--%>
                 <li class="logout" id="loggingOut"><a href="#" id="LO"><i class="fas fa-undo"></i>Logga ut</a></li>     
             </ul>
+                <input type="hidden" id="hiddenSaveAsField" runat="server" value="" />
             </div>
         </div>
         <input type="checkbox" id="check">
@@ -175,9 +180,6 @@
 
 
 <%--         adminmeny där den inloggade admin-användarens data visas--%>
-         
-
-
           <div id="adminButton" hidden="hidden">
                 <asp:DataList ID="adminDataList" runat="server" RepeatColumns="1">
                     <ItemTemplate> 
@@ -190,7 +192,7 @@
                        <p class="row" id="adminLicense">Licensnummer<asp:TextBox class="adminTB" id="TextBox2" runat="server">-</asp:TextBox></p>
                        <p class="row" id="adminOrgNr">OrgNr/Stationskod<asp:TextBox class="adminTB" id="TextBox3" runat="server">-</asp:TextBox></p>
                        <p class="row" id="admin ISSI">ISSI<asp:TextBox class="adminTB" id="TextBox4" runat="server">-</asp:TextBox></p>
-
+                       <p class="row" id="adminMSISDN">MSISDN<asp:TextBox class="adminTB" id="TextBox5" runat="server">-</asp:TextBox></p>
                        
                         </div>
                     </ItemTemplate>
@@ -226,11 +228,13 @@
         <script type='text/javascript' src='js/QuickButtons.js'></script>
         <script type='text/javascript' src='js/index.js'></script>
         <script type='text/javascript' src='js/SaveFile.js'></script>
-        <script type='text/javascript' src='js/OpenFile.js'></script>
+        <%--<script type='text/javascript' src='js/OpenFile.js'></script>--%>
         <script type='text/javascript' src='js/LogOut.js'></script>
         <script type="text/javascript" src='js/Admin.js'></script>
         <script type="text/javascript" src='js/AddUser.js'></script>
         <script type="text/javascript" src='js/LoadFile.js'></script>
+        <script type="text/javascript" src='js/SaveAs.js'></script>
+
 
 
 

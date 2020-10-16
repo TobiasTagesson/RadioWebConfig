@@ -30,11 +30,11 @@ Svar:
 - Gör en "Spara som" funktion
 - Vissa fält måste vara Mandatory -> måste fyllas i innan det går att spara
 - Vissa fält behöver validering på antal tecken, typ av tecken osv
-- Lägg till textboxar i övrigt på det som behövs
+- Lägg till textboxar i Övrigt på det som behövs
 - Egen sida för att admin ska kunna öppna filer och se mapp-struktur
 - Sparasom utifrån en redan öppnad fil - annan brandbil från samma station
-- Sparasom utifrån tomt dokument, men med förifyllda prefix (btn1 tex)
+- Sparasom utifrån tomt dokument, men med förifyllda kategorier (btn1 tex)
 - 2 roller räcker. Admin(celab) och kund(brandstation)
-- Om det finns flera licenser så är det den senaste som är aktuell
+- Om det finns flera licenser så är det den senaste som är aktuell (ta bort de tidigare? (tycker Daniel))
 Bonus:
 - Kund ska bara kunna öppna sina egna mappar

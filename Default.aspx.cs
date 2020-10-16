@@ -1,4 +1,5 @@
-﻿using RadioWebConfig.Properties;
+﻿using Microsoft.Ajax.Utilities;
+using RadioWebConfig.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,6 +23,8 @@ namespace RadioWebConfig
 
         //public static string fileName = "Config.txt";
         public static string fileName = "";
+        public static string fileNameSaveAs = "";
+        public static string saveAsNewFolder = "";
 
         public static string fullPath = "";
         public static string fullPathWithFileName = "";
@@ -38,13 +41,11 @@ namespace RadioWebConfig
 
 
         // Test för att öppna filer från truck-sidan
-        public static string pathNy { get; } = Settings.Default.ConfigsPath;
-        string station = "";
+        public static string pathNy { get; } = Settings.Default.ConfigsPath;    
+        public static string station = "";
         string truck = "";
         public static string truckPath = "";
-
-
-
+        public static string truckTxt = "";
 
         protected string GetStationCode()
         {
@@ -115,7 +116,7 @@ namespace RadioWebConfig
             RenderTgTextBoxes(60);
             RenderRestOfTextBoxes(10);
             GetStationCode();
-            GetTruckList();
+           // GetTruckList();
             OpenTruck();
         }
 
@@ -125,12 +126,9 @@ namespace RadioWebConfig
             station = Request.QueryString["Station"];
             truck = Request.QueryString["Truck"];
             truckPath = pathNy + "\\" + station + "\\" + truck;
-            string truckTxt = truck + ".txt";
+            truckTxt = truck + ".txt";
             OpenFile_Click(truckTxt);
-
         }
-
-
 
         [WebMethod]
         public static void ClearSession()
@@ -138,7 +136,6 @@ namespace RadioWebConfig
             System.Web.HttpContext.Current.Session.Remove("myUser");
             return;
         }
-
 
         protected void RenderSomeTextBoxes(int count)
         {
@@ -191,8 +188,8 @@ namespace RadioWebConfig
         {
             try
             {
-
-                fullPath = path + "\\" + stationCode;
+                fullPath = truckPath;
+               // fullPath = path + "\\" + stationCode;
 
                 List<string> truckList = new List<string>();
 
@@ -208,7 +205,6 @@ namespace RadioWebConfig
             {
                 _logger.Error(ex.ToString());
                 return null;
-
             }
 
         }
@@ -570,6 +566,7 @@ namespace RadioWebConfig
                 var licenseNr = unFilteredLinesInDoc.LastOrDefault(x => x.StartsWith("LicensNumber"));
                 var orgNr = unFilteredLinesInDoc.FirstOrDefault(x => x.StartsWith("ORGNR"));
                 var issi = unFilteredLinesInDoc.FirstOrDefault(x => x.StartsWith("ISSI"));
+                var msisdn = unFilteredLinesInDoc.FirstOrDefault(x => x.StartsWith("MSISDN"));
 
                 AdminInfo ai = new AdminInfo();
 
@@ -588,16 +585,19 @@ namespace RadioWebConfig
                     //listObject.OrgNr = ReadValue(orgNr);
                     ai.adOrgNr = ReadValue(orgNr);
                 }
-                if(issi != null)
+                if (issi != null)
                 {
-                   // listObject.Issi = ReadValue(issi);
+                    // listObject.Issi = ReadValue(issi);
                     ai.adIssi = ReadValue(issi);
-                   // listObject.adminList.Add(ai);
+                    // listObject.adminList.Add(ai);
+                    listObject.adminInfo = ai;
+                }
+                if (msisdn != null)
+                {
+                    ai.adMsisdn = ReadValue(msisdn);
                     listObject.adminInfo = ai;
                 }
                 
-
-
             }
             catch (Exception ex)
             {
@@ -672,7 +672,6 @@ namespace RadioWebConfig
                 ExtractUrlInfo();
                 ExtractName();
                 ExtractQuickButtonInfo();
-
                 return lists;
             }
             catch(Exception ex)
@@ -680,6 +679,16 @@ namespace RadioWebConfig
                 _logger.Error(ex.ToString());
                 return lists;
             }
+        }
+        [WebMethod]
+        [ScriptMethod]
+        public static string SaveAsFileName(string val)
+        {
+            HttpContext.Current.Session["value"] = val;
+            fileNameSaveAs = val;
+
+
+           return HttpContext.Current.Session["value"].ToString();
         }
 
         [WebMethod]
@@ -689,10 +698,21 @@ namespace RadioWebConfig
             try
             {
                 
+                OpenFile_Click(truckTxt);
                 GetTruckList();
                 
+                if (fileNameSaveAs.IsNullOrWhiteSpace())
+                {
                 fullPathWithFileName = fullPath + "\\" + fileName;
-                
+                }
+                else
+                {
+                    saveAsNewFolder = pathNy + "\\" + station + "\\" + fileNameSaveAs;
+                    Directory.CreateDirectory(saveAsNewFolder);
+                    fullPathWithFileName = saveAsNewFolder + "\\" + fileNameSaveAs + ".txt";
+
+                }
+
                 JavaScriptSerializer json = new JavaScriptSerializer();
                 List<StatusInfo> statusList = json.Deserialize<List<StatusInfo>>(statusArr);
                 List<TgInfo> tgList = json.Deserialize<List<TgInfo>>(tgArr);
@@ -704,32 +724,50 @@ namespace RadioWebConfig
 
                 using (StreamWriter sw = new StreamWriter(fullPathWithFileName))
                 {
+                    // Om det inte finns någon rad för namn i dokumentet och det behövs läggas till namn så görs det här
+                    if (!unFilteredLinesInDoc.Any(x => x.StartsWith("Namn")))
+                    {
+                        unFilteredLinesInDoc.Insert(1, "Namn," + adminInfo[0].adNamn + "|");
+                    }
+
                     int j = 0;
 
                     for (int i = 0; i < unFilteredLinesInDoc.Count; i++)
                     {
+
+                    
                         if (unFilteredLinesInDoc[i].StartsWith("Namn"))
                         {
-                            // sw.WriteLine(string.Format("Namn," + adminInfo[0].adNamn + "|"));
+                                // sw.WriteLine(string.Format("Namn," + adminInfo[0].adNamn + "|"));
                             unFilteredLinesInDoc[i] = "Namn," + adminInfo[0].adNamn + "|";
                         }
+                 
                         else if (unFilteredLinesInDoc[i].StartsWith("LicensNumber"))
+                        //else if (unFilteredLinesInDoc.Where(x => x.StartsWith("LicensNumber")).LastOrDefault())
                         {
-                           // sw.WriteLine(string.Format("LicensNumber," + adminInfo[0].adLicenseNumber + "|"));
+                            // sw.WriteLine(string.Format("LicensNumber," + adminInfo[0].adLicenseNumber + "|"));
                             unFilteredLinesInDoc[i] = "LicensNumber," + adminInfo[0].adLicenseNumber + "|";
                         }
                         else if (unFilteredLinesInDoc[i].StartsWith("ORGNR"))
                         {
-                           // sw.WriteLine(string.Format("ORGNR," + adminInfo[0].adOrgNr + "|"));
+                            // sw.WriteLine(string.Format("ORGNR," + adminInfo[0].adOrgNr + "|"));
                             unFilteredLinesInDoc[i] = "ORGNR," + adminInfo[0].adOrgNr + "|";
                         }
                         else if (unFilteredLinesInDoc[i].StartsWith("ISSI"))
                         {
-                           // sw.WriteLine(string.Format("ISSI," + adminInfo[0].adIssi + "|"));
+                            // sw.WriteLine(string.Format("ISSI," + adminInfo[0].adIssi + "|"));
                             unFilteredLinesInDoc[i] = "ISSI," + adminInfo[0].adIssi + "|";
                         }
+                        else if (unFilteredLinesInDoc[i].StartsWith("MSISDN"))
+                        {
+                            unFilteredLinesInDoc[i] = "MSISDN," + adminInfo[0].adMsisdn + "|";
+                        }
+
+                       
 
                     }
+                    // TODO sortera ut gamla licensnummer genom att de gamla skrivs över med det senaste och sedan radera dubbletter. Funkar men är det osäkert?
+                    unFilteredLinesInDoc = unFilteredLinesInDoc.Distinct().ToList();
 
                     //  if (unFilteredLinesInDoc.Count != 0)
                     // {
@@ -750,9 +788,6 @@ namespace RadioWebConfig
                                 break;
                             }
                         }
-
-                    
-
 
                         for (int i = 0; i < tgList.Count; i++)
                         {
@@ -853,8 +888,8 @@ namespace RadioWebConfig
                                 sw.WriteLine("");
                             }
                         }
-                    }
-               // }
+                }
+                fileNameSaveAs = string.Empty;
             }
             catch (Exception ex)
             {

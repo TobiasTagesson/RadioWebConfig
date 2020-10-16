@@ -90,7 +90,7 @@ namespace RadioWebConfig
                         role = Request.Form["selectuser"].ToString();
                     }
 
-                    // TODO: Byt namn på roller(kund, kundadmin, admin..osv?) och se till att de får tillgång till det de ska.
+                    // TODO: Se till att olika roller får tillgång till det de ska.
 
                     bool exists = false;
                     conn.Open();

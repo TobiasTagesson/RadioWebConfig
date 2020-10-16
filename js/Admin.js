@@ -1,6 +1,6 @@
 ﻿
 window.addEventListener('load', function () {
-
+// TODO Slipa bort arrayen med allt utom kundinfo? Ett fält kanske räcker?
     var elements = document.getElementsByClassName('AdminHeader')
     var adminknappar = ["Kundinfo", "Lägg till användare", "Övrigt"];
 

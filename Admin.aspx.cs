@@ -78,7 +78,6 @@
 //                        role = Request.Form["selectuser"].ToString();
 //                    }
 
-//                        // TODO: Byt namn på roller(kund, kundadmin, admin..osv?) och se till att de får tillgång till det de ska.
 
 //                        bool exists = false;
 //                    conn.Open();
@@ -122,7 +121,6 @@
 //        [WebMethod]
 //        protected void DeleteUser_Click(object sender, EventArgs e)
 //        {
-//            //TODO: Checka inputvariabler för whitespace osv och för sql injection
 //            using (SqlConnection conn = new SqlConnection(connection))
 //            {
 //                 var commandtext = "select count(*) from[Users] where username = @username";
@@ -166,9 +164,6 @@
 //                    else
 //                    {
 //                        this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Användaren raderades ej!')", true);
-//                        /* TODO Efter att man klickat ok på "vill du ta bort användare" på en användare som inte finns i databasen så laddas sidan
-//                         * om och man kommer till "fel" tab och ser således inte meddelandet:
-//                         * "Hittar ingen användare med det namnet" Hur stannar man kvar på samma tab efter popup? Skita i tabbar? */
 //                    }
 //                }
 //            }

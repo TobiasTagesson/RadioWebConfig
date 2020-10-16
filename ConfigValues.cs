@@ -57,6 +57,7 @@ namespace RadioWebConfig
         public string adLicenseNumber { get; set; }
         public string adOrgNr { get; set; }
         public string adIssi { get; set; }
+        public string adMsisdn { get; set; }
     }
 
 }

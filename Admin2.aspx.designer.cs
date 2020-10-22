@@ -87,13 +87,13 @@ namespace RadioWebConfig
         protected global::System.Web.UI.HtmlControls.HtmlAnchor inputEmptyField;
 
         /// <summary>
-        /// deleteUserInput control.
+        /// DeleteUserDropDown control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText deleteUserInput;
+        protected global::System.Web.UI.WebControls.DropDownList DeleteUserDropDown;
 
         /// <summary>
         /// btn2 control.

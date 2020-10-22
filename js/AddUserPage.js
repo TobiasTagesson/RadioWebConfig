@@ -22,7 +22,8 @@ $(document).ready(function () {
 
 // Metod för att se till att rätt användare raderas
 function ConfirmDelete() {
-    var userName = $('.deleteUserClass').val();
+    //var userName = $('.deleteUserClass').val();
+    var userName = $("[id*='DeleteUserDropDown'] :selected").text();
     var confirm_value = document.createElement("INPUT");
     confirm_value.type = "hidden";
     confirm_value.name = "confirm_value";

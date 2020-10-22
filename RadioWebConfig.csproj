@@ -116,6 +116,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AddStation.aspx" />
     <Content Include="AddVehicle.aspx" />
     <Content Include="Admin.aspx" />
     <Content Include="Admin2.aspx" />
@@ -146,6 +147,7 @@
     <Content Include="js\AddStation.js" />
     <Content Include="js\AddUser.js" />
     <Content Include="js\AddUserPage.js" />
+    <Content Include="js\AddVehicle.js" />
     <Content Include="js\Admin.js" />
     <Content Include="js\index.js" />
     <Content Include="js\LoadFile.js" />
@@ -204,6 +206,13 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddStation.aspx.cs">
+      <DependentUpon>AddStation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddStation.aspx.designer.cs">
+      <DependentUpon>AddStation.aspx</DependentUpon>
+    </Compile>
     <Compile Include="AddVehicle.aspx.cs">
       <DependentUpon>AddVehicle.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

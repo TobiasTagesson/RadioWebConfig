@@ -1,5 +1,6 @@
 ﻿//TODO felhantering vid inladdning av fil
-// Ta fram fordonsnummer
+
+// Tar fram fordonsnummer
 var file = window.location.href;
 var truckNo = String(file).split("&Truck=");
 var truckSplit = truckNo[1];

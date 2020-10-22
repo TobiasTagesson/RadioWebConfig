@@ -19,7 +19,7 @@ namespace RadioWebConfig
 
         //public static string path { get; } = @"C:\Users\daniel.rydqvist\Desktop\ConfigMapp\";
         // public static string path { get; } = @"C:\Users\Marcus.Lundgren\Desktop\ConfigCreator";
-        public static string path { get; } = @"C:\Users\tobia\Desktop\ConfigCreator";
+        //public static string path { get; } = @"C:\Users\tobia\Desktop\ConfigCreator";
 
         //public static string fileName = "Config.txt";
         public static string fileName = "";
@@ -39,11 +39,9 @@ namespace RadioWebConfig
 
         public static int listDivider;
 
-
-        // Test för att öppna filer från truck-sidan
         public static string pathNy { get; } = Settings.Default.ConfigsPath;    
         public static string station = "";
-        string truck = "";
+        public string truck = "";
         public static string truckPath = "";
         public static string truckTxt = "";
 
@@ -107,23 +105,22 @@ namespace RadioWebConfig
             
             AdminHidden.Value = user.Role.ToString();
 
-            if (user.Role == 1)
-            {
+            //if (user.Role == 1)
+            //{
                 RenderAdminTextBoxes(1);
-            }
+           // }
 
             RenderSomeTextBoxes(30);
             RenderTgTextBoxes(60);
             RenderRestOfTextBoxes(10);
             GetStationCode();
            // GetTruckList();
-            OpenTruck();
+            OpenTruck(); // Körs den här två gånger när man laddar sidan?
         }
 
         protected void OpenTruck()
         {
-            //string path = Settings.Default.ConfigsPath;
-            station = Request.QueryString["Station"];
+            station = Request.QueryString["name"];
             truck = Request.QueryString["Truck"];
             truckPath = pathNy + "\\" + station + "\\" + truck;
             truckTxt = truck + ".txt";
@@ -176,8 +173,6 @@ namespace RadioWebConfig
             int[] c = new int[count];
             adminDataList.DataSource = c;
             adminDataList.DataBind();
-           // addCustomerDataList.DataSource = c;
-           // addCustomerDataList.DataBind();
 
         }
 
@@ -189,7 +184,6 @@ namespace RadioWebConfig
             try
             {
                 fullPath = truckPath;
-               // fullPath = path + "\\" + stationCode;
 
                 List<string> truckList = new List<string>();
 
@@ -268,8 +262,6 @@ namespace RadioWebConfig
             try
             {
                 int j = 1;
-
-
 
                 var lines = linesInDoc.Where(x => x.StartsWith("Status")).ToArray();
 
@@ -572,24 +564,19 @@ namespace RadioWebConfig
 
                 if (name != null)
                 {
-                    //listObject.Namn = ReadValue(name);
                     ai.adNamn = ReadValue(name);
                 }
                 if(licenseNr != null)
                 {
-                    //listObject.LicenseNumber = ReadValue(licenseNr);
                     ai.adLicenseNumber = ReadValue(licenseNr);
                 }
                 if(orgNr != null)
                 {
-                    //listObject.OrgNr = ReadValue(orgNr);
                     ai.adOrgNr = ReadValue(orgNr);
                 }
                 if (issi != null)
                 {
-                    // listObject.Issi = ReadValue(issi);
                     ai.adIssi = ReadValue(issi);
-                    // listObject.adminList.Add(ai);
                     listObject.adminInfo = ai;
                 }
                 if (msisdn != null)
@@ -607,7 +594,6 @@ namespace RadioWebConfig
 
         }
 
-        
         //Method that gets the data from the list
         private static string ReadValue(string lineWithData)
         {
@@ -623,12 +609,10 @@ namespace RadioWebConfig
         {
             try
             {
-
                 linesInDoc.Clear();
                 unFilteredLinesInDoc.Clear();
                 fileName = fileToOpen;
 
-               // using (StreamReader reader = new StreamReader(fullPath + "\\" + fileToOpen))
                using (StreamReader reader = new StreamReader(truckPath + "\\" + fileToOpen))
                  {
 
@@ -686,7 +670,6 @@ namespace RadioWebConfig
         {
             HttpContext.Current.Session["value"] = val;
             fileNameSaveAs = val;
-
 
            return HttpContext.Current.Session["value"].ToString();
         }

@@ -76,6 +76,12 @@
     }
 }
 
+#MainContent_DeleteUserDropDown {
+    color: white;
+    background: #063146;
+    margin: 0 10px;
+}
+
 .textboxAdd {
     width: 100%;
     overflow: hidden;

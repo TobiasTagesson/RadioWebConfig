@@ -11,7 +11,7 @@ namespace RadioWebConfig
 {
 
 
-    public partial class AddVehicle
+    public partial class AddStation
     {
 
         /// <summary>
@@ -33,13 +33,13 @@ namespace RadioWebConfig
         protected global::System.Web.UI.WebControls.HyperLink home;
 
         /// <summary>
-        /// truckNoTB control.
+        /// stationNoTB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText truckNoTB;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText stationNoTB;
 
         /// <summary>
         /// submitBtn control.

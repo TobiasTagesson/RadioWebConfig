@@ -2,10 +2,11 @@
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background: #042331;
+    /*background: #042331;*/
+    background: #063146;
     background-size: cover;
     color: white;
-    margin-left: 10%;
+    margin-left: 5%;
 }
 #home {
     color: white;
@@ -13,15 +14,61 @@
     position: fixed;
     left: 30px;
     top: 15px;
+    text-decoration: none;
+}
+.toptext {
+    position: fixed;
+    height: 100px;
+    width: 100%;
+    background: #042331;
+    margin: -50px -90px;
+    left: 90px;
+    z-index: 111;
+}
+.toptext div {
+    list-style: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    line-height: 80px;
+    margin-right: 50px;
+    z-index: 111;
+}
+.toptext div a {
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 20px;
+    /*font-weight: 700;*/
+    margin-left: 20px;
+    padding: 30px;
+    transition: color 0.3s;
+    position: center;
+}
+.toptext div a i {
+    padding: 5px;
+    margin-right: 8px;
 }
 
+
 #rubrik {
-    padding-top: 3%;
+    padding-top: 8%;
+
+}
+#rubrik a{
+    font-size: 20px;
+}
+#rubrikstation {
+    padding-top: 8%;
+}
+#semiRubrik {
+    /*display: inline-block;*/
 }
 
 #home :hover {
-        text-decoration: underline;
-    }
+    text-decoration: underline;
+}
 .stations {
     color: white;
     font-size: 19px;
@@ -53,7 +100,7 @@
 #lbl {
     
 }
-#addStationBtn, #addLink {
+#addLink {
     width: 15%;
     background: none;
     border: 2px solid #ff0000;
@@ -65,11 +112,13 @@
     margin-bottom: 20px;
     text-align: center;
     text-decoration: none;
+    white-space: nowrap;
     /*margin-left: 20px;*/
 }
-#addTruckBtn {
+#addTruckBtn, #addStationBtn {
     margin-bottom: 50px;
     width: 15%;
+    padding-top: 20px;
 }
 /*#submittruck {
     width: 20%;
@@ -84,14 +133,16 @@
     text-align: center;
     text-decoration: none;
 }*/
-#truckNoTB {
-
+#truckNoTB, #stationNoTB {
     width: 15%;
     overflow: hidden;
     font-size: 20px;
     padding: 8px 0;
     margin: 8px 0;
     border-bottom: 1px solid #ff0000;
+    /*position: relative;*/
+    /*float: left;*/
+
 }
 .submitBtn {
     width: 15%;
@@ -101,8 +152,32 @@
     padding: 10px;
     font-size: 18px;
     cursor: pointer;
-    margin: 12px 0;
+    margin: 12px;
     margin-bottom: 20px;
     text-align: center;
     text-decoration: none;
+    /*position: absolute;*/
+    /*float: left;*/
+}
+.submitBtn:disabled {
+    color: lightgray;
+    border: 2px solid #6d5454;
+}
+#backtostationlink {
+    padding-top: 30px;
+    margin-left: -50px;
+    
+}
+#backtostationstext {
+    color: white;
+}
+#valmessage{
+    display:block;
+    margin-left: 16%;
+
+}
+#container {
+    /*width: 100%;*/
+    /*display: inline-block;*/
+   /*display: flex;*/
 }

@@ -21,14 +21,13 @@ namespace RadioWebConfig
     public partial class Stations : System.Web.UI.Page
     {
 
-
-
         string connection = "";
         public static string path { get; } = Settings.Default.ConfigsPath;
         public static string stationNr;
         public static string newStationFolder;
         public static string newTruckFolder;
-        public static string defaultFileName = "mall.txt";
+        //public static string defaultFileName = "mall.txt";
+        public static string defaultFileName = "";
         public static string sourceFile = "";
         public static string destFile = "";
         public static string sourceFolder = "";
@@ -44,16 +43,15 @@ namespace RadioWebConfig
                 return;
             }
             var user = Session["myUser"] as LoggedInUser;
-            if (user.Role != 1)
-            {
-                Response.Redirect("~/Default.aspx");
-                return;
-            }
-
+            //if (user.Role != 1)
+            //{
+            //    Response.Redirect("~/Default.aspx");
+            //    return;
+            //}
             SqlConnection();
 
             GetDirectories();
-            
+            AdminHidden.Value = user.Role.ToString();
         }
 
         protected string SqlConnection()
@@ -73,27 +71,39 @@ namespace RadioWebConfig
         }
         private void GetDirectories()
         {
+            var user = Session["myUser"] as LoggedInUser;
             string path = Settings.Default.ConfigsPath;
-            //DataTable dt = new DataTable();
-            // dt.Columns.Add("Folder", typeof(string));
+          
             try
             {
-                // Rensa listningen så de nya skrivs ut under de gamla vid ny page_load
+                // Rensar listningen så de nya inte skrivs ut under de gamla vid ny page_load
                 lbl.Text = "";
                 string[] dirs = Directory.GetDirectories(path);
-                foreach (string dir in dirs)
-                {
-                    lbl.Text += $"<div class='stationdiv'><a class='stations' href='ShowTrucks.aspx?name={Path.GetFileName(dir)}' >" + Path.GetFileName(dir) + "</a></div>";
-                    //lbl.Text += $"<div><a href='#'" + Path.GetFileName(dir) + "</a></div>";
 
+                // Är du admin visas alla stationer
+                if(user.Role == 1)
+                {
+                    foreach (string dir in dirs)
+                    {
+                        lbl.Text += $"<div class='stationdiv'><a class='stations' href='ShowTrucks.aspx?name={Path.GetFileName(dir)}' >" + Path.GetFileName(dir) + "</a></div>";
+
+                    }
+                }
+                // TODO Är du kund visas dina stationer (som är samma som username) Hur blir det om man har fler än en station?
+                else
+                    {
+
+                    foreach (string dir in dirs.Where(x => x.Equals(path + "\\" + user.UserName)))
+                    {
+                        lbl.Text += $"<div class='stationdiv'><a class='stations' href='ShowTrucks.aspx?name={Path.GetFileName(dir)}' >" + Path.GetFileName(dir) + "</a></div>";
+
+                    }
                 }
                 if (dirs.Length <= 0)
                 {
                     lbl.Text = "Hittade inga filer";
                 }
 
-                //  rpt.DataSource = dt; //your repeater 
-                // rpt.DataBind(); //your repeater 
             }
             catch (Exception e)
             {
@@ -106,37 +116,40 @@ namespace RadioWebConfig
         [ScriptMethod]
         public static string AddNewStation(string val)
         {
-            // Lägg till invalid chars
             // TODO Den här metoden är kaos. Funkar ibland och ibland inte. Ingen krasch men ingen mapp skapas om jag inte breakpointar mig igenom den. Verkar funka vid Thread.Sleep-addering
-            HttpContext.Current.Session["value"] = val;
+            //Validering av tecken
+            //if (val.IsNullOrWhiteSpace() || val.IndexOfAny(Path.GetInvalidPathChars()) >= 0) // TODO vad ska hända här?
+                HttpContext.Current.Session["value"] = val; 
+
             stationNr = val;
             newStationFolder = path + "\\" + stationNr;
             Thread.Sleep(500); // Lägga till tid så metoden fungerar..? Verkar funka nu
             Directory.CreateDirectory(newStationFolder);
 
-            //return HttpContext.Current.Session["value"].ToString();
             return stationNr;
         }
-        public static void CopyTruckfolder(string stationFolder)
+      
+        public static void CopyTruckfolder(string stationFolder, string truckFolder, string oldTruckNo)
         {
             // TODO namn behöver tweakas beroende på path man läser ifrån
-            sourceFolder = Settings.Default.ConfigsPath + "\\" + "mall";
-            Directory.CreateDirectory(stationFolder);
-            sourceFile = Path.Combine(sourceFolder, defaultFileName);
-            destFile = Path.Combine(stationFolder, defaultFileName);
-            File.Copy(sourceFile, destFile, true);
-        }
-        public static void CopyTruckfolder(string stationFolder, string truckFolder)
-        {
-            // TODO namn behöver tweakas beroende på path man läser ifrån
-            sourceFolder = Settings.Default.ConfigsPath + "\\" + "mall";
-            string dest = stationFolder + "\\" + truckFolder;
+            // vid skapa ny måste stationfolder heta "mall" annars heter den det som skickas in i metoden
+            string dest = Settings.Default.ConfigsPath + "\\" + stationFolder + "\\" + truckFolder;
+
+            // TODO för knasig funktion nedan?
+            if (oldTruckNo == "mall")
+            {
+                sourceFolder = Settings.Default.ConfigsPath + "\\" + "mall";
+            }
+            else
+            {
+            sourceFolder = Settings.Default.ConfigsPath + "\\" + stationFolder + "\\" + oldTruckNo;
+            }
             Directory.CreateDirectory(dest);
+            defaultFileName = oldTruckNo + ".txt";
             sourceFile = Path.Combine(sourceFolder, defaultFileName);
             var defaultFileNameNew = truckFolder + ".txt";
             destFile = Path.Combine(dest, defaultFileNameNew);
             File.Copy(sourceFile, destFile, true);
-            //return sourceFile;
         }
 
     }

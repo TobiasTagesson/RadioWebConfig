@@ -8,8 +8,7 @@
    <link rel="stylesheet" href="Stylesheets/StationTruckStyle.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
-
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
    
 </head>
 <body>
@@ -17,30 +16,20 @@
 
             <div class="toptext">
         <asp:HyperLink ID="home" runat="server" NavigateUrl="~/Default.aspx" CssClass="homelink">Celab</asp:HyperLink>
+             <div class="logout" id="loggingOut"><a href="#" id="LO"><i class="fas fa-undo"></i>Logga ut</a></div>     
+
     </div>
 
-        <h1 id="rubrik">Stationer</h1>
-        <button id="addStationBtn" onclick="AddStation()">Lägg till station</button>
+        <h1 id="rubrikstation">Stationer:</h1>
+
+        <div id="addStationBtn"><a id="addLink" href="AddStation.aspx">Lägg till station</a></div>
              <asp:Label runat="server" ID="lbl" Text=""></asp:Label>
-<%--    <asp:Repeater ID="rpt" runat="server" ClientIDMode="AutoID">
-        <ItemTemplate>
-            <tr class="dt">
-                <td class="row"><%#Eval("Folder")%><a href="#"></a></br></td>
-            </tr>
-        </ItemTemplate>
-    </asp:Repeater>--%>
 
-        <%--<asp:ListBox ID="foldersList" runat="server">
-           
-        </asp:ListBox>--%>
-
-
-    <%--    <div id="stationcode" runat="server">
-            <a href="#"></a>
-        </div>--%>
-      
+        <asp:HiddenField ID="AdminHidden" runat="server" />
     </form>
 </body>
 </html>
         <script type="text/javascript" src='js/AddStation.js'></script>
+        <script type="text/javascript" src="js/LogOut.js"></script>
+
 

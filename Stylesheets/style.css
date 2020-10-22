@@ -20,6 +20,10 @@
     border: 1px solid #042331;
     z-index: 111;
 }
+header span{
+    margin-left: 50px;
+    font-size: 25px;
+}
 
 .topbar {
     position: fixed;

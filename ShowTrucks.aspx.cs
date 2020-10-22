@@ -25,11 +25,11 @@ namespace RadioWebConfig
                 return;
             }
             var user = Session["myUser"] as LoggedInUser;
-            if (user.Role != 1)
-            {
-                Response.Redirect("~/Default.aspx");
-                return;
-            }
+            //if (user.Role != 1)
+            //{
+            //    Response.Redirect("~/Default.aspx");
+            //    return;
+            //}
             SqlConnection();
 
             GetTrucks();
@@ -53,11 +53,11 @@ namespace RadioWebConfig
 
             return connection;
         }
-
+        public string station;
         private void GetTrucks()
         {
             string path = Settings.Default.ConfigsPath;
-            var station = Request.QueryString["name"];
+            station = Request.QueryString["name"];
             var truckPath = path + "\\" + station;
             string[] dirs = Directory.GetDirectories(truckPath);
             //dubbelkolla att det är en giltig kod
@@ -73,7 +73,7 @@ namespace RadioWebConfig
             {
                 foreach (string dir in dirs)
                 {
-                    lbl.Text += $"<div class='truckdiv'>{Path.GetFileName(dir)}<a class='trucks' href='Default.aspx?Station={station}&Truck={Path.GetFileName(dir)}&SaveAs=False'>Redigera</a><a class='trucks' id='saveAs' href='Default.aspx?Station={station}&Truck={Path.GetFileName(dir)}&SaveAs=True' >Skapa Kopia</a></div>";
+                    lbl.Text += $"<div class='truckdiv'>{Path.GetFileName(dir)}<a class='trucks' href='Default.aspx?name={station}&Truck={Path.GetFileName(dir)}'>Redigera</a><a class='trucks' id='saveAs' href='AddVehicle?name={station}&Truck={Path.GetFileName(dir)}' >Skapa Kopia</a></div>";
                 }
                 if (dirs.Length <= 0)
                 {
@@ -86,21 +86,6 @@ namespace RadioWebConfig
                 lbl.Text = "Något blev fel";
             }
         }
-
-        // TODO ska denna metod tas bort?
-        //[WebMethod]
-        //[ScriptMethod]
-        //protected void AddTruckNo(string val)
-        //{
-        //    HttpContext.Current.Session["value"] = val;
-        //    // Skapa mapp med val som är mapp-/fordonsnamn som kommer från JS-prompt
-        //    var path = Settings.Default.ConfigsPath;
-        //    var station = Request.QueryString["name"];
-        //    var truck = val;
-        //    Stations.CopyTruckfolder(path + "\\" + station);
-        //    Response.Redirect($"Default.aspx?Station={station}&Truck={truck}&SaveAs=False", true);
-
-        //}
     }
 
 

@@ -36,5 +36,6 @@ Svar:
 - Sparasom utifrån tomt dokument, men med förifyllda kategorier (btn1 tex)
 - 2 roller räcker. Admin(celab) och kund(brandstation)
 - Om det finns flera licenser så är det den senaste som är aktuell (ta bort de tidigare? (tycker Daniel))
+- Visa aktuellt fordonsnummer i topbar på default
 Bonus:
 - Kund ska bara kunna öppna sina egna mappar

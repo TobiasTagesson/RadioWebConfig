@@ -8,7 +8,9 @@ window.addEventListener('load', function () {
 
     if (b.val() != "1") {
         $(document).ready(function () {
-            $('#userInfo, #adminInfo, #previewFile').hide();
+            //$('#userInfo, #adminInfo').hide();
+            $('#userInfo').hide();
+
         })
 
     }

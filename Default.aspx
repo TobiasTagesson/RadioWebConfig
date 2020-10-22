@@ -4,22 +4,13 @@
 
     <script runat="server">
 
-        //Method to call javascript functions from menuitems
-        void NavigationMenu_MenuItemClick(Object sender, MenuEventArgs e)
-        {
-            string js = e.Item.Value.ToString();
-            //string script = $"<script>{js}
-
-
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Script", js, true);
-
-        }
-
     </script>
 
     <%--<body>--%>
         <div class="topbar">
-            <header>Celab</header>
+            <header id="header">Celab
+            <span runat="server">Fordonsnummer: <%= truck %></span>
+            </header>
               <input type="checkbox" id="check2">
         <label for="check2">
             <i class="fas fa-bars" id="btn2"></i>
@@ -28,11 +19,9 @@
             <div class="menu">
                 
             <ul>
-           
                 
                 <%--<li class="download" id="downloadFile"><a href="#"><i class="fas fa-download"></i>Spara</a></li>--%>
-                <li class="download" id="downloadFile" onclick="saveFunction()"><a href="#"><i class="fas fa-download"></i>Spara</a></li>
-
+                <li class="download" id="downloadFile" onclick="saveFile()"><a href="#"><i class="fas fa-download"></i>Spara</a></li>
                 
                 <%--<li class="download" id="saveAs" onclick="saveDocumentAs()"><a href="#"><i class="fas fa-download"></i>Spara Som</a></li>--%>
             <%--    <li class="open" id="openFile"><a href="#" id="openF" ><i class="fas fa-folder-open"></i>Öppna</a>
@@ -60,28 +49,11 @@
                 <li class="Url" id="urlInfo"><a href="#"><i class="fas fa-link"></i>Länkar</a></li>
                 <li class="quickBtn" id="quickButtonInfo"><a href="#"><i class="fas fa-running"></i>Snabbknappar</a></li>
                 <li class="adminBtn" id="adminInfo"><a href="#"><i class="fas fa-crown"></i>Övrigt</a></li>
-                <li class="addUserBtn" id="userInfo"><a href="/Admin2.aspx"><i class="fas fa-pen"></i>Lägg till användare</a></li>
-                <%--<li class="preview" id="previewFile"><a href="#"><i class="fas fa-search-plus"></i>Förhandsgranska</a></li>--%>
+                <%--<li class="addUserBtn" id="userInfo"><a href="/Admin2.aspx"><i class="fas fa-pen"></i>Lägg till användare</a></li>--%>
                 <li class="preview" id="previewFile"><a href="/Stations.aspx"><i class="fas fa-charging-station"></i>Stationer</a></li>
+                <%--<li class="preview" id="previewFile"><a href="#"><i class="fas fa-search-plus"></i>Förhandsgranska</a></li>--%>
 
-                
-
-              <%--<asp:Menu ID="mTopMenu" runat="server" OnMenuItemClick="NavigationMenu_MenuItemClick">
-                    <Items>
-                        <asp:MenuItem Text="AdminMenu" NavigateUrl="~/Admin.aspx">
-                        <asp:MenuItem Text="Logga ut" Value="loggingOut();"/>
-                        <asp:MenuItem Text="Adminsida" NavigateUrl="~/Admin.aspx"/>
-                        <asp:MenuItem Text="<span style='cursor:pointer;' id='userInfo' class 'AddUserHeader'>Lägg till USER<span>" Selectable="False" Value="ChangeUser"/>
-
-                        </asp:MenuItem>
-                    </Items>
-                </asp:Menu>--%>
- 
-            </ul>
-        </div>
-         <%--<input type="hidden" runat="server" id="adminProp" value="" />--%>
-    
-
+</div>
      <div class="TextboxField">
         <div id="statusButton" hidden="hidden">
                 <asp:DataList ID="statusDataList" runat="server" RepeatColumns="5">
@@ -155,7 +127,6 @@
                        <p class="row" id="url">URL<asp:TextBox class="urlTB" id="TextBox2" runat="server">-</asp:TextBox></p>
                            <p class="row" id="urlLink">Besök URL:</p> 
                             <input type="button" id="linkBtn" class="urlHL" onclick="redirect(this.value)" />
-                            <%--<input type="text" id="txt" class="urlHL" hidden="hidden"/>--%>
                         </div>
                     </ItemTemplate>
 
@@ -177,7 +148,6 @@
                     </ItemTemplate>
                 </asp:DataList>
         </div>
-
 
 <%--         adminmeny där den inloggade admin-användarens data visas--%>
           <div id="adminButton" hidden="hidden">
@@ -208,12 +178,6 @@
                         <h1 class="AddUserHeader">
                             LäggTillAnvändare
                         </h1>
-                      <%-- <p class="row" id="userName">Namn<asp:TextBox class="nameTB" id="TextBox1" runat="server">-</asp:TextBox></p> 
-                       <p class="row" id="password">Lösenord<asp:TextBox class="userPasswordTB" id="TextBox2" runat="server">-</asp:TextBox></p> 
-                       <p class="row" id="userLicense">Licensnummer<asp:TextBox class="userLicenseTB" id="TextBox3" runat="server">-</asp:TextBox></p>
-                       <p class="row" id="userOrgNr">OrgNr<asp:TextBox class="userOrgNrTB" id="TextBox4" runat="server">-</asp:TextBox></p>
-                       <p class="row" id="userISSI">ISSI(Stationskod?)<asp:TextBox class="userISSI" id="TextBox5" runat="server">-</asp:TextBox></p>--%>
-                       
                         </div>
                     </ItemTemplate>
                 </asp:DataList>
@@ -231,12 +195,9 @@
         <%--<script type='text/javascript' src='js/OpenFile.js'></script>--%>
         <script type='text/javascript' src='js/LogOut.js'></script>
         <script type="text/javascript" src='js/Admin.js'></script>
-        <script type="text/javascript" src='js/AddUser.js'></script>
+<%--        <script type="text/javascript" src='js/AddUser.js'></script>--%>
         <script type="text/javascript" src='js/LoadFile.js'></script>
         <script type="text/javascript" src='js/SaveAs.js'></script>
-
-
-
 
     <%--</body>--%>
 </asp:Content>

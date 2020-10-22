@@ -42,6 +42,7 @@ function AdminButton(name, licenseNr, orgNr, issi, msisdn) {
     this.adMsisdn = msisdn;
     
 }
+// TODO Nu går det att spara en fil även om man inte laddat något txt-dokument. Det sparas i stationsmappen med namnet .txt
 function saveFile() {
    
     //document.getElementById("downloadFile").addEventListener("click", function () {
@@ -220,47 +221,8 @@ function saveFile() {
                 alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
             },
             success: function (result) {
-                alert("We returned: " + result);
+                alert('Sparat');
             }
         });
     }
-  
-
-    
-        //if (adminElements[0].id.includes("TextBox1"))
-        //{
-        //var adminObj = new AdminButton(); 
-        //adminObj.adNamn = adminElements.adNamn;
-        //}
-        //else if (adminElements[0].id.includes("TextBox2"))
-        //{
-        //adminObj.adLicenseNumber = adminElements.adLicenseNumber;
-        //}
-        //else if (adminElements[0].id.includes("TextBox3"))
-        //{
-        //adminObj.adOrgNr = adminElements.adOrgNr;
-        //}
-        //else if (adminElements[0].id.includes("TextBox4"))
-        //{
-        //adminObj.adIssi = adminElements.adIssi;
-        //adminStr = adminObject;
-        //}
-
-        //"{statusArr:" + JSON.stringify(statusArray) + ", tgArr:" + JSON.stringify(tgArray) + ", portArr:" + JSON.stringify(portArray) + ", shortArr:" + JSON.stringify(shortArray) + ", linkArr:" + JSON.stringify(linkArray) + ", quickArr:" + JSON.stringify(quickArray) + "}",
-        //$.ajax({
-        //    type: "POST",
-        //    url: "Default.aspx/DownloadFile_Click",
-        //    data: "{'statusArr':'" + JSON.stringify(statusArray) + "', 'tgArr':'" + JSON.stringify(tgArray) + "', 'portArr':'" + JSON.stringify(portArray) + "', 'shortArr':'" + JSON.stringify(shortArray) + "', 'linkArr':'" + JSON.stringify(linkArray) + "', 'quickArr':'" + JSON.stringify(quickArray) + "', 'adminArr':'" + JSON.stringify(adminArray) + "'}",
-        //    contentType: 'application/json; charset=utf-8',
-        //    dataType: 'json',
-        //    error: function (XMLHttpRequest, textStatus, errorThrown) {
-        //        alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
-        //    },
-        //    success: function (result) {
-        //        alert("We returned: " + result);
-        //    }
-        //});
-    //}
-    //);
-
-    }
+}

@@ -44,7 +44,10 @@
             <h1>Ta bort användare</h1>
             <div class="textboxAdd">
                 <i class="fa fa-user" aria-hidden="true"></i>
-                <input type="text" id="deleteUserInput" class="deleteUserClass" runat="server" placeholder="Ange användarnamn" name="" value=""/>
+                <asp:DropDownList ID="DeleteUserDropDown" class="deleteDD" runat="server" DataTextField="username" DataValueField="id"></asp:DropDownList>
+                <%--<input type="text" id="deleteUserInput" class="deleteUserClass" runat="server" placeholder="Ange användarnamn" name="" value=""/>--%>
+
+
             </div>
           
                 <asp:Button ID="btn2" class="delBtn" runat="server" OnClick="DeleteUser_Click" Text="Radera" OnClientClick="ConfirmDelete()" />

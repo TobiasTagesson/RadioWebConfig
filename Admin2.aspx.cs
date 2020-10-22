@@ -29,6 +29,10 @@ namespace RadioWebConfig
                 return;
             }
             SqlConnection();
+            if (!IsPostBack)
+            {
+                DeleteUserPopulateDropDown();
+            }
         }
 
         protected string SqlConnection()
@@ -46,6 +50,23 @@ namespace RadioWebConfig
 
             return connection;
         }
+
+        protected void DeleteUserPopulateDropDown()
+        {
+            DeleteUserDropDown.Items.Clear();
+            DeleteUserDropDown.DataBind();
+
+            using (SqlConnection con = new SqlConnection(connection))
+            {
+                
+                SqlCommand cmd = new SqlCommand("SELECT username, id, role FROM [Users]", con);
+                con.Open();
+                DeleteUserDropDown.DataSource = cmd.ExecuteReader();
+                DeleteUserDropDown.DataBind();
+                con.Close();
+            }
+        }
+
 
         [WebMethod]
         protected void AddUser_Click(object sender, EventArgs e)
@@ -90,7 +111,6 @@ namespace RadioWebConfig
                         role = Request.Form["selectuser"].ToString();
                     }
 
-                    // TODO: Se till att olika roller får tillgång till det de ska.
 
                     bool exists = false;
                     conn.Open();
@@ -132,12 +152,12 @@ namespace RadioWebConfig
                     conn.Close();
                 }
             }
+            DeleteUserPopulateDropDown();
         }
 
         [WebMethod]
         protected void DeleteUser_Click(object sender, EventArgs e)
         {
-            //TODO: Checka inputvariabler för whitespace osv och för sql injection
             using (SqlConnection conn = new SqlConnection(connection))
             {
                 var commandtext = "select count(*) from[Users] where username = @username";
@@ -145,11 +165,13 @@ namespace RadioWebConfig
                 bool exists = false;
                 conn.Open();
 
-                // Check if username already exists
+                // Check if username exists
                 using (SqlCommand cmd = new SqlCommand(commandtext, conn))
                 {
-                    cmd.Parameters.AddWithValue("username", deleteUserInput.Value);
+                    // cmd.Parameters.AddWithValue("username", deleteUserInput.Value);
+                    cmd.Parameters.AddWithValue("username", DeleteUserDropDown.SelectedItem.Text);
                     exists = (int)cmd.ExecuteScalar() > 0;
+
                 }
 
                 // if exists, show an error message
@@ -169,13 +191,16 @@ namespace RadioWebConfig
 
                         using (SqlCommand cmd = new SqlCommand(commandtextDelete, conn))
                         {
-                            cmd.Parameters.AddWithValue("username", deleteUserInput.Value);
+                            //cmd.Parameters.AddWithValue("username", deleteUserInput.Value);
+                            cmd.Parameters.AddWithValue("username", DeleteUserDropDown.SelectedItem.Text);
+                            
 
                             cmd.ExecuteNonQuery();
                         }
 
-                        conn.Close();
-                        this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Användare " + deleteUserInput.Value + " raderad!')", true);
+                       // this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Användare " + deleteUserInput.Value + " raderad!')", true);
+                        this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Användare " + DeleteUserDropDown.SelectedItem.Text + " raderad.')", true);
+                      
 
                     }
                     else
@@ -184,9 +209,13 @@ namespace RadioWebConfig
                         /* TODO (vid tabs) Efter att man klickat ok på "vill du ta bort användare" på en användare som inte finns i databasen så laddas sidan
                          * om och man kommer till "fel" tab och ser således inte meddelandet:
                          * "Hittar ingen användare med det namnet" Hur stannar man kvar på samma tab efter popup? Skita i tabbar? */
+                       
                     }
+                        conn.Close();
+                    
                 }
             }
+            DeleteUserPopulateDropDown();
         }
     }
 }

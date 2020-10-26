@@ -36,10 +36,35 @@ namespace RadioWebConfig
         public static List<string> filteredLinesInDoc = new List<string>();
         public static List<string> unFilteredLinesInDoc = new List<string>();
         public static List<string> linesInDoc = new List<string>();
+        private static List<ButtonData> _linesInDoc = new List<ButtonData>();
+        class ButtonData
+        {
+            public string Name { get; set; }
+            public string Value { get; set; }
+            public string Line { get; set; }
+            public static ButtonData Parse(string line)
+            {
+                if (line.Contains(","))
+                {
+                    var index = line.IndexOf(',');
+                    var name = line.Substring(0, index);
+                    char[] trim = { '|' }; // Ok att göra så här? För att framförallt url:erna ska funka
+                    var val = line.Substring(index + 1).TrimEnd(trim);
+                    return new ButtonData() { Line = line, Name = name, Value = val };
+                }
+                return null;
+            }
+        }
 
-        public static int listDivider;
+        public static string pathNy { get; } = Settings.Default.ConfigsPath;
+        private static int NumberOfStatusButtons { get; } = 30;
+        private static int NumberOfTGButtons { get; } = 60;
+        private static int NumberOfPortButtons { get; } = 30;
+        private static int NumberOfShortButtons { get; } = 30;
+        private static int NumberOfURLButtons { get; } = 30;
+        private static int NumberOfQuickButtons { get; } = 10;
+      //  private static int NumberOfAdminButtons { get; } = 1;
 
-        public static string pathNy { get; } = Settings.Default.ConfigsPath;    
         public static string station = "";
         public string truck = "";
         public static string truckPath = "";
@@ -147,6 +172,9 @@ namespace RadioWebConfig
 
             shortNrDataList.DataSource = c;
             shortNrDataList.DataBind();
+
+            urlDataList.DataSource = c;
+            urlDataList.DataBind();
         }
         protected void RenderTgTextBoxes(int count)
         {
@@ -159,8 +187,8 @@ namespace RadioWebConfig
         {
             int[] c = new int[count];
 
-            urlDataList.DataSource = c;
-            urlDataList.DataBind();
+           // urlDataList.DataSource = c;
+           // urlDataList.DataBind();
 
             quickButtonDataList.DataSource = c;
             quickButtonDataList.DataBind();
@@ -205,11 +233,11 @@ namespace RadioWebConfig
 
         public static int CheckQuickButtonIndex(int index, string[] lines)
         {
+            int listDivider = 0;
             try
             {
                 string ld = lines[index].Substring(6, 2);
                 string ld2 = lines[index].Substring(6, 1);
-
                 bool successfullyParsed = int.TryParse(ld, out listDivider);
 
                 if (!successfullyParsed)
@@ -232,11 +260,11 @@ namespace RadioWebConfig
        
         public static int CheckButtonIndex(int index, string[] lines)
         {
+            int listDivider = 0;
             try
             {
                 string ld = lines[index].Substring(3, 2);
                 string ld2 = lines[index].Substring(3, 1);
-
                 bool successfullyParsed = int.TryParse(ld, out listDivider);
 
                 if (!successfullyParsed)
@@ -261,47 +289,60 @@ namespace RadioWebConfig
         {
             try
             {
-                int j = 1;
-
-                var lines = linesInDoc.Where(x => x.StartsWith("Status")).ToArray();
-
-                QuickButtonInfo qi = new QuickButtonInfo();
-
-                for (int x = 0; x < lines.Count(); x++)
+                var quickData = _linesInDoc.Where(x => x.Name.StartsWith("Status")).ToArray();
+                for (int i = 1; i <= NumberOfQuickButtons; i++)
                 {
-
-                    CheckQuickButtonIndex(x, lines);
-
-                    if (listDivider == j)
-                    {
-
-                        if (lines[x].Contains("Text,"))
-                        {
-                            qi = new QuickButtonInfo();
-
-                            qi.qbName = ReadValue(lines[x]);
-                        }
-                        else if (lines[x].Contains(string.Format("Status" + listDivider + ",")))
-                        {
-                            qi.qbStatus = ReadValue(lines[x]);
-
-                        }
-                        else if (lines[x].Contains("Dest1,"))
-                        {
-                            qi.qbDest1 = ReadValue(lines[x]);
-
-                        }
-                        else if (lines[x].Contains("Dest2,"))
-                        {
-                            qi.qbDest2 = ReadValue(lines[x]);
-
-                            listObject.quickList.Add(qi);
-                            
-                            j++;
-                        }
-                    }
+                    var info = new QuickButtonInfo();
+                    listObject.quickList.Add(info);
+                    var prefix = $"Status{i}";
+                    info.qbName = GetButtonDataValue(quickData, prefix + "Text");
+                    info.qbStatus = GetButtonDataValue(quickData, prefix);
+                    info.qbDest1 = GetButtonDataValue(quickData, prefix + "Dest1");
+                    info.qbDest2 = GetButtonDataValue(quickData, prefix + "Dest2");
                 }
-                lists.Add(listObject);
+
+
+                //int j = 1;
+
+                //var lines = linesInDoc.Where(x => x.StartsWith("Status")).ToArray();
+
+                //QuickButtonInfo qi = new QuickButtonInfo();
+
+                //for (int x = 0; x < lines.Count(); x++)
+                //{
+
+                //    var listDivider = CheckQuickButtonIndex(x, lines);
+
+                //    if (listDivider == j)
+                //    {
+
+                //        if (lines[x].Contains("Text,"))
+                //        {
+                //            qi = new QuickButtonInfo();
+
+                //            qi.qbName = ReadValue(lines[x]);
+                //        }
+                //        else if (lines[x].Contains(string.Format("Status" + listDivider + ",")))
+                //        {
+                //            qi.qbStatus = ReadValue(lines[x]);
+
+                //        }
+                //        else if (lines[x].Contains("Dest1,"))
+                //        {
+                //            qi.qbDest1 = ReadValue(lines[x]);
+
+                //        }
+                //        else if (lines[x].Contains("Dest2,"))
+                //        {
+                //            qi.qbDest2 = ReadValue(lines[x]);
+
+                //            listObject.quickList.Add(qi);
+
+                //            j++;
+                //        }
+                //    }
+                //}
+                //lists.Add(listObject);
             }
             catch (Exception ex)
             {
@@ -314,38 +355,54 @@ namespace RadioWebConfig
         {
             try
             {
-                int j = 1;
-
-                var lines = linesInDoc.Where(x => x.Contains("Port") && x.StartsWith("Btn")).ToArray();
-
-                PortInfo pi = new PortInfo();
-
-                for (int x = 0; x < lines.Count(); x++)
+                // Egen metod för raden nedan?
+                var portData = _linesInDoc.Where(x => x.Name.StartsWith("Btn") && x.Name.Contains("Port")).ToArray();
+                for (int i = 1; i <= NumberOfPortButtons; i++)
                 {
-                    CheckButtonIndex(x, lines);
-
-                    if (listDivider == j)
-                    {
-
-                        if (lines[x].Contains("PortNamn,"))
-                        {
-                            pi = new PortInfo();
-
-                            pi.portName = ReadValue(lines[x]);
-                        }
-                        else if (lines[x].Contains("PortStatus,"))
-                        {
-                            pi.portStatus = ReadValue(lines[x]);
-                        }
-                        else if (lines[x].Contains("PortDest,"))
-                        {
-                            pi.portDest = ReadValue(lines[x]);
-
-                            listObject.portList.Add(pi);
-                            j++;
-                        }
-                    }
+                    var info = new PortInfo();
+                    listObject.portList.Add(info);
+                    var prefix = $"Btn{i}";
+                    info.portName = GetButtonDataValue(portData, prefix + "PortNamn");
+                    info.portStatus = GetButtonDataValue(portData, prefix + "PortStatus");
+                    info.portDest = GetButtonDataValue(portData, prefix + "PortDest");
+                    //var lat = portData.LastOrDefault(x => x.Name == prefix + "PortLat");
+                    //var lon = portData.LastOrDefault(x => x.Name == prefix + "PortLon");
+                    info.portLat = GetButtonDataValue(portData, prefix + "PortLat");
+                    info.portLon = GetButtonDataValue(portData, prefix + "PortLon");
                 }
+
+                //int j = 1;
+
+                //var lines = linesInDoc.Where(x => x.Contains("Port") && x.StartsWith("Btn")).ToArray();
+
+                //PortInfo pi = new PortInfo();
+
+                //for (int x = 0; x < lines.Count(); x++)
+                //{
+                //    var listDivider = CheckButtonIndex(x, lines);
+
+                //    if (listDivider == j)
+                //    {
+
+                //        if (lines[x].Contains("PortNamn,"))
+                //        {
+                //            pi = new PortInfo();
+
+                //            pi.portName = ReadValue(lines[x]);
+                //        }
+                //        else if (lines[x].Contains("PortStatus,"))
+                //        {
+                //            pi.portStatus = ReadValue(lines[x]);
+                //        }
+                //        else if (lines[x].Contains("PortDest,"))
+                //        {
+                //            pi.portDest = ReadValue(lines[x]);
+
+                //            listObject.portList.Add(pi);
+                //            j++;
+                //        }
+                //    }
+                //}
             }
             catch (ArgumentOutOfRangeException aex)
             {
@@ -358,48 +415,66 @@ namespace RadioWebConfig
             
         }
 
+        //private static string GetButtonDataValue(ButtonData[] portData, string name)
+        //{
+        //    return portData.LastOrDefault(x => x.Name == name)?.Value ?? "";
+        //}
+        private static string GetButtonDataValue(ButtonData[] buttonData, string name)
+        {
+            return buttonData.FirstOrDefault(x => x.Name == name)?.Value ?? "";
+        }
+
         public static void ExtractStatusInfo()
         {
             try
             {
-                int j = 1;
-
-                var lines = linesInDoc.Where(x => x.Contains("Status") && x.StartsWith("Btn")).ToArray();
-
-                StatusInfo si = new StatusInfo();
-                for (int x = 0; x < lines.Count(); x++)
+                var statusData = _linesInDoc.Where(x => x.Name.StartsWith("Btn") && x.Name.Contains("Status")).ToArray();
+                for (int i = 1; i <= NumberOfStatusButtons; i++)
                 {
-
-                    CheckButtonIndex(x, lines);
-
-                    if (listDivider == j)
-                    {
-
-                        if (lines[x].Contains("StatusText,"))
-                        {
-                            si = new StatusInfo();
-
-                            si.stName = ReadValue(lines[x]);
-                        }
-                        else if (lines[x].Contains("Status,"))
-                        {
-                            si.stStatus = ReadValue(lines[x]);
-                        }
-                        else if (lines[x].Contains("StatusDest1,"))
-                        {
-                            si.stDest1 = ReadValue(lines[x]);
-                        }
-                        else if (lines[x].Contains("StatusDest2,"))
-                        {
-                            si.stDest2 = ReadValue(lines[x]);
-
-                            listObject.statusList.Add(si);
-
-                            j++;
-                        }
-                    }
-                    
+                    var info = new StatusInfo();
+                    listObject.statusList.Add(info);
+                    var prefix = $"Btn{i}";
+                    info.stName = GetButtonDataValue(statusData, prefix + "StatusText");
+                    info.stStatus = GetButtonDataValue(statusData, prefix + "Status");
+                    info.stDest1 = GetButtonDataValue(statusData, prefix + "StatusDest1");
+                    info.stDest2 = GetButtonDataValue(statusData, prefix + "StatusDest2");
                 }
+
+
+
+                //int j = 1;
+                //var lines = linesInDoc.Where(x => x.Contains("Status") && x.StartsWith("Btn")).ToArray();
+                //StatusInfo si = new StatusInfo();
+                //for (int x = 0; x < lines.Count(); x++)
+                //{
+                //    var listDivider = CheckButtonIndex(x, lines);
+                //    if (listDivider == j)
+                //    {
+                //        if (lines[x].Contains("StatusText,"))
+                //        {
+                //            si = new StatusInfo();
+
+                //            si.stName = ReadValue(lines[x]);
+                //        }
+                //        else if (lines[x].Contains("Status,"))
+                //        {
+                //            si.stStatus = ReadValue(lines[x]);
+                //        }
+                //        else if (lines[x].Contains("StatusDest1,"))
+                //        {
+                //            si.stDest1 = ReadValue(lines[x]);
+                //        }
+                //        else if (lines[x].Contains("StatusDest2,"))
+                //        {
+                //            si.stDest2 = ReadValue(lines[x]);
+
+                //            listObject.statusList.Add(si);
+
+                //            j++;
+                //        }
+                //    }
+
+                //}
             }
             catch (ArgumentOutOfRangeException aex)
             {
@@ -417,35 +492,38 @@ namespace RadioWebConfig
         {
             try
             {
-                int j = 1;
-
-                var lines = linesInDoc.Where(x => x.Contains("Kort") && x.StartsWith("Btn")).ToArray();
-
-                ShortNrInfo sni = new ShortNrInfo();
-
-                for (int x = 0; x < lines.Count(); x++)
+                var shortData = _linesInDoc.Where(x => x.Name.StartsWith("Btn") && x.Name.Contains("Kort")).ToArray();
+                for (int i = 1; i <= NumberOfShortButtons; i++)
                 {
-                    CheckButtonIndex(x, lines);
-
-                    if (listDivider == j)
-                    {
-
-                        if (lines[x].Contains("KortNamn,"))
-                        {
-                            sni = new ShortNrInfo();
-
-                            sni.shortName = ReadValue(lines[x]);
-                        }
-                        else if (lines[x].Contains("KortNr,"))
-                        {
-                            sni.shortNr = ReadValue(lines[x]);
-
-                            listObject.shortList.Add(sni);
-                            j++;
-
-                        }
-                    }
+                    var info = new ShortNrInfo();
+                    listObject.shortList.Add(info);
+                    var prefix = $"Btn{i}";
+                    info.shortName = GetButtonDataValue(shortData, prefix + "KortNamn");
+                    info.shortNr = GetButtonDataValue(shortData, prefix + "KortNr");
                 }
+
+                //    int j = 1;
+                //    var lines = linesInDoc.Where(x => x.Contains("Kort") && x.StartsWith("Btn")).ToArray();
+                //    ShortNrInfo sni = new ShortNrInfo();
+                //    for (int x = 0; x < lines.Count(); x++)
+                //    {
+                //        var listDivider = CheckButtonIndex(x, lines);
+                //        if (listDivider == j)
+                //        {
+                //            if (lines[x].Contains("KortNamn,"))
+                //            {
+                //                sni = new ShortNrInfo();
+                //                sni.shortName = ReadValue(lines[x]);
+                //            }
+                //            else if (lines[x].Contains("KortNr,"))
+                //            {
+                //                sni.shortNr = ReadValue(lines[x]);
+                //                listObject.shortList.Add(sni);
+                //                j++;
+
+                //            }
+                //        }
+                //    }
             }
             catch (ArgumentOutOfRangeException aex)
             {
@@ -461,36 +539,14 @@ namespace RadioWebConfig
         {
             try
             {
-                int j = 1;
-
-               
-
-                var lines = linesInDoc.Where(x => x.Contains("Url") && x.StartsWith("Btn")).ToArray();
-
-                LinkInfo li = new LinkInfo();
-
-                for (int x = 0; x < lines.Count(); x++)
+                var urlData = _linesInDoc.Where(x => x.Name.StartsWith("Btn") && x.Name.Contains("Url")).ToArray();
+                for (int i = 1; i <= NumberOfURLButtons; i++)
                 {
-                    CheckButtonIndex(x, lines);
-
-                    if (listDivider == j)
-                    {
-
-                        if (lines[x].Contains("UrlNamn,"))
-                        {
-                            li = new LinkInfo();
-
-                            li.linkName = ReadValue(lines[x]);
-                        }
-                        else if (lines[x].Contains("UrlData,"))
-                        {
-                            li.linkUrl = ReadValue(lines[x]);
-
-                            listObject.linkList.Add(li);
-                            j++;
-
-                        }
-                    }
+                    var info = new LinkInfo();
+                    listObject.linkList.Add(info);
+                    var prefix = $"Btn{i}";
+                    info.linkName = GetButtonDataValue(urlData, prefix + "UrlNamn");
+                    info.linkUrl = GetButtonDataValue(urlData, prefix + "UrlData");
                 }
             }
             catch (ArgumentOutOfRangeException aex)
@@ -508,36 +564,45 @@ namespace RadioWebConfig
         {
             try
             {
-                int j = 1;
-
-                var lines = linesInDoc.Where(x => x.Contains("Tg") && x.StartsWith("Btn")).ToArray();
-
-                TgInfo ti = new TgInfo();
-
-                for (int x = 0; x < lines.Count(); x++)
+                var tgData = _linesInDoc.Where(x => x.Name.StartsWith("Btn") && x.Name.Contains("Tg")).ToArray();
+                for (int i = 1; i < NumberOfTGButtons; i++)
                 {
-                    CheckButtonIndex(x, lines);
-
-                    if (listDivider == j)
-                    {
-
-                        if (lines[x].Contains("TgNamn,"))
-                        {
-                            ti = new TgInfo();
-
-                            ti.tgName = ReadValue(lines[x]);
-                            
-                        }
-                        else if (lines[x].Contains("TgGissi,"))
-                        {
-                            ti.tgGissi = ReadValue(lines[x]);
-
-                            listObject.tgList.Add(ti);
-                            j++;
-
-                        }
-                    }
+                    var info = new TgInfo();
+                    listObject.tgList.Add(info);
+                    var prefix = $"Btn{i}";
+                    info.tgName = GetButtonDataValue(tgData, prefix + "TgNamn");
+                    info.tgGissi = GetButtonDataValue(tgData, prefix + "TgGissi");
                 }
+
+
+
+                //int j = 1;
+                //var lines = linesInDoc.Where(x => x.Contains("Tg") && x.StartsWith("Btn")).ToArray();
+                //TgInfo ti = new TgInfo();
+
+                //for (int x = 0; x < lines.Count(); x++)
+                //{
+                //    var listDivider = CheckButtonIndex(x, lines);
+                //    if (listDivider == j)
+                //    {
+
+                //        if (lines[x].Contains("TgNamn,"))
+                //        {
+                //            ti = new TgInfo();
+
+                //            ti.tgName = ReadValue(lines[x]);
+                            
+                //        }
+                //        else if (lines[x].Contains("TgGissi,"))
+                //        {
+                //            ti.tgGissi = ReadValue(lines[x]);
+
+                //            listObject.tgList.Add(ti);
+                //            j++;
+
+                //        }
+                //    }
+                //}
             }
             catch (ArgumentOutOfRangeException aex)
             {
@@ -622,14 +687,26 @@ namespace RadioWebConfig
                     {
                         if (!string.IsNullOrEmpty(line) && (!line.StartsWith("BtnRadio") && (line.StartsWith("Btn") || line.StartsWith("Status"))))
                         {
-
-                            linesInDoc.Add(line);
+                            if(line.StartsWith("StatusBtnColor"))
+                            {
+                                unFilteredLinesInDoc.Add(line);
+                            }
+                            else
+                            {
+                                linesInDoc.Add(line);
+                                var data = ButtonData.Parse(line);
+                                if (data != null)
+                                {
+                                    _linesInDoc.Add(data);
+                                }
+                            }
 
                         }
-                        else if (line.Contains("//"))
-                        {
-
-                        }
+                       // else if (line.Contains("//"))
+                        //else if(line.)
+                        //{
+                            // Vad menas med det här statementet? Är det för att sortera bort URL-buttons? Är de inte redan borta i ovan statement? och varför sortera ut övriga URL:er?
+                        //}
                         else
                         {
                             if (!string.IsNullOrEmpty(line))
@@ -654,8 +731,10 @@ namespace RadioWebConfig
                 ExtractPortInfo();
                 ExtractKortNRInfo();
                 ExtractUrlInfo();
-                ExtractName();
                 ExtractQuickButtonInfo();
+                ExtractName();
+                lists.Add(listObject);
+
                 return lists;
             }
             catch(Exception ex)
@@ -684,17 +763,17 @@ namespace RadioWebConfig
                 OpenFile_Click(truckTxt);
                 GetTruckList();
                 
-                if (fileNameSaveAs.IsNullOrWhiteSpace())
-                {
+               // if (fileNameSaveAs.IsNullOrWhiteSpace())
+               //{
                 fullPathWithFileName = fullPath + "\\" + fileName;
-                }
-                else
-                {
-                    saveAsNewFolder = pathNy + "\\" + station + "\\" + fileNameSaveAs;
-                    Directory.CreateDirectory(saveAsNewFolder);
-                    fullPathWithFileName = saveAsNewFolder + "\\" + fileNameSaveAs + ".txt";
+               // }
+                //else
+                //{
+                //    saveAsNewFolder = pathNy + "\\" + station + "\\" + fileNameSaveAs;
+                //    Directory.CreateDirectory(saveAsNewFolder);
+                //    fullPathWithFileName = saveAsNewFolder + "\\" + fileNameSaveAs + ".txt";
 
-                }
+                //}
 
                 JavaScriptSerializer json = new JavaScriptSerializer();
                 List<StatusInfo> statusList = json.Deserialize<List<StatusInfo>>(statusArr);
@@ -836,7 +915,11 @@ namespace RadioWebConfig
                             sw.WriteLine(string.Format("Btn" + (i + 1) + "PortNamn," + portList[i].portName + "|"));
                             sw.WriteLine(string.Format("Btn" + (i + 1) + "PortStatus," + portList[i].portStatus + "|"));
                             sw.WriteLine(string.Format("Btn" + (i + 1) + "PortDest," + portList[i].portDest + "|"));
-                            sw.WriteLine("");
+                            sw.WriteLine(string.Format("Btn" + (i + 1) + "PortLat," + portList[i].portLat + "|"));
+                            sw.WriteLine(string.Format("Btn" + (i + 1) + "PortLon," + portList[i].portLon + "|"));
+
+
+                        sw.WriteLine("");
                         }
                         for (int i = 0; i < shortList.Count; i++)
                         {

@@ -52,7 +52,7 @@
                 <%--<li class="addUserBtn" id="userInfo"><a href="/Admin2.aspx"><i class="fas fa-pen"></i>Lägg till användare</a></li>--%>
                 <li class="preview" id="previewFile"><a href="/Stations.aspx"><i class="fas fa-charging-station"></i>Stationer</a></li>
                 <%--<li class="preview" id="previewFile"><a href="#"><i class="fas fa-search-plus"></i>Förhandsgranska</a></li>--%>
-
+            </ul>
 </div>
      <div class="TextboxField">
         <div id="statusButton" hidden="hidden">
@@ -97,6 +97,10 @@
                        <p class="row" id="portName">Namn<asp:TextBox class="portTB" id="TextBox1" runat="server">-</asp:TextBox></p> 
                        <p class="row" id="portStatus">Status<asp:TextBox class="portTB" id="TextBox2" runat="server">0</asp:TextBox></p>
                        <p class="row" id="portDest">Dest<asp:TextBox class="portTB" id="TextBox3" runat="server">0</asp:TextBox></p>
+                       <p class="row" id="portLat">Lat<asp:TextBox class="portTB" id="TextBox4" runat="server">0</asp:TextBox></p>
+                       <p class="row" id="portLon">Lon<asp:TextBox class="portTB" id="TextBox5" runat="server">0</asp:TextBox></p>
+
+
                         </div>
                     </ItemTemplate>
                 </asp:DataList>
@@ -124,7 +128,7 @@
                         </h1>
                         
                        <p class="row" id="urlName">Namn<asp:TextBox class="urlTB" id="TextBox1" runat="server">-</asp:TextBox></p> 
-                       <p class="row" id="url">URL<asp:TextBox class="urlTB" id="TextBox2" runat="server">-</asp:TextBox></p>
+                       <p class="row" id="url">URL<asp:TextBox class="urlTB" id="TextBox2" runat="server"></asp:TextBox></p>
                            <p class="row" id="urlLink">Besök URL:</p> 
                             <input type="button" id="linkBtn" class="urlHL" onclick="redirect(this.value)" />
                         </div>

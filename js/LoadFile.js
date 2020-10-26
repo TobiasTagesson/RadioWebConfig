@@ -74,6 +74,11 @@ document.addEventListener('DOMContentLoaded', function (truckNo2) {
                 k++;
                 portTB[k].value = lists.d[0].portList[x].portDest;
                 k++;
+                portTB[k].value = lists.d[0].portList[x].portLat;
+                k++;
+                portTB[k].value = lists.d[0].portList[x].portLon;
+                k++;
+
             }
 
             k = 0;

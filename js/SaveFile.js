@@ -11,10 +11,12 @@ function Talkgroup(name, gissi) {
     this.tgGissi = gissi;
 }
 
-function Port(name, status, dest) {
+function Port(name, status, dest, lat, lon) {
     this.portName = name;
     this.portStatus = status;
     this.portDest = dest;
+    this.portLat = lat;
+    this.portLon = lon;
 }
 
 function ShortNumber(name, number) {
@@ -42,9 +44,11 @@ function AdminButton(name, licenseNr, orgNr, issi, msisdn) {
     this.adMsisdn = msisdn;
     
 }
-// TODO Nu går det att spara en fil även om man inte laddat något txt-dokument. Det sparas i stationsmappen med namnet .txt
+// TODO Nu går det dessvärre att spara en fil även om man inte laddat något txt-dokument. Det sparas i stationsmappen med namnet .txt och är tomt
 function saveFile() {
-   
+
+    //var truckExist = <%= truck %>;
+
     //document.getElementById("downloadFile").addEventListener("click", function () {
         var statusElements = document.getElementsByClassName("statusTB");
         var tgElements = document.getElementsByClassName("tgTB");
@@ -121,6 +125,12 @@ function saveFile() {
             else if (portElements[i].id.indexOf("TextBox3") > -1) {
                 //else if (portElements[i].id.includes("TextBox3")) {
                 portObject.portDest = portElements[i].value;
+            }
+            else if (portElements[i].id.indexOf("TextBox4") > -1) {
+                portObject.portLat = portElements[i].value;
+            }
+            else if (portElements[i].id.indexOf("TextBox5") > -1) {
+                portObject.portLon = portElements[i].value;
                 portArray.push(portObject);
             }
         }

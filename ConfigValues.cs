@@ -32,6 +32,9 @@ namespace RadioWebConfig
         public string portName { get; set; }
         public string portStatus { get; set; }
         public string portDest { get; set; }
+        public string portLat { get; set; }
+        public string portLon { get; set; }
+
     }
     public class ShortNrInfo
     {

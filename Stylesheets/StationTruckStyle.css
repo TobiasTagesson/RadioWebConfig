@@ -181,3 +181,21 @@
     /*display: inline-block;*/
    /*display: flex;*/
 }
+#trashcan{
+    color: red;
+    margin-left: 15px;
+
+}
+    #trashcan:hover {
+        cursor: pointer;
+    }
+#trashcanTruck {
+    color: red;
+    margin-left: 10px;
+}
+    #trashcanTruck:hover {
+        color: red;
+        margin-left: 15px;
+        cursor: pointer;
+    }
+    

@@ -2,7 +2,6 @@
 using RadioWebConfig.Properties;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -15,7 +14,7 @@ namespace RadioWebConfig
 {
     public partial class ShowTrucks : System.Web.UI.Page
     {
-        string connection = "";
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -30,29 +29,11 @@ namespace RadioWebConfig
             //    Response.Redirect("~/Default.aspx");
             //    return;
             //}
-            SqlConnection();
+           // SqlConnection();
 
             GetTrucks();
-            
-            
-
         }
 
-        protected string SqlConnection()
-        {
-            SqlConnection conn = new SqlConnection(
-            new SqlConnectionStringBuilder()
-            {
-                DataSource = "(localdb)\\MSSQLLocalDB",
-                InitialCatalog = "WebAppUsers"
-
-            }.ConnectionString
-            );
-
-            connection = conn.ConnectionString;
-
-            return connection;
-        }
         public string station;
         private void GetTrucks()
         {
@@ -60,20 +41,19 @@ namespace RadioWebConfig
             station = Request.QueryString["name"];
             var truckPath = path + "\\" + station;
             string[] dirs = Directory.GetDirectories(truckPath);
+
             //dubbelkolla att det är en giltig kod
-            //redirect till default.aspx
-            if(truckPath.IsNullOrWhiteSpace() || truckPath.IndexOfAny(Path.GetInvalidPathChars()) >= 0) //TODO En sån här koll?
+            if(truckPath.IsNullOrWhiteSpace() || truckPath.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
             {
                 Response.Redirect("Default.aspx");
             }
-            Session.Add("TruckPath", truckPath);
-
+            Session.Add("TruckPath", truckPath);    
 
             try
             {
                 foreach (string dir in dirs)
                 {
-                    lbl.Text += $"<div class='truckdiv'>{Path.GetFileName(dir)}<a class='trucks' href='Default.aspx?name={station}&Truck={Path.GetFileName(dir)}'>Redigera</a><a class='trucks' id='saveAs' href='AddVehicle?name={station}&Truck={Path.GetFileName(dir)}' >Skapa Kopia</a></div>";
+                    lbl.Text += $"<div class='truckdiv'>{Path.GetFileName(dir)}<a class='trucks' href='Default.aspx?name={station}&Truck={Path.GetFileName(dir)}'>Redigera</a><a class='trucks' id='saveAs' href='AddVehicle?name={station}&Truck={Path.GetFileName(dir)}' >Skapa Kopia</a><a onclick='DeleteTruck(\"{station}\", \"{Path.GetFileName(dir)}\");' <i id='trashcanTruck' class='fa fa-trash'/></a></div>"; ;
                 }
                 if (dirs.Length <= 0)
                 {
@@ -81,10 +61,24 @@ namespace RadioWebConfig
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 lbl.Text = "Något blev fel";
+                _logger.Error(ex.ToString());
             }
+        }
+
+        [WebMethod]
+        [ScriptMethod]
+        public static string DeleteTruck(string station, string truck)
+        {
+            string stationNo = station;
+            string truckNo = truck;
+            string truckPath = Settings.Default.ConfigsPath + "\\" + stationNo + "\\" + truckNo;
+            Directory.Delete(truckPath, true);
+            // Respons?
+
+            return truckNo;
         }
     }
 

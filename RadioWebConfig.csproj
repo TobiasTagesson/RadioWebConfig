@@ -153,7 +153,6 @@
     <Content Include="js\LoadFile.js" />
     <Content Include="js\LogOut.js" />
     <Content Include="js\OpenFile.js" />
-    <Content Include="js\SaveAs.js" />
     <Content Include="js\SaveFile.js" />
     <Content Include="js\Port.js" />
     <Content Include="js\QuickButtons.js" />

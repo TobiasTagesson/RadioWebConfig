@@ -1,6 +1,7 @@
-﻿using System;
+﻿using RadioWebConfig.Properties;
+using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -10,9 +11,6 @@ namespace RadioWebConfig
 {
     public partial class AddStation : System.Web.UI.Page
     {
-        string connection = "";
-
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["myUser"] == null)
@@ -26,36 +24,44 @@ namespace RadioWebConfig
                 Response.Redirect("~/Default.aspx");
                 return;
             }
-            SqlConnection();
         }
 
-        protected string SqlConnection()
-        {
-            SqlConnection conn = new SqlConnection(
-            new SqlConnectionStringBuilder()
-            {
-                DataSource = "(localdb)\\MSSQLLocalDB",
-                InitialCatalog = "WebAppUsers"
-
-            }.ConnectionString
-            );
-
-            connection = conn.ConnectionString;
-
-            return connection;
-        }
-
-        protected void AddTruck_Click(object sender, EventArgs e)
+        protected void AddStation_Click(object sender, EventArgs e)
         {
             var stationNo = Request["stationNoTB"];
-            Stations.AddNewStation(stationNo);
+            bool exist = CheckIfStationAlreadyExist(stationNo);
 
+            if (exist == true)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "stationAlreadyExists", "alert('Stationsnummer finns redan');", true);
+            }
+            else 
+            { 
+            Stations.AddNewStation(stationNo);
             var redirectLocation = Page.ResolveUrl("ShowTrucks.aspx?name=" + stationNo);
             var title = "Station";
             var message = "Station tillagd";
             var scriptTemplate = "alert('{0}','{1}'); location.href='{2}'";
             var script = string.Format(scriptTemplate, message, title, redirectLocation);
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "stationAdded", script, true);
+            }
+        }
+
+        private bool CheckIfStationAlreadyExist(string stationNo)
+        {
+            var path = Settings.Default.ConfigsPath;
+            var files = Directory.EnumerateDirectories(path);
+            bool exist = false;
+
+            foreach (var file in files)
+            {
+                if (file.Contains(stationNo))
+                {
+                    exist = true;
+                    break;
+                }
+            }
+            return exist;
         }
     }
 }

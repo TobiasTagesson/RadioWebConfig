@@ -38,4 +38,5 @@
 </body>
 </html>
         <script type="text/javascript" src='js/AddStation.js'></script>
+        <script type="text/javascript" src='js/AddVehicle.js'></script>
         <script type="text/javascript" src="js/LogOut.js"></script>

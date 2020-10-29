@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -13,30 +14,31 @@ namespace RadioWebConfig
 
     public partial class LogIn : System.Web.UI.Page
     {
-        string connection = "";
+        //string connection = "";
         public static string uid { get; set; } = "";
         string pass = "";
+        string connection = ConfigurationManager.ConnectionStrings["connection"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
-            SQLConnection();
+           // SQLConnection();
         }
-        protected string SQLConnection()
-        {
-            SqlConnection conn = new SqlConnection(
-            new SqlConnectionStringBuilder()
-            {
-                DataSource = "(localdb)\\MSSQLLocalDB",
-                InitialCatalog = "WebAppUsers"
-                //Authentication = SqlAuthenticationMethod.ActiveDirectoryIntegrated
-                //UserID = "test",
-                //Password = "test"
-            }.ConnectionString
-            );
+        //protected string SQLConnection()
+        //{
+        //    SqlConnection conn = new SqlConnection(
+        //    new SqlConnectionStringBuilder()
+        //    {
+        //        DataSource = "(localdb)\\MSSQLLocalDB",
+        //        InitialCatalog = "WebAppUsers"
+        //        //Authentication = SqlAuthenticationMethod.ActiveDirectoryIntegrated
+        //        //UserID = "test",
+        //        //Password = "test"
+        //    }.ConnectionString
+        //    );
 
-            connection = conn.ConnectionString;
+        //    connection = conn.ConnectionString;
 
-            return connection;
-        }
+        //    return connection;
+        //}
 
 
 

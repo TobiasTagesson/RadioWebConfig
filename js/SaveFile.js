@@ -45,11 +45,14 @@ function AdminButton(name, licenseNr, orgNr, issi, msisdn) {
     
 }
 // TODO Nu går det dessvärre att spara en fil även om man inte laddat något txt-dokument. Det sparas i stationsmappen med namnet .txt och är tomt
-function saveFile() {
+function saveFile(truckNo) {
+    if (!truckNo)
+        alert("Ingen fil laddad");
+    else {
 
-    //var truckExist = <%= truck %>;
+        //var truckExist = <%= truck %>;
 
-    //document.getElementById("downloadFile").addEventListener("click", function () {
+        //document.getElementById("downloadFile").addEventListener("click", function () {
         var statusElements = document.getElementsByClassName("statusTB");
         var tgElements = document.getElementsByClassName("tgTB");
         var portElements = document.getElementsByClassName("portTB");
@@ -215,24 +218,25 @@ function saveFile() {
                 adminArray.push(adminObject);
 
             }
-    }
+        }
 
-    if (adminObject.adOrgNr == null || adminObject.adOrgNr == "" || adminObject.adOrgNr.length != 7) {
-        alert("OrgNr-fältet får inte vara tomt och måste innehålla 7 siffror!");
-    }
-    else {
-        $.ajax({
-            type: "POST",
-            url: "Default.aspx/DownloadFile_Click",
-            data: "{'statusArr':'" + JSON.stringify(statusArray) + "', 'tgArr':'" + JSON.stringify(tgArray) + "', 'portArr':'" + JSON.stringify(portArray) + "', 'shortArr':'" + JSON.stringify(shortArray) + "', 'linkArr':'" + JSON.stringify(linkArray) + "', 'quickArr':'" + JSON.stringify(quickArray) + "', 'adminArr':'" + JSON.stringify(adminArray) + "'}",
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
-            },
-            success: function (result) {
-                alert('Sparat');
-            }
-        });
+        if (adminObject.adOrgNr == null || adminObject.adOrgNr == "" || adminObject.adOrgNr.length != 7) {
+            alert("OrgNr-fältet får inte vara tomt och måste innehålla 7 siffror.");
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "Default.aspx/DownloadFile_Click",
+                data: "{'statusArr':'" + JSON.stringify(statusArray) + "', 'tgArr':'" + JSON.stringify(tgArray) + "', 'portArr':'" + JSON.stringify(portArray) + "', 'shortArr':'" + JSON.stringify(shortArray) + "', 'linkArr':'" + JSON.stringify(linkArray) + "', 'quickArr':'" + JSON.stringify(quickArray) + "', 'adminArr':'" + JSON.stringify(adminArray) + "'}",
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
+                },
+                success: function (result) {
+                    alert('Sparat');
+                }
+            });
+        }
     }
 }

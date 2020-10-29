@@ -1,6 +1,7 @@
 ﻿using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -12,8 +13,7 @@ namespace RadioWebConfig
 {
     public partial class Admin2 : System.Web.UI.Page
     {
-        string connection = "";
-
+        string connection = ConfigurationManager.ConnectionStrings["connection"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -28,27 +28,10 @@ namespace RadioWebConfig
                 Response.Redirect("~/Default.aspx");
                 return;
             }
-            SqlConnection();
             if (!IsPostBack)
             {
                 DeleteUserPopulateDropDown();
             }
-        }
-
-        protected string SqlConnection()
-        {
-            SqlConnection conn = new SqlConnection(
-            new SqlConnectionStringBuilder()
-            {
-                DataSource = "(localdb)\\MSSQLLocalDB",
-                InitialCatalog = "WebAppUsers"
-
-            }.ConnectionString
-            );
-
-            connection = conn.ConnectionString;
-
-            return connection;
         }
 
         protected void DeleteUserPopulateDropDown()
@@ -74,7 +57,6 @@ namespace RadioWebConfig
             // passwordinput från client
             var pw = string.Empty;
 
-            // Kolla otillåtna tecken
             try
             {
                 inputEmptyField.Visible = false;
@@ -191,16 +173,11 @@ namespace RadioWebConfig
 
                         using (SqlCommand cmd = new SqlCommand(commandtextDelete, conn))
                         {
-                            //cmd.Parameters.AddWithValue("username", deleteUserInput.Value);
                             cmd.Parameters.AddWithValue("username", DeleteUserDropDown.SelectedItem.Text);
-                            
-
                             cmd.ExecuteNonQuery();
                         }
 
-                       // this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Användare " + deleteUserInput.Value + " raderad!')", true);
                         this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Användare " + DeleteUserDropDown.SelectedItem.Text + " raderad.')", true);
-                      
 
                     }
                     else

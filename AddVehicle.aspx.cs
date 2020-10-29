@@ -14,7 +14,6 @@ namespace RadioWebConfig
 {
     public partial class AddVehicle : System.Web.UI.Page
     {
-        string connection = "";
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         string path = Settings.Default.ConfigsPath;
         public string stationNo = "";
@@ -32,25 +31,8 @@ namespace RadioWebConfig
             //    Response.Redirect("~/Default.aspx");
             //    return;
             //}
-            SqlConnection();
             GetQueryString();
         }
-
-        protected string SqlConnection()
-        {
-            SqlConnection conn = new SqlConnection(
-            new SqlConnectionStringBuilder()
-            {
-                DataSource = "(localdb)\\MSSQLLocalDB",
-                InitialCatalog = "WebAppUsers"
-
-            }.ConnectionString
-            );
-
-            connection = conn.ConnectionString;
-
-            return connection;
-        }   
 
         public void GetQueryString()
         {
@@ -62,25 +44,25 @@ namespace RadioWebConfig
             { 
                 string station = Request.QueryString["name"];
                 var oldTruck = Request.QueryString["Truck"];
-
-
                 var truckNo =  Request["TruckNoTB"];
-             //TODO checka förbjudna tecken. Vad händer om det är förbjudna tecken? Min jQuery-validering borde räcka
-                if (truckNo.IsNullOrWhiteSpace() || truckNo.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
+
+                bool exist = CheckIfTruckAlreadyExist(station, truckNo);
+
+                if(exist == true)
                 {
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "stationAlreadyExists", "alert('Stationsnummer finns redan');", true);
 
                 }
-                    //var stationPath = Settings.Default.ConfigsPath + "\\" + station;
-
-                    Stations.CopyTruckfolder(station, truckNo, oldTruck);
-
+                else
+                {
+                Stations.CopyTruckfolder(station, truckNo, oldTruck);
                 var redirectLocation = Page.ResolveUrl("Default.aspx?name=" + station + "&Truck=" + truckNo);
                 var title = "Fordon";
                 var message = "Fordon tillagt";
                 var scriptTemplate = "alert('{0}','{1}'); location.href='{2}'";
                 var script = string.Format(scriptTemplate, message, title, redirectLocation);
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "truckAdded", script, true);
-
+                }
             }
            
             catch (Exception ex)
@@ -89,7 +71,21 @@ namespace RadioWebConfig
             }
         }
 
-            
+        private bool CheckIfTruckAlreadyExist(string station, string truckNo)
+        {
+            var path = Settings.Default.ConfigsPath + "\\" + station;
+            var files = Directory.EnumerateDirectories(path);
+            bool exist = false;
 
+            foreach (var file in files)
+            {
+                if (file.Contains(truckNo))
+                {
+                    exist = true;
+                    break;
+                }
+            }
+            return exist;
         }
+    }
     }

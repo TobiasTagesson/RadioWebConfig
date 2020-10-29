@@ -21,7 +21,7 @@
             <ul>
                 
                 <%--<li class="download" id="downloadFile"><a href="#"><i class="fas fa-download"></i>Spara</a></li>--%>
-                <li class="download" id="downloadFile" onclick="saveFile()"><a href="#"><i class="fas fa-download"></i>Spara</a></li>
+                <li class="download" id="downloadFile" onclick="saveFile(<%= truck %>)"><a href="#"><i class="fas fa-download"></i>Spara</a></li>
                 
                 <%--<li class="download" id="saveAs" onclick="saveDocumentAs()"><a href="#"><i class="fas fa-download"></i>Spara Som</a></li>--%>
             <%--    <li class="open" id="openFile"><a href="#" id="openF" ><i class="fas fa-folder-open"></i>Öppna</a>
@@ -201,7 +201,7 @@
         <script type="text/javascript" src='js/Admin.js'></script>
 <%--        <script type="text/javascript" src='js/AddUser.js'></script>--%>
         <script type="text/javascript" src='js/LoadFile.js'></script>
-        <script type="text/javascript" src='js/SaveAs.js'></script>
+        <%--<script type="text/javascript" src='js/SaveAs.js'></script>--%>
 
     <%--</body>--%>
 </asp:Content>

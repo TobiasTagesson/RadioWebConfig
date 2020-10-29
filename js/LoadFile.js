@@ -4,11 +4,12 @@
 var file = window.location.href;
 var truckNo = String(file).split("&Truck=");
 var truckSplit = truckNo[1];
-var saveSplit = String(truckSplit).split("&SaveAs=");
-var truckNo2 = saveSplit[0];
+var truckNo2 = truckSplit + ".txt";
+//var saveSplit = String(truckSplit).split("&SaveAs=");
+//var truckNo2 = saveSplit[0];
 
 
-document.addEventListener('DOMContentLoaded', function (truckNo2) {
+document.addEventListener('DOMContentLoaded', function () {
     $.ajax({
         type: "POST",
         url: "Default.aspx/OpenFile_Click",

@@ -3,14 +3,14 @@
     $.ajax({
         type: "POST",
         url: "Default.aspx/ClearSession",
-        data: "{}",
+        data: "",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function () {
-          
+           
         }
     });
-    window.location.href = '/LogIn.aspx';
+         window.location.href = '/LogIn.aspx';
 
 });
 

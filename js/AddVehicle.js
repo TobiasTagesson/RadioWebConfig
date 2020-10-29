@@ -34,3 +34,30 @@ $(document).ready(function () {
             }
         });
 });
+
+
+function DeleteTruck(station, truck) {
+    var respons = confirm('Vill du radera fordon: ' + truck);
+
+    if (respons == true) {
+
+        $.ajax({
+            type: "POST",
+            url: "ShowTrucks.aspx/DeleteTruck",
+            data: "{'station':'" + station + "', truck:'" + truck + "'}",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function (newValue) {
+                if (newValue != null || newValue != "")
+                    alert("Fordon raderat");
+
+            }
+        });
+
+
+    }
+    else {
+        alert("Fordonet raderas ej");
+    }
+
+}

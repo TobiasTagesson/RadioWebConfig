@@ -20,7 +20,7 @@ function goToAddTruck() {
 var file = window.location.href;
 var stationNo1 = String(file).split("?name=");
 var stationNo2 = stationNo1[1];
-    window.location.href = "AddVehicle.aspx?name=" + stationNo2 + "&Truck=mall";
+    window.location.href = "AddVehicle.aspx?name=" + stationNo2 + "&Truck=createNew";
 }
 
 
@@ -34,3 +34,29 @@ window.addEventListener('load', function () {
 
     }
 });
+
+function DeleteStation(station) {
+    var respons = confirm('Vill du radera station: ' + station);
+
+    if (respons == true) {
+
+        $.ajax({
+            type: "POST",
+            url: "Stations.aspx/DeleteStation",
+            data: "{'val':'" + station + "'}",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function (newValue) {
+                if (newValue != null || newValue != "")
+                alert("Station raderad");
+                   
+            }
+        });
+
+
+    }
+    else {
+        alert("Stationen raderas ej");
+    }
+    
+}

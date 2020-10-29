@@ -25,10 +25,19 @@ namespace RadioWebConfig.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\tobia\\Desktop\\Celab\\android")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\tobia\\Desktop\\Celab\\Hans")]
         public string ConfigsPath {
             get {
                 return ((string)(this["ConfigsPath"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\tobia\\Desktop\\Celab\\Hans\\default.txt")]
+        public string ConfigDefaultTemplate {
+            get {
+                return ((string)(this["ConfigDefaultTemplate"]));
             }
         }
     }

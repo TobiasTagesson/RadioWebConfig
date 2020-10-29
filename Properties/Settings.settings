@@ -3,7 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="ConfigsPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">C:\Users\tobia\Desktop\Celab\android</Value>
+      <Value Profile="(Default)">C:\Users\tobia\Desktop\Celab\Hans</Value>
+    </Setting>
+    <Setting Name="ConfigDefaultTemplate" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Users\tobia\Desktop\Celab\Hans\default.txt</Value>
     </Setting>
   </Settings>
 </SettingsFile>

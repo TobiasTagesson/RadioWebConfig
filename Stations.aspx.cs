@@ -3,7 +3,6 @@ using RadioWebConfig.Properties;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -20,8 +19,8 @@ namespace RadioWebConfig
 {
     public partial class Stations : System.Web.UI.Page
     {
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
-        string connection = "";
         public static string path { get; } = Settings.Default.ConfigsPath;
         public static string stationNr;
         public static string newStationFolder;
@@ -48,27 +47,11 @@ namespace RadioWebConfig
             //    Response.Redirect("~/Default.aspx");
             //    return;
             //}
-            SqlConnection();
 
             GetDirectories();
             AdminHidden.Value = user.Role.ToString();
         }
 
-        protected string SqlConnection()
-        {
-            SqlConnection conn = new SqlConnection(
-            new SqlConnectionStringBuilder()
-            {
-                DataSource = "(localdb)\\MSSQLLocalDB",
-                InitialCatalog = "WebAppUsers"
-
-            }.ConnectionString
-            );
-
-            connection = conn.ConnectionString;
-
-            return connection;
-        }
         private void GetDirectories()
         {
             var user = Session["myUser"] as LoggedInUser;
@@ -85,7 +68,8 @@ namespace RadioWebConfig
                 {
                     foreach (string dir in dirs)
                     {
-                        lbl.Text += $"<div class='stationdiv'><a class='stations' href='ShowTrucks.aspx?name={Path.GetFileName(dir)}' >" + Path.GetFileName(dir) + "</a></div>";
+                        lbl.Text += $"<div class='stationdiv'><a class='stations' href='ShowTrucks.aspx?name={Path.GetFileName(dir)}' >" + Path.GetFileName(dir) + $"</a><a onclick='DeleteStation(\"{Path.GetFileName(dir)}\");' <i id='trashcan' class='fa fa-trash'/></a></div>";
+
 
                     }
                 }
@@ -95,7 +79,7 @@ namespace RadioWebConfig
 
                     foreach (string dir in dirs.Where(x => x.Equals(path + "\\" + user.UserName)))
                     {
-                        lbl.Text += $"<div class='stationdiv'><a class='stations' href='ShowTrucks.aspx?name={Path.GetFileName(dir)}' >" + Path.GetFileName(dir) + "</a></div>";
+                        lbl.Text += $"<div class='stationdiv'><a class='stations' href='ShowTrucks.aspx?name={Path.GetFileName(dir)}' >" + Path.GetFileName(dir) + $"</a><a onclick='DeleteStation(\"{Path.GetFileName(dir)}\");' <i id='trashcan' class='fa fa-trash'/></a></div>";
 
                     }
                 }
@@ -105,25 +89,21 @@ namespace RadioWebConfig
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 lbl.Text = "Något blev fel";
+                _logger.Error(ex.ToString());
             }
         }
 
 
-        [WebMethod]
-        [ScriptMethod]
         public static string AddNewStation(string val)
         {
-            // TODO Den här metoden är kaos. Funkar ibland och ibland inte. Ingen krasch men ingen mapp skapas om jag inte breakpointar mig igenom den. Verkar funka vid Thread.Sleep-addering
-            //Validering av tecken
-            //if (val.IsNullOrWhiteSpace() || val.IndexOfAny(Path.GetInvalidPathChars()) >= 0) // TODO vad ska hända här?
-                HttpContext.Current.Session["value"] = val; 
+            HttpContext.Current.Session["value"] = val; 
 
             stationNr = val;
             newStationFolder = path + "\\" + stationNr;
-            Thread.Sleep(500); // Lägga till tid så metoden fungerar..? Verkar funka nu
+            //Thread.Sleep(500); // Lägga till tid så metoden fungerar..? Verkar funka nu
             Directory.CreateDirectory(newStationFolder);
 
             return stationNr;
@@ -131,27 +111,39 @@ namespace RadioWebConfig
       
         public static void CopyTruckfolder(string stationFolder, string truckFolder, string oldTruckNo)
         {
-            // TODO namn behöver tweakas beroende på path man läser ifrån
-            // vid skapa ny måste stationfolder heta "mall" annars heter den det som skickas in i metoden
+           
             string dest = Settings.Default.ConfigsPath + "\\" + stationFolder + "\\" + truckFolder;
 
-            // TODO för knasig funktion nedan?
-            if (oldTruckNo == "mall")
+            if (oldTruckNo == "createNew")
             {
-                sourceFolder = Settings.Default.ConfigsPath + "\\" + "mall";
+                sourceFile = Settings.Default.ConfigDefaultTemplate;
             }
             else
             {
             sourceFolder = Settings.Default.ConfigsPath + "\\" + stationFolder + "\\" + oldTruckNo;
-            }
-            Directory.CreateDirectory(dest);
             defaultFileName = oldTruckNo + ".txt";
             sourceFile = Path.Combine(sourceFolder, defaultFileName);
+            }
+            Directory.CreateDirectory(dest);
             var defaultFileNameNew = truckFolder + ".txt";
             destFile = Path.Combine(dest, defaultFileNameNew);
             File.Copy(sourceFile, destFile, true);
         }
 
+        [WebMethod]
+        [ScriptMethod]
+        public static string DeleteStation(string val)
+        {
+            string stationNr = val;
+            string stationPath = Settings.Default.ConfigsPath + "\\" + stationNr;
+            Directory.Delete(stationPath, true);
+            // Respons?
+
+            return stationNr;
+        }
+
     }
+
+
 
 }

@@ -22,7 +22,7 @@
             <h1 id="rubrik">Lägg till station</h1>
         <div id="container">
             <input id="stationNoTB" class="stationInput" runat="server"/>
-            <asp:Button ID="submitBtn" CssClass="submitBtn" onclick="AddTruck_Click" runat="server" Text="Lägg till" disabled="true"></asp:Button>
+            <asp:Button ID="submitBtn" CssClass="submitBtn" onclick="AddStation_Click" runat="server" Text="Lägg till" disabled="true"></asp:Button>
             <a id="valmessage"></a>
         </div>
         <div id="backtostationlink"><a id="backtostationstext" href="Stations.aspx">Tillbaka till stationssidan</a></div>

@@ -53,7 +53,7 @@ namespace RadioWebConfig
             {
                 foreach (string dir in dirs)
                 {
-                    lbl.Text += $"<div class='truckdiv'>{Path.GetFileName(dir)}<a class='trucks' href='Default.aspx?name={station}&Truck={Path.GetFileName(dir)}'>Redigera</a><a class='trucks' id='saveAs' href='AddVehicle?name={station}&Truck={Path.GetFileName(dir)}' >Skapa Kopia</a><a onclick='DeleteTruck(\"{station}\", \"{Path.GetFileName(dir)}\");' <i id='trashcanTruck' class='fa fa-trash'/></a></div>"; ;
+                    lbl.Text += $"<div class='truckdiv'>{Path.GetFileName(dir)}<a class='trucks' href='Default.aspx?name={station}&Truck={Path.GetFileName(dir)}'>Redigera</a><a class='trucks' id='saveAs' href='AddVehicle?name={station}&Truck={Path.GetFileName(dir)}' >Skapa Kopia</a><a onclick='DeleteTruck(\"{station}\", \"{Path.GetFileName(dir)}\");' <i id='trashcanTruck' class='fa fa-trash' title='Radera fordon'/></a></div>"; ;
                 }
                 if (dirs.Length <= 0)
                 {

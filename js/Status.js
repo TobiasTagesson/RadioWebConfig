@@ -8,8 +8,6 @@
     }
 });
 
-//newHeader();
-
 document.getElementById("statusInfo").addEventListener("click", function () {
 
     document.getElementById("talkgroupButton").hidden = true;

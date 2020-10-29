@@ -53,8 +53,6 @@ function DeleteTruck(station, truck) {
 
             }
         });
-
-
     }
     else {
         alert("Fordonet raderas ej");

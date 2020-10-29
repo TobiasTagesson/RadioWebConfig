@@ -44,15 +44,11 @@ function AdminButton(name, licenseNr, orgNr, issi, msisdn) {
     this.adMsisdn = msisdn;
     
 }
-// TODO Nu går det dessvärre att spara en fil även om man inte laddat något txt-dokument. Det sparas i stationsmappen med namnet .txt och är tomt
 function saveFile(truckNo) {
     if (!truckNo)
         alert("Ingen fil laddad");
     else {
 
-        //var truckExist = <%= truck %>;
-
-        //document.getElementById("downloadFile").addEventListener("click", function () {
         var statusElements = document.getElementsByClassName("statusTB");
         var tgElements = document.getElementsByClassName("tgTB");
         var portElements = document.getElementsByClassName("portTB");

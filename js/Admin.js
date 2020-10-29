@@ -10,16 +10,12 @@ window.addEventListener('load', function () {
         $(document).ready(function () {
             //$('#userInfo, #adminInfo').hide();
             $('#userInfo').hide();
-
         })
-
     }
-
      for (var i = 0; i < elements.length; i++) {
          elements[i].innerHTML = adminknappar[i];
      }
 });
-
 
 document.getElementById("adminInfo").addEventListener("click", function () {
 

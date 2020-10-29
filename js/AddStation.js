@@ -15,7 +15,7 @@
     });
 };
 
-
+// Metod för att skickas till läggatillnyttfordon (från html-knappen)
 function goToAddTruck() {
 var file = window.location.href;
 var stationNo1 = String(file).split("?name=");
@@ -52,8 +52,6 @@ function DeleteStation(station) {
                    
             }
         });
-
-
     }
     else {
         alert("Stationen raderas ej");

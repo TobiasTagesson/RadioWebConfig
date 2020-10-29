@@ -25,14 +25,10 @@ namespace RadioWebConfig
         public static string stationNr;
         public static string newStationFolder;
         public static string newTruckFolder;
-        //public static string defaultFileName = "mall.txt";
         public static string defaultFileName = "";
         public static string sourceFile = "";
         public static string destFile = "";
         public static string sourceFolder = "";
-
-        //public static string stationNr;
-        //public static string newStationFolder;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -68,26 +64,21 @@ namespace RadioWebConfig
                 {
                     foreach (string dir in dirs)
                     {
-                        lbl.Text += $"<div class='stationdiv'><a class='stations' href='ShowTrucks.aspx?name={Path.GetFileName(dir)}' >" + Path.GetFileName(dir) + $"</a><a onclick='DeleteStation(\"{Path.GetFileName(dir)}\");' <i id='trashcan' class='fa fa-trash'/></a></div>";
-
-
+                        lbl.Text += $"<div class='stationdiv'><a class='stations' href='ShowTrucks.aspx?name={Path.GetFileName(dir)}' >" + Path.GetFileName(dir) + $"</a><a onclick='DeleteStation(\"{Path.GetFileName(dir)}\");' <i id='trashcan' class='fa fa-trash' title='Radera station' /></a></div>";
                     }
                 }
                 // TODO Är du kund visas dina stationer (som är samma som username) Hur blir det om man har fler än en station?
                 else
-                    {
-
-                    foreach (string dir in dirs.Where(x => x.Equals(path + "\\" + user.UserName)))
-                    {
-                        lbl.Text += $"<div class='stationdiv'><a class='stations' href='ShowTrucks.aspx?name={Path.GetFileName(dir)}' >" + Path.GetFileName(dir) + $"</a><a onclick='DeleteStation(\"{Path.GetFileName(dir)}\");' <i id='trashcan' class='fa fa-trash'/></a></div>";
-
-                    }
+                {
+                     foreach (string dir in dirs.Where(x => x.Equals(path + "\\" + user.UserName)))
+                     {
+                         lbl.Text += $"<div class='stationdiv'><a class='stations' href='ShowTrucks.aspx?name={Path.GetFileName(dir)}' >" + Path.GetFileName(dir) + $"</a><a onclick='DeleteStation(\"{Path.GetFileName(dir)}\");' <i id='trashcan' class='fa fa-trash' title='Radera station' /></a></div>";
+                     }
                 }
                 if (dirs.Length <= 0)
                 {
                     lbl.Text = "Hittade inga filer";
                 }
-
             }
             catch (Exception ex)
             {
@@ -96,14 +87,12 @@ namespace RadioWebConfig
             }
         }
 
-
         public static string AddNewStation(string val)
         {
             HttpContext.Current.Session["value"] = val; 
 
             stationNr = val;
             newStationFolder = path + "\\" + stationNr;
-            //Thread.Sleep(500); // Lägga till tid så metoden fungerar..? Verkar funka nu
             Directory.CreateDirectory(newStationFolder);
 
             return stationNr;
@@ -111,7 +100,6 @@ namespace RadioWebConfig
       
         public static void CopyTruckfolder(string stationFolder, string truckFolder, string oldTruckNo)
         {
-           
             string dest = Settings.Default.ConfigsPath + "\\" + stationFolder + "\\" + truckFolder;
 
             if (oldTruckNo == "createNew")

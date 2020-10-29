@@ -1,13 +1,10 @@
 ﻿//TODO felhantering vid inladdning av fil
 
-// Tar fram fordonsnummer
+// Tar fram fordonsnummer från url:en
 var file = window.location.href;
 var truckNo = String(file).split("&Truck=");
 var truckSplit = truckNo[1];
 var truckNo2 = truckSplit + ".txt";
-//var saveSplit = String(truckSplit).split("&SaveAs=");
-//var truckNo2 = saveSplit[0];
-
 
 document.addEventListener('DOMContentLoaded', function () {
     $.ajax({
